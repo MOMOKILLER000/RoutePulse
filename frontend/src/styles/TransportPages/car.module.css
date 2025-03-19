@@ -1,0 +1,183 @@
+/* Full-width container */
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Background */
+.firstContainer {
+    background: #e9e6e6;
+    color: white;
+}
+.mainContainer {
+    max-width: 1300px;
+    margin: 0 auto;
+    background: #e9e6e6;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+
+}
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.bodyContainer {
+    margin-top:40px;
+}
+.title {
+    font-size: 28px;
+    color: #00338d;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: #d8000c;
+    background-color: #ffbaba;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+/* Layout container for two columns */
+.contentContainer {
+    display: flex;
+    gap: 20px;
+}
+
+/* Left column: form & route details (approx 20% width) */
+.leftColumn {
+    width: 30%;
+    min-width: 200px;
+}
+
+/* Right column: map (occupies remaining width) */
+.rightColumn {
+    flex: 1;
+}
+
+/* Form Styling */
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color:black;
+}
+
+.formGroup input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.button {
+    background-color: #00338d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #002060;
+}
+
+/* Route details and tabs */
+.routeInfo {
+    margin-top: 20px;
+    color:black;
+}
+.routeInfo h2 {
+    margin-bottom: 10px;
+}
+.routeTabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.tabButton {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.activeTab {
+    background-color: #00338d;
+    color: #fff;
+    border-color: #00338d;
+}
+
+.detailsText p {
+    font-size: 14px;
+    color: #333;
+    margin: 5px 0;
+}
+
+/* Leaflet map styling */
+.leafletContainer {
+    width: 100%;
+    height: 600px; /* Increased height for better map visibility */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.originInputContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+}
+
+.locationButton {
+    width: 15%;
+    min-width: 50px;
+    background-color: #6d3bbf;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .contentContainer {
+        flex-direction: column;
+    }
+    .leftColumn,
+    .rightColumn {
+        width: 100%;
+    }
+    .leafletContainer {
+        height: 400px;
+    }
+}

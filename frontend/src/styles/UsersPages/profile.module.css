@@ -1,0 +1,328 @@
+/* Global Styles */
+:global {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+}
+.profile_firstContainer {
+  margin: 0 auto;
+  background: linear-gradient(to bottom, #d8c7f5, #7f5af0);
+  /* Background */
+}
+.navbarAdjust {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+/* Main Body Container */
+.profile_bodyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px);
+  color: white;
+  margin-top: 5px;
+}
+
+.profile_mainContainer {
+  display: flex;
+  width: 1000px;
+  background: #4a2473;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Left Section */
+.profile_stanga {
+  width: 30%;
+  background: #5a2d91;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile_stanga img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+.profile_stanga button {
+  background: #9c44dc;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 150px;
+  margin-top: 10px;
+}
+
+.profile_stanga button:hover {
+  background: #a866ff;
+}
+
+/* Social Media */
+.profile_socialMedia {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.profile_icon {
+  margin-right: 6px;
+  font-size: 24px;
+}
+
+.profile_text {
+  margin-left: 4px;
+}
+
+
+.profile_comun {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 250px;
+  height: 50px;
+  border-radius: 20px;
+  background-color: #3c1b5c;
+  color: white;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin: 5px 0;
+  padding-left: 10px;
+}
+
+.profile_comun:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.profile_comun a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  width: 100%;
+  height: 100%;
+}
+
+.profile.fa-brands {
+  margin-right: 20px;
+}
+
+/* Right Section */
+.profile_dreapta {
+  width: 70%;
+  padding: 20px;
+  background: #4a2473;
+}
+
+.profile_main h2 {
+  margin-bottom: 15px;
+}
+
+/* Form Styling */
+.profile_form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile_form input,
+.profile_form select,
+.profile_form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.profile_form input,
+.profile_form select {
+  background: #6d3bbf;
+  color: white;
+}
+
+/* Buttons */
+.profile_buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.profile_buttons button {
+  flex: 1;
+  background: #9c44dc;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.profile_buttons button:hover {
+  background: #a866ff;
+}
+
+/* Password Field */
+.profile_passwordContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.profile_passwordContainer input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.profile_passwordContainer .fa-eye,
+.profile_passwordContainer .fa-eye-slash {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #9c44dc;
+  transition: color 0.3s;
+}
+
+.profile_passwordContainer .fa-eye:hover,
+.profile_passwordContainer .fa-eye-slash:hover {
+  color: #ffd700;
+}
+
+/* Routes Section */
+.profile_bottom {
+  display: flex;
+  margin-top: 20px;
+}
+
+.profile_bottom ul {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Ensures items wrap if they don’t fit */
+}
+
+
+.profile_left,
+.profile_right {
+  width: 50%;
+  background: #6d3bbf;
+  padding: 15px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.profile_ruta{
+  display: flex;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 6px 0;
+}
+
+/* Disabled Input Styles */
+.profile_form input:disabled,
+.profile_form select:disabled {
+  background: #6d3bbf;
+  color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Focused Input Styles */
+.profile_form input:focus:not(:disabled),
+.profile_form select:focus:not(:disabled) {
+  background: white;
+  color: black;
+}
+
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 20px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+}
+
+
+.profile_poza {
+  position: relative;
+  overflow: hidden; /* Ensure the pen icon stays inside the border */
+}
+
+.editIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.penIcon {
+  font-size: 24px;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.fileInput {
+  display: none; /* Hide the file input */
+}
+
+.profile_inputField {
+  width:80%;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  background: #6d3bbf; /* Similar to other form inputs */
+  color:white;
+  box-sizing: border-box;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Focused Input Styles */
+.profile_inputField:focus {
+  background: white;
+  color: black;
+  outline: none;
+  border: 1px solid #9c44dc;
+}
+
+/* Disabled Input Styles */
+.profile_inputField:disabled {
+  background: #6d3bbf;
+  color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Placeholder text style */
+.profile_inputField::placeholder {
+  color: #cccccc;
+  font-style: italic;
+}

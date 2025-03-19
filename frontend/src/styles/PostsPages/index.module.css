@@ -1,0 +1,218 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Background */
+body {
+    background: linear-gradient(to bottom, #d8c7f5, #7f5af0);
+    color: white;
+}
+
+/* Main container */
+.main-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ---- HARTA ---- */
+.middle {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.harta {
+    width: 80%;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    transform: translateX(50px); /* Mută imaginea spre dreapta */
+}
+
+/* ---- BUTOANE ---- */
+.buton {
+    background-color: #7f5af0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.buton:hover {
+    background: white;
+    color: #7f5af0;
+    border: 2px solid #7f5af0;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* ---- BOTTOM SECTION ---- */
+.bottom {
+    margin-top: 50px;
+    background: white;
+    color: black;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+/* ---- CONTENITORUL PENTRU CHENAR ---- */
+.butoane-masini {
+    width: 270px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    transform: translateY(-50%);
+}
+
+/* ---- TITLU ---- */
+.butoane-masini p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: black;
+}
+
+/* ---- BUTOANE TRANSPORT ---- */
+.transport {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #7f5af0;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    gap: 8px;
+}
+
+.transport i {
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+/* Hover effect: schimbă fundalul butonului și culoarea iconiței */
+.transport:hover {
+    background: white;
+    color: #7f5af0;
+    border: 2px solid #7f5af0;
+}
+
+.transport:hover i {
+    color: #7f5af0;
+}
+
+/* ---- ARTICOLE ---- */
+.articole {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Alinierea orizontală la centru */
+    color: black;
+    margin-top: 50px;
+}
+
+/* ---- IMAGINE TELEFON ---- */
+.telefon {
+    margin-top: 0; /* Elimină marginile de sus și jos pentru a alinia imaginea mai bine */
+    margin-bottom: 0;
+    height: 500px;
+    width: 300px;
+    margin-right: 100px;
+}
+
+/* ---- ARTICOLE INNER ---- */
+.articole-inner {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px; /* Adaugă un mic spațiu între imagine și articole */
+}
+
+/* ---- COMBINATIE ARTICOLE ---- */
+.combinatie {
+    width: 750px;
+    height: 230px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    margin-bottom: 35px;
+}
+
+.lc {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.tc {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.rc {
+    font-size: 20px;
+    width: 700px;
+}
+
+/* Linie albă între hartă și articole */
+.separator {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    margin-top: 80px;
+}
+
+/* ---- Drop-down Buton ---- */
+.dropdownContent {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-10px);
+    transition: max-height 0.3s ease-out, opacity 0.3s ease, transform 0.3s ease; /* Adjust to 300ms */
+    padding: 0;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+  }
+
+/* Show dropdown when active */
+.showDropdown {
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 5px 0;
+}
+  /* ---- Button Style for Cities ---- */
+  .city-select {
+    width: 100%;
+    padding: 5px;
+    background-color: white;
+    color: #7f5af0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.7s;
+  }
