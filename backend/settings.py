@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
-import django_heroku
-django_heroku.settings(locals())
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,7 +9,7 @@ SECRET_KEY = 'django-insecure-2x@c$aae*ydq63*cos!(8g@lb9+5*4d^w-g!55ia)9l-(e!^@m
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.100.79', '0.0.0.0']
+ALLOWED_HOSTS = ["*"]
 
 
 CORS_ALLOWED_ORIGINS = [
@@ -79,12 +78,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -124,4 +119,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
+import os
+if os.getenv("VERCEL"):
+    DEBUG = False
