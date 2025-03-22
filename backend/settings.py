@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
-
+import django_heroku
+django_heroku.settings(locals())
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,7 +15,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.100.79', '0.0.0.0']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://192.168.100.79:3000',
+    'https://192.168.100.79:3000',
 ]
 
 
@@ -28,7 +29,7 @@ CSRF_COOKIE_DOMAIN = 'localhost'
 # Allow CSRF from trusted origins
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
-    'http://192.168.100.79:3000',
+    'https://192.168.100.79:3000',
 ]
 
 INSTALLED_APPS = [
@@ -78,8 +79,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 
