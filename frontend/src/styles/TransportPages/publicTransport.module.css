@@ -1,0 +1,138 @@
+/* publicTransport.module.css */
+
+/* Main container that holds everything */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  /* Container for the content (like routes and pages) */
+  .content-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Take up remaining space after navbar */
+    padding-top: 60px; /* Adjust if the navbar is taller */
+    background-color: #f4f4f9; /* Optional background for the content */
+  }
+
+  /* Navbar styles */
+
+  ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    color: white;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  /* Optional: Hover effects for links in the navbar */
+  a:hover {
+    color: #61dafb;
+  }
+
+  /* Map container that will hold the map */
+  .map-container {
+    position: relative;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 100%;
+    height: 600px; /* Adjust this to your desired map height */
+  }
+
+  /* Map element itself */
+  .map {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+
+  /* Add some styles for the dropdowns */
+  select {
+    padding: 8px 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+    font-size: 14px;
+  }
+
+  /* Styling for the select container */
+  select:focus {
+    outline: none;
+    border-color: #61dafb;
+    box-shadow: 0 0 5px rgba(97, 218, 251, 0.6);
+  }
+
+  /* Styling for the option elements inside the dropdown */
+  option {
+    padding: 5px 10px;
+  }
+
+  /* Add spacing to ensure elements inside the map or content have margin */
+  .content-container select,
+  .content-container button {
+    margin-bottom: 20px;
+  }
+
+  /* Custom page styles for Publictransport, CarRoutes, etc. */
+  .page-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  /* Styling for the public transport and car routes page */
+  .car-routes-container,
+  .public-transport-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Responsive layout for smaller screens */
+  @media (max-width: 768px) {
+    .app-container {
+      flex-direction: column;
+    }
+
+    .content-container {
+      padding-top: 50px; /* Adjust if needed */
+    }
+
+    .map-container {
+      height: 400px; /* Adjust for smaller screens */
+    }
+
+    select {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .map-container {
+      height: 300px; /* Further adjust for very small screens */
+    }
+  }

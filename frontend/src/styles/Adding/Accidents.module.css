@@ -1,0 +1,245 @@
+/* Universal reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global styles applied via .app */
+.app {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, rgba(255, 102, 0, 1), rgba(0, 204, 255, 1));
+    min-height: 100vh;
+    overflow: hidden;
+    color: #fff;
+    font-size: 16px;
+}
+
+/* Header Styling using .header */
+.header {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+}
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+/* Container for header and form */
+.bodyContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row; /* header and container side by side */
+    gap: 20px; /* space between header and form container */
+}
+
+/* Form Container */
+.container {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    animation: fadeIn 1s ease-out;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 400px; /* Slightly smaller */
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 102, 0, 0.2), rgba(0, 204, 255, 0.2));
+    opacity: 0.7;
+    z-index: -1;
+    border-radius: 20px;
+}
+.datetime-container {
+    display: flex;
+    gap: 15px; /* Space between them */
+    justify-content: space-between;
+}
+
+/* Ensure both inputs share equal space */
+.datetime-container .form-group {
+    flex: 1;
+}
+
+/* Heading inside the form container */
+.heading {
+    margin-bottom: 20px;
+}
+
+/* Form Group */
+.input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+}
+.select{
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+}
+.select option {
+    background-color: #34c3c3; /* Black background for options */
+    color: #fff; /* White text for options */
+    padding: 10px; /* Padding for options */
+}
+/* Labels positioned correctly */
+.label {
+    font-size: 1rem;
+    color: #ddd;
+    margin-bottom: 5px;
+    margin-top:2px;
+    display: block;
+}
+
+/* Reduce spacing between form groups */
+.form-group {
+    margin-bottom: 15px; /* Smaller spacing */
+}
+
+/* Button styling */
+.button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+/* Focus Effect for .input elements */
+.input:focus {
+    border-color: #34c3c3;
+    box-shadow: 0 0 10px rgba(52, 195, 195, 0.7);
+    outline: none;
+}
+
+/* Floating Label Effect */
+.floating-label {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 1rem;
+    color: #ddd;
+    transition: all 0.3s ease;
+}
+/* Map Container Styling */
+.mapHeader {
+    width: 90%;
+    height: 640px;
+    margin-bottom: 20px;
+    margin-left:90px;
+}
+/* In your Accidents.module.css, adjust the container of the buttons */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Optional: space between the buttons */
+}
+
+/* Styling for buttons */
+.button-container .button {
+    flex: 1; /* This makes each button take equal space */
+    text-align: center; /* Center the text inside the button */
+}
+
+/* Button Styling using .button */
+.button {
+    width: 100%;
+    padding: 15px;
+    background: #34c3c3;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+    background-color: #007bff;
+    transform: scale(1.05);
+}
+
+.button:active {
+    background-color: #005bb5;
+}
+
+/* Footer Styling */
+.form-footer {
+    text-align: right;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+    }
+
+    .header {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    .header {
+        font-size: 1.5rem;
+    }
+
+    .button {
+        font-size: 1rem;
+    }
+}
+
+/* Ensure responsiveness */
+@media (max-width: 768px) {
+    .mapContainer {
+        height: 300px; /* Reduce height on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .mapContainer {
+        height: 250px; /* Further reduce height on very small screens */
+    }
+}

@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+
+}
+
+/* News Bar */
+.news-bar {
+    width: 95%;
+    background-color: rgb(232, 232, 232);
+    border-radius: 5px;
+    height: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto; /* Margină externă de 20px față de marginea paginii */
+    font-size: 18px;
+}
+.news-update {
+    color: red;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.another{
+    padding: 15px 10px;
+}
+
+.main {
+    width: 80%;
+    height: 600px;  
+    position: absolute;
+    left: 15%;
+    display: flex;
+}
+.ceva{
+    height: 430px;
+    width: 400px;
+    background-color: rgb(235, 235, 235);
+    position: absolute;
+    left: 6%;
+    top: 28%;
+    border-radius: 5px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+
+.top{
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+}
+.stur{
+    width: 40px;
+    height: 40px;
+}
+.name{
+    margin-left: 20px;
+    font-size: 19px;
+    font-weight: bold;
+}
+.time{
+    margin-left: 10px;
+    color: rgb(155, 155, 155);
+}
+
+
+.middle{
+    font-size: 34px;
+    padding: 15px 20px;
+    width: 350px;
+}
+
+.description{
+    padding: 0 20px;
+    color: rgb(155, 155, 155);
+    line-height: 25px;
+}
+.data{
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 20px;
+}
+.date{
+    font-size: 14px;
+    color: rgb(107, 107, 107);
+}
+.nothing{
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+
+
+.citeste-ma{
+    font-weight: bold;
+    color: black;
+    margin-left: 10px;
+}
+
+
+
+.mare {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.stanga{
+    width: 60%;
+    height: 100%;
+    margin-right: 20px;
+}
+.dreapta {
+    width: 40%;
+    height: 100%;  /* Ensure it takes the full height of .main */
+    display: flex;  /* Use flexbox to arrange .stire elements vertically */
+    flex-direction: column;  /* Stack the .stire divs vertically */
+    gap: 20px;  /* Adds space between .stire divs */
+}
+
+.stire {
+    width: 100%;
+    height: 25%;  /* Each .stire will take 25% of the height of .dreapta */
+    border-radius: 20px;
+    display: flex;
+    background-color: rgb(235, 235, 235);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.smallimg{
+    height: 100%;
+    width: 30%;
+}
+.ferrari{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+
+.content{
+    margin-left: 20px;
+}
+.cafea{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+.sus{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 8px;
+}
+.jos{
+    display: flex;
+}
+
+.mijloc{
+    margin-bottom: 10px;
+    width: 300px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.timing{
+    margin-left: 10px;
+    color: rgb(155, 155, 155);
+}
+.category{
+    color: red;
+}
+
+
+.aia{
+    display: flex;
+}
+.one, .two, .three{
+    width: 33%;
+    height: 560px;
+    background-color: rgb(235, 235, 235);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+}
+.one, .two{
+    margin-right: 30px;
+}
+.lastest-news {
+    width: 80%;
+    margin: 700px auto 50px auto;
+}
+h1{
+    margin-bottom: 40px;
+}
+
+.aoleu{
+    width: 100%;
+    border-radius: 15px;
+}
+
+
+.sus1{
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+.scris{
+    font-size: 28px;
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+.maimult-scris{
+    padding: 0 20px;
+    font-size: 15px;
+    width: 400px;
+    margin-bottom: 20px;
+    color: rgb(155, 155, 155);
+}
+
+.jos1{
+    display: flex;
+    padding: 0 20px;
+}
+
+.hot-news {
+    width: 80%;
+    margin: 100px auto 50px auto;
+}
+
+
+
+
+
+
+.footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 14px;
+    margin-top: 50px;
+}
+
+.footer a {
+    color: #f5a623;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
