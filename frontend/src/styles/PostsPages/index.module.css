@@ -7,7 +7,7 @@
 }
 
 /* Background */
-body {
+.body{
     background: linear-gradient(to bottom, #d8c7f5, #7f5af0);
     color: white;
 }

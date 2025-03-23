@@ -46,6 +46,7 @@ const Index = () => {
     };
 
     return (
+        <div className={styles["body"]}>
         <div className={styles["main-container"]}>
             <Navbar />
             <div className={styles.middle}>
@@ -119,6 +120,7 @@ const Index = () => {
                 <p>Plan your trip with ease and explore Romania like never before!</p>
             </div>
             <Footer />
+        </div>
         </div>
     );
 };

@@ -9,27 +9,29 @@ SECRET_KEY = 'django-insecure-2x@c$aae*ydq63*cos!(8g@lb9+5*4d^w-g!55ia)9l-(e!^@m
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.100.79', '0.0.0.0']
-
-
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://192.168.100.79:3000',
+    'https://localhost:3000',
+    'https://192.168.100.79:3000',
 ]
 
+CORS_ALLOW_CREDENTIALS = True  # Allow cross-origin authentication
 
-CORS_ALLOW_CREDENTIALS = True
-
-# CSRF trusted origins for CSRF protection
 CSRF_COOKIE_NAME = "csrftoken"
 CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_DOMAIN = 'localhost'
-# Allow CSRF from trusted origins
+CSRF_COOKIE_SAMESITE = 'None'  # Needed for cross-origin cookies
+CSRF_COOKIE_SECURE = True  # Required for HTTPS
+
+SESSION_COOKIE_NAME = 'sessionid'
+SESSION_COOKIE_SECURE = True  # Secure cookies for HTTPS
+SESSION_COOKIE_SAMESITE = 'None'  # Required for cross-origin session cookies
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
-    'http://192.168.100.79:3000',
+    'https://localhost:3000',
+    'https://192.168.100.79:3000',
 ]
+
+ALLOWED_HOSTS = ["localhost", "192.168.100.79"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -119,4 +121,3 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-

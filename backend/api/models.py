@@ -41,11 +41,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     ]
     preferred_transport = models.CharField(max_length=255, choices=PREFERRED_TRANSPORT, default='None')
     points = models.PositiveIntegerField(default=0)
+    popularity = models.PositiveIntegerField(default=0)
     instagram = models.CharField(max_length=255, default='', blank=True)
     facebook = models.CharField(max_length=255, default='', blank=True)
     tiktok = models.CharField(max_length=255, default='', blank=True)
     github = models.CharField(max_length=255, default='', blank=True)
     face_image = models.ImageField(upload_to='user_faces/', blank=True, null=True)
+    firebase_token = models.CharField(max_length=255, blank=True, null=True)
     groups = models.ManyToManyField(Group, related_name="custom_user_set", blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name="custom_user_permissions_set", blank=True)
 
@@ -81,11 +83,14 @@ class SavedRoute(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField(max_length=100, blank=True)
+    description = models.TextField(max_length=500, blank=True)
     image = models.ImageField(upload_to='article_images/', blank=True, null=True)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    popularity = models.IntegerField(default=0)
+    liked_by = models.ManyToManyField(User, related_name="liked_articles", blank=True)
+    disliked_by = models.ManyToManyField(User, related_name="disliked_articles", blank=True)
 
 class Report(models.Model):
     title = models.CharField(max_length=255)
@@ -95,13 +100,16 @@ class Report(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Article, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     pub_date = models.DateTimeField(auto_now_add=True)
 
+    def can_delete(self, request_user):
+        return request_user == self.user or request_user.is_superuser
+
     def __str__(self):
-        return f"{self.user} - {self.pub_date}"
+        return f"{self.author} - {self.pub_date}"
 
 class Accident(models.Model):
     PROBLEM_CHOICES = [
@@ -123,3 +131,10 @@ class Accident(models.Model):
 
     def __str__(self):
         return f"Accident at {self.city} on {self.date} at {self.time}"
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    subject = models.CharField(max_length=30)
+    content = models.TextField()
+    date = models.DateField()

@@ -1,8 +1,82 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/PostsPages/articles.module.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import { useNavigate } from "react-router-dom";
 const Article = () => {
+    const [randomArticles, setRandomArticles] = useState([]);
+    const [latestArticles, setLatestArticles] = useState([]);
+    const [hotArticles, setHotArticles] = useState([]);
+    const navigate = useNavigate();
+    const backendUrl = "http://localhost:8000"; // Your backend base URL
+
+    // Fetch random articles
+    useEffect(() => {
+        fetch("http://localhost:8000/api/random_articles/")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Random Articles:", data);  // Debug: log data
+                setRandomArticles(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching random articles:", error);
+                alert("Failed to fetch random articles. Please try again later.");
+            });
+
+        // Fetch latest articles
+        fetch("http://localhost:8000/api/latest_articles/")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Latest Articles:", data);  // Debug: log data
+                setLatestArticles(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching latest articles:", error);
+                alert("Failed to fetch latest articles. Please try again later.");
+            });
+
+        // Fetch hot articles
+        fetch("http://localhost:8000/api/hot_articles/")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Hot Articles:", data);  // Debug: log data
+                setHotArticles(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching hot articles:", error);
+                alert("Failed to fetch hot articles. Please try again later.");
+            });
+    }, []);
+
+    // Fallback image function
+    const handleImageError = (e) => {
+        e.target.src = "logo.jpg"; // Fallback image if error occurs
+    };
+
+    const getImageUrl = (imagePath) => {
+        return imagePath ? `${backendUrl}${imagePath}` : "logo.jpg"; // Prepend the backend URL
+    };
+
+    // Function to format date
+    const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(dateString).toLocaleDateString("en-US", options);
+    };
+
+    // Function to limit description to 30 words
+    const truncateContent = (content, wordLimit = 30) => {
+        if (!content) return "";
+        const words = content.split(" ");
+        return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : content;
+    };
+    const handleArticleClick = (id) => {
+        if (id) {
+            navigate(`/article/${id}`); // Navigate to article detail page
+        } else {
+            console.error("Article ID is missing");
+        }
+    };
+
     return (
         <div className={styles.bodyContainer}>
             <div className={styles.navbarAdjust}>
@@ -14,95 +88,150 @@ const Article = () => {
                     <header className={styles["news-bar"]}>
                         <span className={styles["news-update"]}>News Update:</span>
                         <div className={styles["marquee-container"]}>
-                            <div className={styles.marquee}>This is a scrolling textThis is a scrolling textThis is a scrolling textThis is a scrolling textThis is a scrolling text</div>
+                            <div className={styles.marquee}>
+                                This is a scrolling textThis is a scrolling textThis is a scrolling text
+                            </div>
                         </div>
                     </header>
                 </div>
 
                 <div className={styles.wholeContaining}>
-                <div className={styles.main}>
-                    <div className={styles.stanga}>
-                        <img src="logo.jpg" alt="Logo" className={styles.mare} />
+                    <div className={styles.main}>
+                        <div className={styles.stanga}>
+                            {randomArticles.length > 0 ? (
+                                <img
+                                    src={getImageUrl(randomArticles[0].image)}
+                                    alt="Article Image"
+                                    className={styles.mare}
+                                    onError={handleImageError}
+                                />
+                            ) : (
+                                <img src="logo.jpg" alt="Fallback Image" className={styles.mare} />
+                            )}
+                        </div>
+
+                        <div className={styles.dreapta}>
+                            {randomArticles.length === 0 ? (
+                                <p>Loading random articles...</p>
+                            ) : (
+                                randomArticles.map((article, index) => (
+                                    <div
+                                        key={index}
+                                        className={`${styles.stire} ${styles.unu}`}
+                                        onClick={() => handleArticleClick(article.id)} // Click handler for entire article
+                                    >
+                                        <div className={styles.smallimg}>
+                                            <img
+                                                src={getImageUrl(article.image)} // Use backend URL for images
+                                                alt="News"
+                                                className={styles.ferrari}
+                                                onError={handleImageError} // Handle image error for fallback
+                                            />
+                                        </div>
+                                        <div className={styles.content}>
+                                            <div className={styles.sus}>
+                                                <div className={styles.profil}>
+                                                    <img
+                                                        src={article.author?.image ? getImageUrl(article.author.image) : "starbucks.jpg"}
+                                                        alt="Author Profile"
+                                                        className={styles.cafea}
+                                                        onError={handleImageError}
+                                                    />
+                                                </div>
+                                                <div className={styles.titlu}>
+                                                    {article.author?.username} {/* Access the username property */}
+                                                </div>
+                                                <div className={styles.timing}>• {formatDate(article.created_at)}</div>
+                                            </div>
+                                            <div className={styles.mijloc}>
+                                                <div className={styles.context}>{article.title}</div>
+                                            </div>
+                                            <div className={styles.jos}>
+                                                <div className={styles.category}>Category</div>
+                                                <div className={styles.timing}>• 2 min ago</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
                     </div>
 
-                    <div className={styles.dreapta}>
-                        {[...Array(4)].map((_, index) => (
-                            <div key={index} className={`${styles.stire} ${styles.unu}`}>
-                                <div className={styles.smallimg}>
-                                    <img src="logo.jpg" alt="News" className={styles.ferrari} />
+                    <div className={styles.ceva}>
+                        {randomArticles.length > 0 ? (
+                            <div onClick={() => handleArticleClick(randomArticles[0].id)}>
+                                <div className={styles.top}>
+                                    <div className={styles.logo}>
+                                        <img
+                                            src={getImageUrl(randomArticles[0].author.image)} // Use backend URL for images
+                                            alt="News"
+                                            className={styles.stur}
+                                            onError={handleImageError}  // Handle image error for fallback
+                                        />
+                                    </div>
+                                    <div className={styles.name}>{randomArticles[0].author?.username}</div>
+                                    <div className={styles.time}>• {formatDate(randomArticles[0].created_at)}</div>
                                 </div>
-                                <div className={styles.content}>
-                                    <div className={styles.sus}>
+
+                                <div className={styles.middle}>
+                                    <div className={styles.title}>{randomArticles[0].title}</div>
+                                </div>
+
+                                <div className={styles.bottom}>
+                                    <div className={styles.description}>
+                                        {truncateContent(randomArticles[0].description, 30)}
+                                        <span className={styles["citeste-ma"]}> Read More</span>
+                                    </div>
+
+                                    <div className={styles.data}>
+                                        <div className={styles.date}>{formatDate(randomArticles[0].created_at)}</div>
+                                        <div className={styles.nothing}>&lt; &gt;</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <p>Loading featured article...</p>
+                        )}
+                    </div>
+                </div>
+
+                <div className={styles["lastest-news"]}>
+                    <h1>Latest News</h1>
+                    <div className={styles.aia}>
+                        {latestArticles.length === 0 ? (
+                            <p>Loading latest articles...</p>
+                        ) : (
+                            latestArticles.map((article, index) => (
+                                <div key={index} className={styles.one} onClick={() => handleArticleClick(article.id)}>
+                                    <div className={styles.img}>
+                                        <img
+                                            src={getImageUrl(article.image)} // Use backend URL for images
+                                            alt="News"
+                                            className={styles.aoleu}
+                                            onError={handleImageError}  // Handle image error for fallback
+                                        />
+                                    </div>
+                                    <div className={styles.sus1}>
                                         <div className={styles.profil}>
-                                            <img src="sturbucks.jpg" alt="Profile" className={styles.cafea} />
+                                            <img
+                                                src={article.author?.image ? getImageUrl(article.author.image) : "starbucks.jpg"}
+                                                alt="Author Profile"
+                                                className={styles.cafea}
+                                                onError={handleImageError}
+                                            />
                                         </div>
-                                        <div className={styles.titlu}>CNN News</div>
-                                        <div className={styles.timing}>• 1 hour ago</div>
+                                        <div className={styles.titlu}>{article.author?.username}</div>
+                                        <div className={styles.timing}>• {formatDate(article.created_at)}</div>
                                     </div>
-                                    <div className={styles.mijloc}>
-                                        <div className={styles.context}>Sample News Content</div>
-                                    </div>
-                                    <div className={styles.jos}>
+                                    <div className={styles.scris}>{article.title}</div>
+                                    <div className={styles["maimult-scris"]}>{truncateContent(article.description)}</div>
+                                    <div className={styles.jos1}>
                                         <div className={styles.category}>Category</div>
                                         <div className={styles.timing}>• 2 min ago</div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className={styles.ceva}>
-                    <div className={styles.top}>
-                        <div className={styles.logo}>
-                            <img src="sturbucks.jpg" alt="Logo" className={styles.stur} />
-                        </div>
-                        <div className={styles.name}>BBC News</div>
-                        <div className={styles.time}>• 10 mins ago</div>
-                    </div>
-
-                    <div className={styles.middle}>
-                        <div className={styles.title}>
-                            People spend night on roofs in trees after Ukraine dam breach
-                        </div>
-                    </div>
-
-                    <div className={styles.bottom}>
-                        <div className={styles.description}>
-                            Hundreds of thousands of people have been left without access to normal drinking water since the breach of the Kakhovka dam, Ukraine's President Volodymyr Zelensky has said.
-                            <span className={styles["citeste-ma"]}>Read More</span>
-                        </div>
-
-                        <div className={styles.data}>
-                            <div className={styles.date}>Aug 03, 2023</div>
-                            <div className={styles.nothing}>&lt; &gt;</div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div className={styles["lastest-news"]}>
-                    <h1>Latest News</h1>
-                    <div className={styles.aia}>
-                        {[...Array(3)].map((_, index) => (
-                            <div key={index} className={styles.one}>
-                                <div className={styles.img}>
-                                    <img src="logo.jpg" alt="News" className={styles.aoleu} />
-                                </div>
-                                <div className={styles.sus1}>
-                                    <div className={styles.profil}>
-                                        <img src="sturbucks.jpg" alt="Profile" className={styles.cafea} />
-                                    </div>
-                                    <div className={styles.titlu}>CNN News</div>
-                                    <div className={styles.timing}>• 1 hour ago</div>
-                                </div>
-                                <div className={styles.scris}>Sample Latest News</div>
-                                <div className={styles["maimult-scris"]}>Detailed news content...</div>
-                                <div className={styles.jos1}>
-                                    <div className={styles.category}>Category</div>
-                                    <div className={styles.timing}>• 2 min ago</div>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
 
@@ -112,40 +241,51 @@ const Article = () => {
                     </div>
 
                     <div className={styles.aia}>
-                        {[...Array(3)].map((_, index) => (
-                            <div
-                                key={index}
-                                className={
-                                    index === 0
-                                        ? styles.one
-                                        : index === 1
-                                            ? styles.two
-                                            : styles.three
-                                }
-                            >
-                                <div className={styles.img}>
-                                    <img src="logo.jpg" alt="News" className={styles.aoleu} />
-                                </div>
-                                <div className={styles.sus1}>
-                                    <div className={styles.profil}>
-                                        <img src="sturbucks.jpg" alt="Profile" className={styles.cafea} />
+                        {hotArticles.length === 0 ? (
+                            <p>Loading hot articles...</p>
+                        ) : (
+                            hotArticles.map((article, index) => (
+                                <div
+                                    key={index}
+                                    className={
+                                        index === 0 ? `${styles.one} ${styles.first}` : styles.one
+                                    }
+                                    onClick={() => handleArticleClick(article.id)} // Click handler for entire article
+                                >
+                                    <div className={styles.img}>
+                                        <img
+                                            src={getImageUrl(article.image)} // Use backend URL for images
+                                            alt="News"
+                                            className={styles.aoleu}
+                                            onError={handleImageError}  // Handle image error for fallback
+                                        />
                                     </div>
-                                    <div className={styles.titlu}>CNN News</div>
-                                    <div className={styles.timing}>• 1 hour ago</div>
+                                    <div className={styles.sus1}>
+                                        <div className={styles.profil}>
+                                            <img
+                                                src={article.author?.image ? getImageUrl(article.author.image) : "starbucks.jpg"}
+                                                alt="Author Profile"
+                                                className={styles.cafea}
+                                                onError={handleImageError}
+                                            />
+                                        </div>
+                                        <div className={styles.titlu}>{article.author?.username}</div>
+                                        <div className={styles.timing}>• {formatDate(article.created_at)}</div>
+                                    </div>
+                                    <div className={styles.scris}>{article.title}</div>
+                                    <div className={styles["maimult-scris"]}>{truncateContent(article.description)}</div>
+                                    <div className={styles.jos1}>
+                                        <div className={styles.category}>Category</div>
+                                        <div className={styles.timing}>• 2 min ago</div>
+                                    </div>
                                 </div>
-                                <div className={styles.scris}>Hot news content...</div>
-                                <div className={styles["maimult-scris"]}>
-                                    Detailed hot news content...
-                                </div>
-                                <div className={styles.jos1}>
-                                    <div className={styles.category}>Category</div>
-                                    <div className={styles.timing}>• 2 min ago</div>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
+            </div>
 
+            <div className={styles.footerContainer}>
                 <Footer />
             </div>
         </div>

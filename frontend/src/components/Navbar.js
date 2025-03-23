@@ -40,8 +40,8 @@ function Navbar() {
     }
   };
   const navItems = isAuthenticated
-    ? ["Home", "Articles", "Reports", "Car Routes", "Profile", "Logout", "MyRoutes", "Accidents"]
-    : ["Home", "Login", "Articles", "Reports", "Car Routes", "Accidents"];
+    ? ["Home", "Articles", "Reports", "Car Routes", "Profile", "Logout", "MyRoutes", "Accidents", "Contact", "Prizes"]
+    : ["Home", "Login", "Articles", "Reports", "Car Routes", "Accidents", "Contact", "Prizes"];
 
   return (
     <nav className={styles.navbar}>
@@ -101,6 +101,18 @@ function Navbar() {
           } else if (item === "Accidents") {
             return (
                 <div key={index} className={styles.sus} onClick={() => navigate('/Accidents')}>
+                  {item}
+                </div>
+            )
+          } else if (item === "Contact") {
+            return (
+                <div key={index} className={styles.sus} onClick={() => navigate('/Contact')}>
+                  {item}
+                </div>
+            )
+          }  else if (item === "Prizes") {
+            return (
+                <div key={index} className={styles.sus} onClick={() => navigate('/Prizes')}>
                   {item}
                 </div>
             )

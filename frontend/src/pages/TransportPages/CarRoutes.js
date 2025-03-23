@@ -252,104 +252,104 @@ function CarRoutes() {
 
   return (
       <div className={styles.firstContainer}>
-      <div className={styles.mainContainer}>
-        <div className={styles.navbarAdjust}>
-          <Navbar />
-        </div>
-        <div className={styles.bodyContainer}>
-        <h1 className={styles.title}>Fastest Route Finder</h1>
-        {error && <p className={styles.error}>{error}</p>}
-        <div className={styles.contentContainer}>
-          <div className={styles.leftColumn}>
-            <form onSubmit={handleSubmit} className={styles.formContainer}>
-              <div className={styles.formGroup}>
-                <label><strong>Origin:</strong></label>
-                <div className={styles.originInputContainer}>
-                  <input
-                      type="text"
-                      value={originInput}
-                      onChange={(e) => setOriginInput(e.target.value)}
-                      placeholder="Enter starting location"
-                      required={!originCoords}
-                  />
-                  <button
-                      type="button"
-                      className={styles.locationButton}
-                      onClick={handleUseCurrentLocation}
-                  >
-                    📍
-                  </button>
-                </div>
-              </div>
-              <div className={styles.formGroup}>
-                <label><strong>Destination:</strong></label>
-                <input
-                    type="text"
-                    value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
-                    placeholder="Enter destination"
-                    required
-                />
-              </div>
-              <button type="submit" className={styles.button}>Get Route</button>
-            </form>
-
-            {routeInfo && routeInfo.routes && (
-                <div className={styles.routeInfo}>
-                  <h2>Route Details</h2>
-                  <div className={styles.routeTabs}>
-                    {routeInfo.routes.map((route, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setSelectedRoute(index)}
-                            className={`${styles.tabButton} ${selectedRoute === index ? styles.activeTab : ''}`}
-                        >
-                          Route {index + 1}
-                        </button>
-                    ))}
-                  </div>
-                  {selectedRouteDetails && (
-                      <div className={styles.detailsText}>
-                        <p><strong>Travel Time:</strong> {convertDuration(selectedRouteDetails.sections[0].travelSummary.duration)}</p>
-                        <p><strong>Distance:</strong> {convertDistance(selectedRouteDetails.sections[0].travelSummary.length)} km</p>
-                      </div>
-                  )}
-                  {selectedRouteDetails && (
+        <div className={styles.mainContainer}>
+          <div className={styles.navbarAdjust}>
+            <Navbar />
+          </div>
+          <div className={styles.bodyContainer}>
+            <h1 className={styles.title}>Fastest Route Finder</h1>
+            {error && <p className={styles.error}>{error}</p>}
+            <div className={styles.contentContainer}>
+              <div className={styles.leftColumn}>
+                <form onSubmit={handleSubmit} className={styles.formContainer}>
+                  <div className={styles.formGroup}>
+                    <label><strong>Origin:</strong></label>
+                    <div className={styles.originInputContainer}>
+                      <input
+                          type="text"
+                          value={originInput}
+                          onChange={(e) => setOriginInput(e.target.value)}
+                          placeholder="Enter starting location"
+                          required={!originCoords}
+                      />
                       <button
-                          onClick={() => handleSaveRoute(selectedRouteDetails)}
-                          className={styles.button}
+                          type="button"
+                          className={styles.locationButton}
+                          onClick={handleUseCurrentLocation}
                       >
-                        Save Route
+                        📍
                       </button>
-                  )}
-                </div>
-            )}
-          </div>
+                    </div>
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label><strong>Destination:</strong></label>
+                    <input
+                        type="text"
+                        value={destination}
+                        onChange={(e) => setDestination(e.target.value)}
+                        placeholder="Enter destination"
+                        required
+                    />
+                  </div>
+                  <button type="submit" className={styles.button}>Get Route</button>
+                </form>
 
-          <div className={styles.rightColumn}>
-            <MapContainer
-                center={originCoords || [44.4268, 26.1025]}
-                zoom={12}
-                scrollWheelZoom={true}
-                className={styles.leafletContainer}
-            >
-              <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; OpenStreetMap contributors'
-              />
-              {originCoords && <Marker position={originCoords} icon={redIcon}><Popup>Origin</Popup></Marker>}
-              {destinationCoords && <Marker position={destinationCoords} icon={redIcon}><Popup>Destination</Popup></Marker>}
-              {routeInfo && selectedRouteDetails && (
-                  <>
-                    <Polyline positions={getDecodedPolyline(selectedRouteDetails.sections[0].polyline)} color="blue" weight={4} />
-                    <FitBounds positions={getDecodedPolyline(selectedRouteDetails.sections[0].polyline)} />
-                  </>
-              )}
-            </MapContainer>
+                {routeInfo && routeInfo.routes && (
+                    <div className={styles.routeInfo}>
+                      <h2>Route Details</h2>
+                      <div className={styles.routeTabs}>
+                        {routeInfo.routes.map((route, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setSelectedRoute(index)}
+                                className={`${styles.tabButton} ${selectedRoute === index ? styles.activeTab : ''}`}
+                            >
+                              Route {index + 1}
+                            </button>
+                        ))}
+                      </div>
+                      {selectedRouteDetails && (
+                          <div className={styles.detailsText}>
+                            <p><strong>Travel Time:</strong> {convertDuration(selectedRouteDetails.sections[0].travelSummary.duration)}</p>
+                            <p><strong>Distance:</strong> {convertDistance(selectedRouteDetails.sections[0].travelSummary.length)} km</p>
+                          </div>
+                      )}
+                      {selectedRouteDetails && (
+                          <button
+                              onClick={() => handleSaveRoute(selectedRouteDetails)}
+                              className={styles.button}
+                          >
+                            Save Route
+                          </button>
+                      )}
+                    </div>
+                )}
+              </div>
+
+              <div className={styles.rightColumn}>
+                <MapContainer
+                    center={originCoords || [44.4268, 26.1025]}
+                    zoom={12}
+                    scrollWheelZoom={true}
+                    className={styles.leafletContainer}
+                >
+                  <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; OpenStreetMap contributors'
+                  />
+                  {originCoords && <Marker position={originCoords} icon={redIcon}><Popup>Origin</Popup></Marker>}
+                  {destinationCoords && <Marker position={destinationCoords} icon={redIcon}><Popup>Destination</Popup></Marker>}
+                  {routeInfo && selectedRouteDetails && (
+                      <>
+                        <Polyline positions={getDecodedPolyline(selectedRouteDetails.sections[0].polyline)} color="blue" weight={4} />
+                        <FitBounds positions={getDecodedPolyline(selectedRouteDetails.sections[0].polyline)} />
+                      </>
+                  )}
+                </MapContainer>
+              </div>
+            </div>
           </div>
         </div>
-        </div>
-      </div>
         <Footer />
       </div>
   );

@@ -1,7 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Loading from './components/Loading'; 
-
+import Loading from './components/Loading';
 
 const CarRoutes = React.lazy(() => import('./pages/TransportPages/CarRoutes'));
 const Login = React.lazy(() => import('./pages/Authentification/Login'));
@@ -16,7 +15,24 @@ const FaceLogin = React.lazy(() => import('./pages/Authentification/FaceLogin'))
 const UserRoutes = React.lazy(() => import('./pages/UsersPages/UserRoutes'));
 const Accidents = React.lazy(() => import('./pages/AddingPages/Accidents'));
 const ArticlePosting = React.lazy(() => import('./pages/AddingPages/ArticlePosting'));
+const ArticleDetail = React.lazy(() => import('./pages/PostsPages/ArticleDetails'));
+const AllArticles = React.lazy(() => import('./pages/PostsPages/AllArticles'));
+const Contact = React.lazy(() => import('./pages/UsersPages/Contact'));
+const Prizes = React.lazy(() => import('./pages/UsersPages/Prizes'));
+const Notifications = React.lazy(() => import('./pages/AddingPages/PushNotification'));
 function App() {
+  useEffect(() => {
+    // Register the service worker for Firebase Cloud Messaging
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js')
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(error => {
+            console.error('Service Worker registration failed:', error);
+          });
+    }
+  }, []);
 
   return (
       <div>
@@ -36,6 +52,11 @@ function App() {
             <Route path="/UserRoutes" element={<UserRoutes />} />
             <Route path="/Accidents" element={<Accidents />} />
             <Route path="/ArticlePosting" element={<ArticlePosting />} />
+            <Route path="/article/:id" element={<ArticleDetail />} />
+            <Route path="/AllArticles" element={<AllArticles />} />
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/Prizes" element={<Prizes />} />
+            <Route path="/Notifications" element={<Notifications />} />
           </Routes>
         </Suspense>
       </div>

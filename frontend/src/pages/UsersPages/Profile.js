@@ -1,10 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import styles from "../../styles/UsersPages/profile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faFacebook, faTiktok, faGithub} from "@fortawesome/free-brands-svg-icons";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import {getMessagingToken, messaging} from "../../firebase";
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+
 const Profile = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -25,7 +43,24 @@ const Profile = () => {
 
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const csrfFetched = useRef(false);
+  useEffect(() => {
+    if (csrfFetched.current) return;
+    csrfFetched.current = true;
 
+    fetch('http://localhost:8000/api/csrf-token/', {
+      method: 'GET',
+      credentials: 'include',
+    })
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error('Failed to fetch CSRF token');
+        })
+        .then((data) => {
+          console.log('Fetched CSRF token (response):', data.csrf_token);
+        })
+        .catch((error) => console.error('Error fetching CSRF token:', error));
+  }, []);
   const togglePasswordVisibility = (passwordId) => {
     if (passwordId === "password1") {
       setShowPassword1(!showPassword1);
@@ -33,8 +68,36 @@ const Profile = () => {
       setShowPassword2(!showPassword2);
     }
   };
+  const fetchToken = async () => {
+    try {
+      const swRegistration = await navigator.serviceWorker.ready;
+      const currentToken = await getMessagingToken(messaging, {
+        vapidKey: 'BM3006r6JiFC4ey0qrIBno0iubQHEeUmmRzW4P2udg7rC93PY_lDVT2UqSBqf5SZHJkmMtoI6DALZdd1utUjsSE',
+        serviceWorkerRegistration: swRegistration,
+      });
+      if (currentToken) {
+        console.log('Firebase Token:', currentToken);
+        return currentToken;
+      } else {
+        console.warn('No registration token available. Request permission to generate one.');
+        return null;
+      }
+    } catch (err) {
+      console.error('Error retrieving token', err);
+      return null;
+    }
+  };
+
   useEffect(() => {
-    fetch("http://localhost:8000/api/profile/", { credentials: "include" })
+    const csrfToken = getCookie('csrftoken');
+    fetch("http://localhost:8000/api/profile/", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+      },
+      credentials: 'include',
+    })
       .then((response) => response.json())
       .then((data) => {
         const user = data.user;
@@ -57,13 +120,18 @@ const Profile = () => {
     const newStatus = !notifications;
 
     try {
+      let firebaseToken = null;
+      if (newStatus) {
+        // Make sure to fetch the Firebase token
+        firebaseToken = await fetchToken(); // Replace with your method of fetching the token
+      }
       const res = await fetch("http://localhost:8000/api/profile/update/", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ notifications: newStatus }),
+        body: JSON.stringify({ notifications: newStatus, firebase_token: firebaseToken }),
       });
 
       if (res.ok) {
