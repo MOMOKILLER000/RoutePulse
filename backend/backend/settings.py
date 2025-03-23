@@ -11,6 +11,7 @@ DEBUG = True
 
 CORS_ALLOWED_ORIGINS = [
     'https://localhost:3000',
+    'http://localhost:3000',
     'https://192.168.100.79:3000',
 ]
 
@@ -28,6 +29,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost:3000',
+    'http://localhost:3000',
     'https://192.168.100.79:3000',
 ]
 
