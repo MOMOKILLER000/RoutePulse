@@ -1,5 +1,5 @@
 /* global H */
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -22,6 +22,7 @@ function getCookie(name) {
   }
   return cookieValue;
 }
+
 function FitBounds({ positions }) {
   const map = useMap();
   useEffect(() => {
@@ -30,6 +31,17 @@ function FitBounds({ positions }) {
       map.fitBounds(bounds, { padding: [20, 20] });
     }
   }, [positions, map]);
+  return null;
+}
+
+// New component to update map view when center changes
+function ChangeView({ center, zoom }) {
+  const map = useMap();
+  useEffect(() => {
+    if (center) {
+      map.setView(center, zoom);
+    }
+  }, [center, zoom, map]);
   return null;
 }
 
@@ -42,6 +54,26 @@ function CarRoutes() {
   const [error, setError] = useState(null);
   const [selectedRoute, setSelectedRoute] = useState(0);
   const csrfFetched = useRef(false);
+  const [mapCenter, setMapCenter] = useState([44.4268, 26.1025]);
+
+  const handleUseCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const coords = [position.coords.latitude, position.coords.longitude];
+            setOriginCoords(coords);
+            setOriginInput(`${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
+            setMapCenter(coords);  // Update map center when location is fetched
+          },
+          (err) => {
+            console.error("Geolocation error:", err);
+            setError("Unable to retrieve your location.");
+          }
+      );
+    } else {
+      setError("Geolocation is not supported by your browser.");
+    }
+  };
 
   useEffect(() => {
     if (csrfFetched.current) return;
@@ -68,24 +100,6 @@ function CarRoutes() {
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
   });
-
-  const handleUseCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const coords = [position.coords.latitude, position.coords.longitude];
-            setOriginCoords(coords);
-            setOriginInput(`${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
-          },
-          (err) => {
-            console.error("Geolocation error:", err);
-            setError("Unable to retrieve your location.");
-          }
-      );
-    } else {
-      setError("Geolocation is not supported by your browser.");
-    }
-  };
 
   const getDecodedPolyline = (polylineString) => {
     try {
@@ -130,6 +144,7 @@ function CarRoutes() {
       return null;
     }
   };
+
   const handleSaveRoute = async (routeDetails) => {
     if (!routeDetails) {
       setError("No route selected.");
@@ -183,6 +198,7 @@ function CarRoutes() {
       setError("Error saving route.");
     }
   };
+
   const getAddressFromCoordinates = async (coords) => {
     try {
       const response = await axios.get('https://nominatim.openstreetmap.org/reverse', {
@@ -206,6 +222,7 @@ function CarRoutes() {
       return 'Unable to retrieve address';
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if ((!originCoords && !originInput) || !destination) {
@@ -328,7 +345,7 @@ function CarRoutes() {
 
               <div className={styles.rightColumn}>
                 <MapContainer
-                    center={originCoords || [44.4268, 26.1025]}
+                    center={mapCenter}  // Use the dynamic map center
                     zoom={12}
                     scrollWheelZoom={true}
                     className={styles.leafletContainer}
@@ -342,9 +359,10 @@ function CarRoutes() {
                   {routeInfo && selectedRouteDetails && (
                       <>
                         <Polyline positions={getDecodedPolyline(selectedRouteDetails.sections[0].polyline)} color="blue" weight={4} />
-                        <FitBounds positions={getDecodedPolyline(selectedRouteDetails.sections[0].polyline)} />
                       </>
                   )}
+                  {/* Add ChangeView component to update map view */}
+                  <ChangeView center={mapCenter} zoom={12} />
                 </MapContainer>
               </div>
             </div>

@@ -90,9 +90,8 @@ const Prizes = () => {
 
                         {/* Current Tier */}
                         <div className={styles["stat"]}>
-                            <h2>Current Tier</h2>
-                            <p id="user-tier">{user.tier}</p>
-
+                            <h2 className={styles.total}>Total XP</h2>
+                            <p id="user-tier"></p>
                             {/* XP Progress Box */}
                             <div className={styles["xp-tier-container"]}>
                                 <div className={styles["xp-display"]}>
@@ -100,33 +99,32 @@ const Prizes = () => {
                                     <div className={styles["xp-progress-container"]}>
                                         <div className={styles["xp-progress"]} id="xpProgress"></div>
                                     </div>
-                                    <button className={styles["tier-btn"]} onClick={toggleTierList}>View Tiers</button>
                                 </div>
 
-                                <div className={styles["tier-list"]} id="tierList">
-                                    <h3>Tier Levels</h3>
-                                    <ul>
-                                        <li>Bronze - 0 XP</li>
-                                        <li>Silver - 1000 XP</li>
-                                        <li>Gold - 2000 XP</li>
-                                        <li>Platinum - 3500 XP</li>
-                                        <li>Diamond - 5500 XP</li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
 
                         {/* Next Prize */}
                         <div className={styles["stat"]}>
-                            <h2>Next Prize</h2>
-                            <p id="next-prize">{user.nextPrize}</p>
+                            <h2 className={styles.curent}>Current Tier</h2>
+                            <p>{user.tier}</p>
+                            <button className={styles["tier-btn"]} onClick={toggleTierList}>View Tiers</button>
+                            <div className={styles["tier-list"]} id="tierList">
+                                <h3>Tier Levels</h3>
+                                <ul>
+                                    <li>Bronze - 0 XP</li>
+                                    <li>Silver - 1000 XP</li>
+                                    <li>Gold - 2000 XP</li>
+                                    <li>Platinum - 3500 XP</li>
+                                    <li>Diamond - 5500 XP</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 {/* Rewards Section */}
                 <section id="rewards" className={styles["section"]}>
-                    <button id="claim-prize" className={styles["cta-btn"]}>Claim Prize</button>
                     <div className={styles["rewards-container"]}>
                         {/* Rewards dynamically loaded */}
                         <div className={styles["reward"]} data-points="100">

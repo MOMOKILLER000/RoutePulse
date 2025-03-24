@@ -1,138 +1,208 @@
-/* publicTransport.module.css */
+/* General Styles */
+.map-container {
+  max-width: 1200px;  /* Adjusted for a more compact look */
+  margin: 20px auto;
+  padding: 15px;  /* Reduced padding */
+  background-color: #ffffff;
+  border-radius: 10px;  /* Slightly smaller border radius */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);  /* Softer shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-/* Main container that holds everything */
-.app-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100%;
-  }
+.map-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);  /* Slight lift effect */
+}
 
-  /* Container for the content (like routes and pages) */
-  .content-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1; /* Take up remaining space after navbar */
-    padding-top: 60px; /* Adjust if the navbar is taller */
-    background-color: #f4f4f9; /* Optional background for the content */
-  }
+/* Button Container */
+.button-container {
+  text-align: center;
+  margin-bottom: 15px;  /* Reduced bottom margin */
+}
 
-  /* Navbar styles */
+/* Toggle Button */
+.toggle-button {
+  background: linear-gradient(135deg, #0078d4, #005a9e);
+  color: white;
+  font-size: 0.95rem;  /* Slightly smaller font */
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  padding: 10px 20px;  /* Reduced padding */
+  border-radius: 6px;  /* Slightly smaller radius */
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Lighter shadow */
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-  ul {
-    display: flex;
-    justify-content: space-around;
-    list-style: none;
-    color: white;
-  }
+.toggle-button:hover {
+  background: linear-gradient(135deg, #005a9e, #003d70);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  /* Subtle hover effect */
+}
 
-  li {
-    margin: 0;
-  }
+/* Headings */
+.section-heading {
+  font-size: 1.9rem;  /* Slightly smaller font size */
+  margin-bottom: 15px;  /* Reduced bottom margin */
+  color: #333;
+  text-align: center;
+  border-bottom: 3px solid #0078d4;
+  padding-bottom: 8px;  /* Less padding */
+}
 
-  a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-  }
+.sub-heading {
+  font-size: 1.5rem;  /* Smaller font size */
+  color: #555;
+  margin-bottom: 12px;  /* Reduced bottom margin */
+  text-align: left;
+  padding-left: 4px;
+  border-left: 4px solid #005a9e;
+}
 
-  /* Optional: Hover effects for links in the navbar */
-  a:hover {
-    color: #61dafb;
-  }
+/* Search Bar */
+.search-bar {
+  width: 100%;
+  max-width: 380px;  /* Slightly smaller width */
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;  /* Slightly smaller radius */
+  margin-bottom: 12px;  /* Reduced bottom margin */
+  font-size: 0.95rem;  /* Smaller font size */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-  /* Map container that will hold the map */
+.search-bar:focus {
+  border-color: #0078d4;
+  box-shadow: 0 0 10px rgba(0, 120, 212, 0.4);
+  outline: none;
+}
+
+/* Select Dropdown */
+.styled-select {
+  width: 100%;
+  max-width: 380px;  /* Reduced width */
+  padding: 12px;
+  font-size: 0.95rem;  /* Slightly smaller font */
+  border: 1px solid #d1d5db;
+  border-radius: 6px;  /* Smaller border radius */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;
+}
+
+.styled-select:hover {
+  border-color: #0078d4;
+  box-shadow: 0 0 10px rgba(0, 120, 212, 0.2);
+}
+
+.styled-select:focus {
+  border-color: #005a9e;
+  box-shadow: 0 0 12px rgba(0, 90, 158, 0.4);
+  outline: none;
+}
+
+/* Action Button */
+.action-button {
+  background: #28a745;
+  color: white;
+  font-size: 0.95rem;  /* Slightly smaller font */
+  font-weight: bold;
+  padding: 10px 18px;  /* Reduced padding */
+  border: none;
+  border-radius: 6px;  /* Smaller radius */
+  cursor: pointer;
+  margin-top: 12px;  /* Reduced top margin */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action-button:hover {
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Location Info Section */
+.location-info {
+  background-color: #f8f9fa;
+  padding: 12px 18px;  /* Reduced padding */
+  border-radius: 6px;  /* Smaller radius */
+  margin-top: 12px;  /* Reduced top margin */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 0.95rem;  /* Slightly smaller font */
+  color: #555;
+}
+
+/* Map Section */
+.map {
+  margin-top: 20px;  /* Reduced top margin */
+  width: 100%;
+  height: 450px;  /* Smaller height */
+  border-radius: 12px;  /* Slightly smaller radius */
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);  /* Softer shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.map:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Tooltip Styling */
+.leaflet-tooltip {
+  background-color: #333;
+  color: white;
+  border-radius: 6px;  /* Smaller radius */
+  padding: 4px 10px;  /* Smaller padding */
+  font-size: 0.85rem;  /* Smaller font size */
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+/* Popup Styling */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;  /* Reduced border radius */
+  background-color: #ffffff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-popup-content {
+  font-size: 0.9rem;  /* Reduced font size */
+  color: #333;
+  margin: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .map-container {
-    position: relative;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    width: 100%;
-    height: 600px; /* Adjust this to your desired map height */
+    padding: 12px;  /* Reduced padding */
   }
 
-  /* Map element itself */
+  .toggle-button, .action-button {
+    padding: 8px 15px;  /* Reduced padding */
+    font-size: 0.85rem;  /* Smaller font size */
+  }
+
+  .section-heading {
+    font-size: 1.7rem;  /* Reduced font size */
+  }
+
+  .sub-heading {
+    font-size: 1.3rem;  /* Reduced font size */
+  }
+
+  .search-bar, .styled-select {
+    max-width: 100%;
+    padding: 8px;  /* Reduced padding */
+  }
+
   .map {
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
+    height: 350px;  /* Smaller height */
   }
-
-  /* Add some styles for the dropdowns */
-  select {
-    padding: 8px 12px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 200px;
-    font-size: 14px;
-  }
-
-  /* Styling for the select container */
-  select:focus {
-    outline: none;
-    border-color: #61dafb;
-    box-shadow: 0 0 5px rgba(97, 218, 251, 0.6);
-  }
-
-  /* Styling for the option elements inside the dropdown */
-  option {
-    padding: 5px 10px;
-  }
-
-  /* Add spacing to ensure elements inside the map or content have margin */
-  .content-container select,
-  .content-container button {
-    margin-bottom: 20px;
-  }
-
-  /* Custom page styles for Publictransport, CarRoutes, etc. */
-  .page-container {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .page-header {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-  }
-
-  /* Styling for the public transport and car routes page */
-  .car-routes-container,
-  .public-transport-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Responsive layout for smaller screens */
-  @media (max-width: 768px) {
-    .app-container {
-      flex-direction: column;
-    }
-
-    .content-container {
-      padding-top: 50px; /* Adjust if needed */
-    }
-
-    .map-container {
-      height: 400px; /* Adjust for smaller screens */
-    }
-
-    select {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .map-container {
-      height: 300px; /* Further adjust for very small screens */
-    }
-  }
+}

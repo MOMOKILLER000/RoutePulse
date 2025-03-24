@@ -52,11 +52,17 @@ header.dark-mode {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
 
+}
+.curent{
+    margin-top: 10px;
+}
 .stat p {
     font-size: 1.5rem;
     font-weight: 700;
+}
+.total{
+    margin-bottom: 10px;
 }
 
 /* User Stats Section */
@@ -68,7 +74,7 @@ header.dark-mode {
 }
 
 .section {
-    margin-bottom: 80px;
+    margin-bottom: 40px;
     text-align: center;
 }
 
@@ -97,24 +103,6 @@ header.dark-mode {
     background-color: #00796b;
     border-radius: 5px;
     transition: width 0.5s ease-out;
-}
-
-/* Improved Buttons */
-.cta-btn {
-    background: linear-gradient(135deg, #00796b, #004d40);
-    border: none;
-    color: white;
-    padding: 10px 25px;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 30px;
-    margin-bottom: 80px;
-}
-
-.cta-btn:hover {
-    background: linear-gradient(135deg, #004d40, #00796b);
-    transform: scale(1.05);
 }
 
 /* Rewards Section */
@@ -162,6 +150,10 @@ header.dark-mode {
 .leaderboard {
     text-align: center;
     padding: 40px 20px;
+}
+
+.leaderboard h2{
+    margin-bottom: 20px;
 }
 
 .leaderboard-container {
@@ -329,8 +321,8 @@ header.dark-mode {
     cursor: pointer;
     transition: 0.3s ease;
     position: absolute; /* Poziționăm butonul relativ la containerul său */
-    bottom: 102px; /* Poziția aleasă pentru buton */
-    right: 40px; /* Poziția aleasă pentru buton */
+    bottom: 80px; /* Poziția aleasă pentru buton */
+    left: 75%; /* Poziția aleasă pentru buton */
 }
 
 .tier-btn:hover {
@@ -340,7 +332,7 @@ header.dark-mode {
 .tier-list {
     display: none;
     position: absolute; /* Poziționează lista relativ la buton */
-    top: 55px; /* Plasează lista imediat sub buton */
+    top: 40px; /* Plasează lista imediat sub buton */
     left: 300px;
     background: rgba(0, 0, 0, 0.7);
     color: white;

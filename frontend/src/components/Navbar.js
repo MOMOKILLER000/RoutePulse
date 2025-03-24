@@ -40,8 +40,8 @@ function Navbar() {
     }
   };
   const navItems = isAuthenticated
-    ? ["Home", "Articles", "Reports", "Car Routes", "Profile", "Logout", "MyRoutes", "Accidents", "Contact", "Prizes"]
-    : ["Home", "Login", "Articles", "Reports", "Car Routes", "Accidents", "Contact", "Prizes"];
+    ? ["Home", "Articles", "Reports", "Car Routes", "Profile","MyRoutes", "Accidents", "Prizes", "Contact","Logout"]
+    : ["Home", "Login", "Articles", "Reports", "Car Routes", "Accidents", "Contact"];
 
   return (
     <nav className={styles.navbar}>

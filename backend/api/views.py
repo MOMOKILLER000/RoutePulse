@@ -704,11 +704,12 @@ BASE_URL = "https://api.tranzy.ai/v1/opendata"
 # You could add more endpoints (routes, trips, shapes) as needed
 
 def get_stops(request):
-    """Fetch stops from the Tranzy API."""
+    agency_id = request.GET.get('agency_id', '1')
+    print(agency_id)
     headers = {
-        'Accept': 'application/json',
-        'X-API-KEY': "zbqG3CwEW4dDwJzsMtqXDu6lTglhCnARg9dJWdap",
-        'X-Agency-Id': '1',
+            "Accept": "application/json",
+            "X-API-KEY": API_KEY,
+            "X-Agency-Id": agency_id,
     }
     response = requests.get(f"{BASE_URL}/stops", headers=headers)
     if response.status_code == 200:
@@ -726,11 +727,11 @@ def nearest_stop(request):
     except (TypeError, ValueError):
         return JsonResponse({'error': 'Invalid latitude or longitude'}, status=400)
 
-    # Get stops from the Tranzy API
+    agency_id = request.GET.get('agency_id', '1')
     headers = {
-        'Accept': 'application/json',
-        'X-API-KEY': "zbqG3CwEW4dDwJzsMtqXDu6lTglhCnARg9dJWdap",
-        'X-Agency-Id': '1',
+        "Accept": "application/json",
+        "X-API-KEY": API_KEY,
+        "X-Agency-Id": agency_id,
     }
     response = requests.get(f"{BASE_URL}/stops", headers=headers)
     if response.status_code != 200:

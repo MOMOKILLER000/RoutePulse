@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../../styles/PostsPages/articles.module.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
 const Article = () => {
     const [randomArticles, setRandomArticles] = useState([]);
@@ -9,43 +10,44 @@ const Article = () => {
     const [hotArticles, setHotArticles] = useState([]);
     const navigate = useNavigate();
     const backendUrl = "http://localhost:8000"; // Your backend base URL
+    const [loading, setLoading] = useState(true); // Loading state
+    const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        fetch(`http://localhost:8000/api/user/`, {credentials: 'include'})
+            .then(response => response.json())
+            .then(data => {
+                console.log("User Data:", data); // Debugging
+                setUser(data);
+            })
+            .catch(error => console.error("Error fetching user data:", error));
+    }, []);
     // Fetch random articles
     useEffect(() => {
-        fetch("http://localhost:8000/api/random_articles/")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Random Articles:", data);  // Debug: log data
-                setRandomArticles(data);
-            })
-            .catch((error) => {
-                console.error("Error fetching random articles:", error);
-                alert("Failed to fetch random articles. Please try again later.");
-            });
+        // Function to fetch articles
+        const fetchArticles = async () => {
+            try {
+                const randomResponse = await fetch("http://localhost:8000/api/random_articles/");
+                const randomData = await randomResponse.json();
+                setRandomArticles(randomData);
 
-        // Fetch latest articles
-        fetch("http://localhost:8000/api/latest_articles/")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Latest Articles:", data);  // Debug: log data
-                setLatestArticles(data);
-            })
-            .catch((error) => {
-                console.error("Error fetching latest articles:", error);
-                alert("Failed to fetch latest articles. Please try again later.");
-            });
+                const latestResponse = await fetch("http://localhost:8000/api/latest_articles/");
+                const latestData = await latestResponse.json();
+                setLatestArticles(latestData);
 
-        // Fetch hot articles
-        fetch("http://localhost:8000/api/hot_articles/")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Hot Articles:", data);  // Debug: log data
-                setHotArticles(data);
-            })
-            .catch((error) => {
-                console.error("Error fetching hot articles:", error);
-                alert("Failed to fetch hot articles. Please try again later.");
-            });
+                const hotResponse = await fetch("http://localhost:8000/api/hot_articles/");
+                const hotData = await hotResponse.json();
+                setHotArticles(hotData);
+
+                setLoading(false); // Set loading to false once all data is fetched
+            } catch (error) {
+                console.error("Error fetching articles:", error);
+                alert("Failed to fetch articles. Please try again later.");
+                setLoading(false); // Set loading to false even if there's an error
+            }
+        };
+
+        fetchArticles();
     }, []);
 
     // Fallback image function
@@ -76,8 +78,16 @@ const Article = () => {
             console.error("Article ID is missing");
         }
     };
-
+    const WriteArticle = () => {
+        navigate('/ArticlePosting');
+    }
+    const AllArticles = () => {
+        navigate('/AllArticles');
+    }
     return (
+        loading ? (
+                <Loading /> // Add a loading message or spinner
+            ) : (
         <div className={styles.bodyContainer}>
             <div className={styles.navbarAdjust}>
                 <Navbar />
@@ -283,12 +293,22 @@ const Article = () => {
                         )}
                     </div>
                 </div>
+                <div className={styles.nush}>
+                    {user && user.is_superuser && (
+                        <div>
+                            <button className={styles.scrie} onClick={() => WriteArticle()}>Write Articles</button>
+                        </div>
+                    )}
+                    <div>
+                        <button className={styles.vezi} onClick={() => AllArticles()}>See all articles</button>
+                    </div>
+                </div>
             </div>
-
             <div className={styles.footerContainer}>
                 <Footer />
             </div>
         </div>
+            )
     );
 };
 

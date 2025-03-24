@@ -11,7 +11,20 @@ const Index = () => {
         bus: false,
     });
     const navigate = useNavigate();
-
+    const [latestArticles, setLatestArticles] = useState([]);
+    useEffect(() => {
+        // Fetch latest articles
+        fetch("http://localhost:8000/api/latest_articles/")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Latest Articles:", data);  // Debug: log data
+                setLatestArticles(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching latest articles:", error);
+                alert("Failed to fetch latest articles. Please try again later.");
+            });
+    }, []);
     useEffect(() => {
         const link = document.createElement("link");
         link.rel = "preload";
@@ -38,13 +51,29 @@ const Index = () => {
     const handleNavigation = (path) => {
         navigate(path);  // Navigate to the given path
     };
+    const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(dateString).toLocaleDateString("en-US", options);
+    };
+
+    const truncateContent = (content, wordLimit = 20) => {
+        if (!content) return "";
+        const words = content.split(" ");
+        return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : content;
+    };
 
     const transportTypes = ["tram", "bus"];
     const cities = {
         tram: ["Iasi", "Cluj", "Timisoara", "Bucuresti"],
         bus: ["Iasi", "Cluj", "Timisoara", "Botosani", "Bucuresti"],
     };
-
+    const handleArticleClick = (id) => {
+        if (id) {
+            navigate(`/article/${id}`); // Navigate to article detail page
+        } else {
+            console.error("Article ID is missing");
+        }
+    };
     return (
         <div className={styles["body"]}>
         <div className={styles["main-container"]}>
@@ -69,7 +98,7 @@ const Index = () => {
 
             <div className={styles["butoane-masini"]}>
                 <p>Choose Transport</p>
-                <button className={styles.transport} onClick={() => handleNavigation("/car")}>
+                <button className={styles.transport} onClick={() => handleNavigation("/Cars")}>
                     <i className="fa-solid fa-car"></i> Car
                 </button>
 
@@ -104,15 +133,24 @@ const Index = () => {
                     <img src={telefon} alt="Phone" className={styles.telefon} />
                 </div>
                 <div className={styles["articole-inner"]}>
-                    {["Latest Article", "Latest Reports"].map((title, index) => (
-                        <div key={index} className={styles.combinatie}>
-                            <p className={styles.lc}>{title}</p>
-                            <p className={styles.tc}>Lorem, ipsum.</p>
-                            <p className={styles.rc}>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit...
-                            </p>
-                        </div>
+                    {latestArticles.slice(0, 1).map((article, index) => (
+                    <div className={styles.combinatie} onClick={() => handleArticleClick(article.id)}>
+                        <p className={styles.lc}>Latest Article</p>
+                        <p className={styles.tc}>{article.title}</p>
+                        <p className={styles.rc}>
+                            {truncateContent(article.description)}
+                        </p>
+                        <p className={styles.rc}>Author: {article.author?.username}</p>
+                        <p>{formatDate(article.created_at)}</p>
+                    </div>
                     ))}
+                    <div className={styles.combinatie}>
+                        <p className={styles.lc}>Latest Report</p>
+                        <p className={styles.tc}></p>
+                        <p className={styles.rc}>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit...
+                        </p>
+                    </div>
                 </div>
             </div>
 

@@ -313,3 +313,59 @@ h1 {
 .footer a:hover {
     text-decoration: underline;
 }
+
+.nush{
+    display: flex;
+    justify-content: center;
+}
+.scrie, .vezi {
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px;
+    border: none;
+    background-color: #222; /* Match footer background */
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    border-radius: 5px;
+}
+.scrie{
+    margin-right: 20px;
+}
+
+.scrie::before, .vezi::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #f39c12; /* Accent color from footer */
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.scrie::after, .vezi::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #f39c12;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.scrie:hover::before, .vezi:hover::before {
+    transform: translateX(0);
+}
+
+.scrie:hover::after, .vezi:hover::after {
+    transform: translateX(0);
+}
+
+.scrie:hover, .vezi:hover {
+    color: #f39c12;
+}

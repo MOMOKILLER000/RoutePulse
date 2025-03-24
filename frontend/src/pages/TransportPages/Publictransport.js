@@ -53,6 +53,8 @@ const MapComponent = () => {
     const [mapCenter, setMapCenter] = useState([47.1585, 27.6014]);
     const [linia, setLinia] = useState(null);
     const [viewOption, setViewOption] = useState('routes'); // Default to 'routes'
+    const [stopSearch, setStopSearch] = useState(""); // For Nearest Stop Search
+    const [destinationSearch, setDestinationSearch] = useState(""); // For Destination Stop Search
     useEffect(() => {
         if (transport === "tram") {
             setVehicleType("0");
@@ -65,10 +67,25 @@ const MapComponent = () => {
     const [userLocation, setUserLocation] = useState(null);
     const [nearestStop, setNearestStop] = useState(null);
     const [route, setRoute] = useState(null);
+    const getAgencyIdAndCenter = (city) => {
+        switch(city.toLowerCase()) {
+            case 'iasi':
+                return { agencyId: '1', center: [47.1585, 27.6014] };
+            case 'cluj':
+                return { agencyId: '2', center: [46.7712, 23.6236] };
+            case 'timisoara':
+                return { agencyId: '8', center: [45.7585, 21.2256] };
+            case 'botoșani':
+                return { agencyId: '6', center: [47.7468, 26.6628] };
+            default:
+                return { agencyId: '1', center: [47.1585, 27.6014] };
+        }
+    };
 
     // Fetch stops when the component mounts
     useEffect(() => {
-        fetch('http://localhost:8000/api/stops/')
+        const { agencyId, center } = getAgencyIdAndCenter(city);
+        fetch(`http://localhost:8000/api/stops/?agency_id=${agencyId}`)
             .then(response => response.json())
             .then(data => setStops(data))
             .catch(err => console.error("Error fetching stops", err));
@@ -94,7 +111,8 @@ const MapComponent = () => {
             alert("Please get your location first");
             return;
         }
-        fetch(`http://localhost:8000/api/nearest_stop/?lat=${userLocation.lat}&lon=${userLocation.lon}`)
+        const { agencyId, center } = getAgencyIdAndCenter(city);
+        fetch(`http://localhost:8000/api/nearest_stop/?agency_id=${agencyId}&lat=${userLocation.lat}&lon=${userLocation.lon}`)
             .then(response => response.json())
             .then(data => setNearestStop(data))
             .catch(err => console.error("Error finding nearest stop", err));
@@ -146,21 +164,6 @@ const MapComponent = () => {
 
 
 
-
-    const getAgencyIdAndCenter = (city) => {
-        switch(city.toLowerCase()) {
-            case 'iasi':
-                return { agencyId: '1', center: [47.1585, 27.6014] };
-            case 'cluj':
-                return { agencyId: '2', center: [46.7712, 23.6236] };
-            case 'timisoara':
-                return { agencyId: '8', center: [45.7585, 21.2256] };
-            case 'botoșani':
-                return { agencyId: '6', center: [47.7468, 26.6628] };
-            default:
-                return { agencyId: '1', center: [47.1585, 27.6014] };
-        }
-    };
     useEffect(() => {
         const { agencyId, center } = getAgencyIdAndCenter(city);
         setMapCenter(center);
@@ -281,7 +284,7 @@ const MapComponent = () => {
             <Navbar />
             <div className={styles['map-container']}>
                 <div className={styles['button-container']}>
-                    <button onClick={toggleViewOption}>
+                    <button onClick={toggleViewOption} className={styles['toggle-button']}>
                         {viewOption === 'routes' ? 'Switch to Direct Route' : 'Switch to Routes & Trips'}
                     </button>
                 </div>
@@ -290,7 +293,7 @@ const MapComponent = () => {
                     <div>
                         {vehicleType && (
                             <div className={styles['select-container']}>
-                                <select onChange={handleRouteSelect} value={selectedRoute}>
+                                <select onChange={handleRouteSelect} value={selectedRoute} className={styles['styled-select']}>
                                     <option value="">Select Route</option>
                                     {routes.map(route => (
                                         <option key={route.route_id} value={route.route_id}>
@@ -303,7 +306,7 @@ const MapComponent = () => {
 
                         {selectedRoute && trips.length > 0 && (
                             <div className={styles['select-container']}>
-                                <select onChange={handleTripSelect} value={selectedTrip}>
+                                <select onChange={handleTripSelect} value={selectedTrip} className={styles['styled-select']}>
                                     <option value="">Select Trip</option>
                                     {trips.map(trip => (
                                         <option key={trip.trip_id} value={trip.trip_id}>
@@ -318,38 +321,84 @@ const MapComponent = () => {
 
                 {viewOption === 'direct' && (
                     <div>
-                        <h2>Direct Route</h2>
-                        <button onClick={getUserLocation}>Get My Location</button>
+                        <h2 className={styles['section-heading']}>Direct Route</h2>
+                        <button onClick={getUserLocation} className={styles['action-button']}>Get My Location</button>
                         {userLocation && (
-                            <div>
+                            <div className={styles['location-info']}>
                                 <p>Your Location: {userLocation.lat}, {userLocation.lon}</p>
-                                <button onClick={findNearestStop}>Find Nearest Stop</button>
+                                <button onClick={findNearestStop} className={styles['action-button']}>Find Nearest Stop</button>
                             </div>
                         )}
                         {nearestStop && (
-                            <div>
-                                <h2>Nearest Stop</h2>
+                            <div className={styles['nearest-stop-info']}>
+                                <h2 className={styles['sub-heading']}>Selected Stop</h2>
                                 <p>{nearestStop.stop_name}</p>
                             </div>
                         )}
-                        <div>
-                            <h2>Select Destination Stop</h2>
+                        <div className={styles['select-container']}>
+                            <h2 className={styles['sub-heading']}>Select Nearest Stop</h2>
+                            <input
+                                type="text"
+                                placeholder="Search for a stop..."
+                                value={stopSearch}
+                                onChange={(e) => setStopSearch(e.target.value)}
+                                className={styles['search-bar']}
+                            />
+                            <select
+                                value={nearestStop ? nearestStop.stop_id : ""}
+                                onChange={(e) => {
+                                    const selectedId = parseInt(e.target.value);
+                                    const selectedStopObj = stops.find(stop => stop.stop_id === selectedId);
+                                    setNearestStop(selectedStopObj);
+                                }}
+                                className={styles['styled-select']}
+                            >
+                                <option value="">--Select Stop--</option>
+                                {stops
+                                    .filter((stop, index, self) =>
+                                        self.findIndex(s => s.stop_name === stop.stop_name) === index // Filter unique names
+                                    )
+                                    .filter(stop => stop.stop_name.toLowerCase().includes(stopSearch.toLowerCase())) // Filter by search input
+                                    .sort((a, b) => a.stop_name.localeCompare(b.stop_name)) // Sort alphabetically
+                                    .map(stop => (
+                                        <option key={stop.stop_id} value={stop.stop_id}>
+                                            {stop.stop_name}
+                                        </option>
+                                    ))}
+                            </select>
+                        </div>
+                        <div className={styles['select-container']}>
+                            <h2 className={styles['sub-heading']}>Select Destination Stop</h2>
+                            <input
+                                type="text"
+                                placeholder="Search for a stop..."
+                                value={destinationSearch}
+                                onChange={(e) => setDestinationSearch(e.target.value)}
+                                className={styles['search-bar']}
+                            />
                             <select
                                 value={destinationStop}
                                 onChange={(e) => setDestinationStop(e.target.value)}
+                                className={styles['styled-select']}
                             >
                                 <option value="">--Select Stop--</option>
-                                {stops.map(stop => (
-                                    <option key={stop.stop_id} value={stop.stop_id}>
-                                        {stop.stop_name}
-                                    </option>
-                                ))}
+                                {stops
+                                    .filter((stop, index, self) =>
+                                        self.findIndex(s => s.stop_name === stop.stop_name) === index // Filter unique names
+                                    )
+                                    .filter(stop => stop.stop_name.toLowerCase().includes(destinationSearch.toLowerCase())) // Filter by search input
+                                    .sort((a, b) => a.stop_name.localeCompare(b.stop_name)) // Sort alphabetically
+                                    .map(stop => (
+                                        <option key={stop.stop_id} value={stop.stop_id}>
+                                            {stop.stop_name}
+                                        </option>
+                                    ))}
                             </select>
                         </div>
-                        <button onClick={getRoute}>Get Direct Route</button>
+                        <button onClick={getRoute} className={styles['action-button']}>Get Direct Route</button>
                         {route && (
                             <div>
-                                <h2>Direct Route Information</h2>
+                                <h2 className={styles['section-heading']}>Direct Route Information</h2>
                                 {/* Display direct route details here */}
                             </div>
                         )}
