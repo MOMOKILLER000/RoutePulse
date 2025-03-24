@@ -1,5 +1,5 @@
-
 // src/firebase.js
+
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken as getMessagingToken, onMessage } from 'firebase/messaging';
 
