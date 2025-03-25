@@ -5,8 +5,6 @@ import { faInstagram, faFacebook, faTiktok, faGithub} from "@fortawesome/free-br
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import {getMessagingToken, messaging} from "../../firebase";
-
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -68,25 +66,6 @@ const Profile = () => {
       setShowPassword2(!showPassword2);
     }
   };
-  const fetchToken = async () => {
-    try {
-      const swRegistration = await navigator.serviceWorker.ready;
-      const currentToken = await getMessagingToken(messaging, {
-        vapidKey: 'BM3006r6JiFC4ey0qrIBno0iubQHEeUmmRzW4P2udg7rC93PY_lDVT2UqSBqf5SZHJkmMtoI6DALZdd1utUjsSE',
-        serviceWorkerRegistration: swRegistration,
-      });
-      if (currentToken) {
-        console.log('Firebase Token:', currentToken);
-        return currentToken;
-      } else {
-        console.warn('No registration token available. Request permission to generate one.');
-        return null;
-      }
-    } catch (err) {
-      console.error('Error retrieving token', err);
-      return null;
-    }
-  };
 
   useEffect(() => {
     const csrfToken = getCookie('csrftoken');
@@ -121,17 +100,13 @@ const Profile = () => {
 
     try {
       let firebaseToken = null;
-      if (newStatus) {
-        // Make sure to fetch the Firebase token
-        firebaseToken = await fetchToken(); // Replace with your method of fetching the token
-      }
       const res = await fetch("http://localhost:8000/api/profile/update/", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ notifications: newStatus, firebase_token: firebaseToken }),
+        body: JSON.stringify({ notifications: newStatus, }),
       });
 
       if (res.ok) {
