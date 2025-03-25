@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/Authentification/registration.module.css';
 import { useNavigate } from 'react-router-dom';
-import {getMessagingToken, messaging} from "../../firebase";
 
 function getCookie(name) {
   let cookieValue = null;
@@ -68,25 +67,6 @@ const SignUp = () => {
       setShowPassword2(!showPassword2);
     }
   };
-  const fetchToken = async () => {
-    try {
-      const swRegistration = await navigator.serviceWorker.ready;
-      const currentToken = await getMessagingToken(messaging, {
-        vapidKey: 'BM3006r6JiFC4ey0qrIBno0iubQHEeUmmRzW4P2udg7rC93PY_lDVT2UqSBqf5SZHJkmMtoI6DALZdd1utUjsSE',
-        serviceWorkerRegistration: swRegistration,
-      });
-      if (currentToken) {
-        console.log('Firebase Token:', currentToken);
-        return currentToken;
-      } else {
-        console.warn('No registration token available. Request permission to generate one.');
-        return null;
-      }
-    } catch (err) {
-      console.error('Error retrieving token', err);
-      return null;
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,7 +87,6 @@ const SignUp = () => {
       alert('CSRF token is missing!');
       return;
     }
-    const firebaseToken = await fetchToken();
     const userData = {
       email,
       password,
@@ -116,7 +95,6 @@ const SignUp = () => {
       username,
       preferred_transport: selectedTransport,
       notifications,
-      firebase_token: firebaseToken,
     };
 
     try {
