@@ -1,0 +1,158 @@
+
+:root {
+    --text: black;
+    --background: #e9e6e6;
+    --primary: #00bfa5;
+    --secondary: #ff8a65;
+    --accent: #20786e;
+}
+
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body, html {
+    background-color: var(--background);
+    font-family: 'Poppins', sans-serif;
+    color: var(--text);
+    height: 100%;
+}
+
+
+.first-container {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    text-align: center;
+
+}
+
+
+.body-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); 
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 20px 0;
+}
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+.main-container {
+    display: flex;
+    width: 90%;
+    height: 85vh;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    gap: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+    flex: 0 0 30%;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid var(--primary);
+    overflow-y: auto;
+}
+.sidebar h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--secondary);
+}
+
+/* User List */
+.user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.user-info {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+.user-info:hover {
+    background: #fff;
+}
+
+/* Content Area */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Report Section */
+.report-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid var(--secondary);
+    text-align: center;
+}
+.report-container h2 {
+    margin-bottom: 15px;
+    color: var(--secondary);
+}
+
+/* Report Card */
+.report-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+.report-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.report-item {
+    flex: 1;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+.report-item.full-width {
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Map Container */
+.map-container {
+    flex: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+}
+.map {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        height: auto;
+    }
+    .map-container {
+        height: 300px;
+    }
+}

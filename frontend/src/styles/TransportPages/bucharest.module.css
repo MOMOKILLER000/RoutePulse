@@ -1,0 +1,54 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* Container for the route selection and map */
+.container {
+    padding: 20px;
+}
+
+/* Heading for the page */
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Route selection dropdown */
+select {
+    padding: 8px 12px;
+    margin-left: 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+select:focus {
+    border-color: #5c5c5c;
+}
+
+/* Label styling */
+label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+/* Map container styling */
+.mapContainer {
+    margin-top: 20px;
+    position: relative;
+    height: 90vh; /* Full viewport height */
+    width: 100%;
+}
+

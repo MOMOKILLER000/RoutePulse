@@ -1,0 +1,439 @@
+
+:global {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+/* Container and Background */
+.profile_firstContainer {
+  margin: 0 auto;
+  
+  background: #e9e6e6; 
+}
+
+/* Navbar container */
+.navbarAdjust {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Main Body Container */
+.profile_bodyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px);
+  color: black;
+  margin-top: 5px;
+}
+
+/* Main Profile Container */
+.profile_mainContainer {
+  display: flex;
+  width: 1000px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Left Section (Profile Image & Social) */
+.profile_stanga {
+  width: 30%;
+  background: #00bfa5; 
+  padding: 25px;
+  text-align: center;
+}
+
+.profile_stanga img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  background-color: white;
+}
+
+.imageControls {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;    
+  gap: 8px;
+}
+
+
+.profileStangaButton {
+  background: #ff8a65;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s;
+  width: 150px;
+  margin-top: 15px;
+}
+
+.profileStangaButton:hover {
+  background: #20786e;
+  transform: scale(1.05);
+}
+
+.removeImageButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  font-size: 12px;
+  color: #e93600;
+  transition: color 0.2s ease-in-out;
+
+}
+
+.removeImageButton:hover {
+  color: #d32f2f;
+}
+
+.delete{
+  font-size: 0.9rem;
+}
+/* Social Media Section */
+.profile_socialMedia {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.profile_icon {
+  margin-right: 6px;
+  font-size: 24px;
+}
+
+.profile_text {
+  margin-left: 4px;
+}
+
+.profile_comun {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 250px;
+  height: 50px;
+  border-radius: 20px;
+  background-color: #20786e; 
+  color: white;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin: 5px 0;
+  padding-left: 10px;
+}
+
+.profile_comun:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.profile_comun a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  width: 100%;
+  height: 100%;
+}
+
+/* Right Section (Profile Details) */
+.profile_dreapta {
+  width: 70%;
+  padding: 20px;
+  background: #e9e6e6;
+}
+
+.profile_main h2 {
+  margin-bottom: 15px;
+}
+
+/* Form Styling */
+.profile_form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile_form input,
+.profile_form select,
+.profile_form button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.profile_form input,
+.profile_form select {
+  background: #00bfa5; 
+  color: white;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+
+.profile_buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.profile_buttons button {
+  flex: 1;
+  background: #ff8a65; 
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.profile_buttons button:hover {
+  background: #20786e; 
+}
+
+/* Password Field */
+.profile_passwordContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.profile_passwordContainer input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.profile_passwordContainer .fa-eye,
+.profile_passwordContainer .fa-eye-slash {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #ff8a65; 
+  transition: color 0.3s;
+}
+
+.profile_passwordContainer .fa-eye:hover,
+.profile_passwordContainer .fa-eye-slash:hover {
+  color: #20786e; 
+}
+
+/* Routes Section */
+.profile_bottom {
+  display: flex;
+  margin-top: 20px;
+}
+
+.profile_bottom ul {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.userRoutes:hover{
+  cursor:pointer;
+}
+.profile_left,
+.profile_right {
+  width: 50%;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.profile_ruta {
+  display: flex;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 6px 0;
+}
+
+/* Disabled Input Styles */
+.profile_form input:disabled,
+.profile_form select:disabled {
+  background: #20786e; 
+  color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Focused Input Styles */
+.profile_form input:focus:not(:disabled),
+.profile_form select:focus:not(:disabled) {
+  background: white;
+  color: black;
+}
+
+/* Password Field (Alternative) */
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+}
+
+/* Profile Picture & Edit Icon */
+.profile_poza {
+  position: relative;
+  overflow: hidden;
+}
+
+.editIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.penIcon {
+  font-size: 24px;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  padding: 5px;
+  transition: 0.3s;
+}
+.penIcon:hover{
+  background-color: black;
+}
+
+.fileInput {
+  display: none;
+}
+
+.profile_inputField {
+  width: 80%;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  background: #00bfa5; 
+  color: white;
+  box-sizing: border-box;
+  transition: background 0.3s, color 0.3s;
+}
+
+.profile_inputField:focus {
+  background: white;
+  color: black;
+  outline: none;
+  border: 1px solid #ff8a65; 
+}
+
+.profile_inputField:disabled {
+  background: #00bfa5; 
+  color: #cccccc;
+  cursor: not-allowed;
+}
+
+.profile_inputField::placeholder {
+  color: #cccccc;
+  font-style: italic;
+}
+
+/* Responsive Adjustments */
+
+
+@media (max-width: 1024px) {
+  .profile_mainContainer {
+    width: 90%;
+  }
+
+  .profile_dreapta {
+    padding: 15px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .profile_bodyContainer {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  .profile_mainContainer {
+    flex-direction: column;
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  
+  .profile_stanga,
+  .profile_dreapta {
+    width: 100%;
+    padding: 15px;
+  }
+
+  
+  .profile_stanga {
+    text-align: center;
+  }
+
+  .profile_socialMedia {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .profile_comun {
+    width: auto;
+    padding: 5px 10px;
+  }
+
+  
+  .profile_form input,
+  .profile_form select,
+  .profile_form button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+
+  .profile_stanga button {
+    width: 120px;
+    padding: 6px;
+  }
+
+  
+  .profile_bottom {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .profile_left,
+  .profile_right {
+    width: 100%;
+    margin-right: 0;
+  }
+}

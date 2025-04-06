@@ -1,0 +1,35 @@
+/* PleaseLogin.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.heading {
+    font-size: 36px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.loginLink {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 15px 30px;
+    text-decoration: none;
+    color: white;
+    background-color: #6d3bbf;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
+}
+
+.loginLink:hover {
+    background-color: #5329a3;
+    transform: scale(1.05);
+}

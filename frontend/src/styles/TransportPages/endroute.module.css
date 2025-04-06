@@ -1,0 +1,335 @@
+/* Base and reset styles */
+/* Instead of targeting html and body, assign the "base" class to your highest level container */
+.base,
+.base * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.base {
+  width: 100%;
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  background-color: #e9e6e6; /* Background */
+  color: black; /* Text */
+  line-height: 1.6;
+}
+
+/* Link styling (apply .link to anchor elements instead of styling all a tags) */
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Unordered list reset (apply .ul-reset to your ul elements) */
+.ul-reset {
+  list-style: none;
+}
+
+/* Responsive images (apply .img-responsive to your img tags) */
+.img-responsive {
+  max-width: 100%;
+  display: block;
+}
+
+/* Rate route container */
+.rateRouteContainer {
+  background-color: #e9e6e6;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Content container */
+.content {
+  background-color: #fff;
+  width: 100%;
+  max-width: 800px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings (instead of h2, use a div with class "heading") */
+.heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #00bfa5;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Text paragraphs (instead of p, use a div with class "text") */
+.text {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Route details container */
+.routeDetails {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border: 2px solid #00bfa5;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Route details text */
+.routeDetailsText {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+.routeDetailsText:last-child {
+  border-bottom: none;
+}
+
+/* Label styling (instead of <strong>, use a span with class "label") */
+.label {
+  font-weight: bold;
+}
+
+/* Save button styling */
+/* Instead of a <button>, a div with role="button" may be used */
+.saveButton {
+  background-color: #00bfa5;
+  color: #fff;
+  border: none;
+  padding: 15px 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 20px auto 0;
+  width: 60%;
+  text-align: center;
+}
+.saveButton:hover {
+  background-color: #20786e;
+}
+
+/* Error message styling */
+.error {
+  color: #ff8a65;
+  font-size: 1rem;
+  margin-top: 20px;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ff8a65;
+  border-radius: 5px;
+  background-color: #ffece6;
+}
+
+/* Map borders and shadows */
+.mapBorder {
+  border: 3px solid #00bfa5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.mapShadow {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Flex utilities */
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+}
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+}
+
+/* Decorative border */
+.decorative-border {
+  border: 2px dashed #ff8a65;
+  padding: 10px;
+  margin: 20px 0;
+  border-radius: 5px;
+}
+
+/* Highlight text */
+.highlightText {
+  color: #20786e;
+  font-weight: bold;
+  background-color: #e9e6e6;
+  padding: 2px 5px;
+}
+
+/* Form elements styling */
+/* Instead of styling input, select, textarea globally, use the .form-element class */
+.form-element {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.form-element:focus {
+  border-color: #00bfa5;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 191, 165, 0.5);
+}
+
+/* Button group styling */
+.buttonGroup {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.buttonGroup .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.buttonGroup .primary {
+  background-color: #00bfa5;
+  color: #fff;
+}
+.buttonGroup .primary:hover {
+  background-color: #20786e;
+}
+.buttonGroup .secondary {
+  background-color: #ff8a65;
+  color: #fff;
+}
+.buttonGroup .secondary:hover {
+  background-color: #d76c4c;
+}
+
+/* Spacing utilities */
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+.pt-10 { padding-top: 10px; }
+.pt-20 { padding-top: 20px; }
+.pb-10 { padding-bottom: 10px; }
+.pb-20 { padding-bottom: 20px; }
+.mr-10 { margin-right: 10px; }
+.ml-10 { margin-left: 10px; }
+
+/* Text utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-uppercase { text-transform: uppercase; }
+.text-lowercase { text-transform: lowercase; }
+.text-bold { font-weight: bold; }
+.text-italic { font-style: italic; }
+.text-underline { text-decoration: underline; }
+
+/* Additional spacing utilities */
+.spacing-small { margin: 5px; padding: 5px; }
+.spacing-medium { margin: 10px; padding: 10px; }
+.spacing-large { margin: 20px; padding: 20px; }
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.animatedButton {
+  animation: pulse 2s infinite;
+}
+
+/* Navbar adjustment */
+.navbarAdjust {
+  padding: 25px 15px;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00bfa5;
+}
+.modal-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.modal-body {
+  padding: 20px 0;
+}
+
+/* Section heading */
+.section-heading {
+  font-size: 1.8rem;
+  color: #00bfa5;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .content {
+    padding: 20px;
+    margin: 15px;
+  }
+  .heading {
+    font-size: 2rem;
+  }
+  .saveButton {
+    width: 80%;
+  }
+  .textMapWrapper {
+    flex-direction: column;
+  }
+}

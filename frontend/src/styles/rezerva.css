@@ -1,0 +1,124 @@
+/
+.container {
+    max-width: 95vw;
+    height: 90vh;
+    margin: 5vh auto;
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+    padding: 50px;
+    background: linear-gradient(to right, #f6f9fc, #eaf1f8); /* Soft blue gradient */
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* LEFT SECTION (Push Notifications & Broadcast Form) */
+.leftSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* RIGHT SECTION (Feedbacks) */
+.rightSection {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(15px);
+    overflow-y: auto;
+    max-height: 750px;
+}
+
+/* 🔥 Titles & Headings */
+h1, h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #3b82f6; /* Neon Blue */
+}
+
+/* 📋 Feedback List */
+.feedbackList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 📝 Individual Feedback Item */
+.feedbackItem {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.feedbackItem:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* 📅 Feedback Date */
+.date {
+    font-size: 14px;
+    color: #64748b;
+    text-align: right;
+    margin-top: 8px;
+}
+
+/* 🔔 Push Notification Section */
+.notificationSection, .broadcastForm {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 🖋 Input Fields */
+input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    outline: none;
+}
+
+input::placeholder {
+    color: #888;
+}
+
+/* 🔘 Fancy Buttons */
+.button {
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease-in-out;
+    margin-top: 15px;
+}
+
+.button:hover {
+    background: linear-gradient(135deg, #9333ea, #3b82f6);
+    transform: scale(1.05);
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+}

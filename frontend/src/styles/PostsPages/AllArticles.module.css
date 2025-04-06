@@ -1,0 +1,221 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #e9e6e6; 
+    color: black;            
+}
+
+/* Header Styles */
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.navList {
+    display: flex;
+    gap: 20px;
+}
+
+.navItem {
+    color: black;  
+    text-decoration: none;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.navItem:hover {
+    color: #20786e; 
+}
+
+/* Container Styles */
+.pageContainer {
+    margin: 0 auto;
+    background-color: #e9e6e6; 
+    color: black;            
+    line-height: 1.6;
+}
+
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Article Grid Styles */
+.articleGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.articleItem {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.articleItem:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.articleImage {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.articleContent {
+    padding: 20px;
+}
+
+.articleTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #00bfa5;  
+}
+
+.articleDescription {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.articleAuthor {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.cafea {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sectionTitle{
+    margin-bottom: 20px;
+}
+
+.authorName {
+    font-size: 16px;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+.articleDate{
+    margin-top: 5px;
+}
+
+.readMore {
+    font-weight: bold;
+    color: #00bfa5; 
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.readMore:hover {
+    color: #20786e; 
+}
+
+
+.footer {
+    background-color: #ff8a65; 
+    color: black;
+    padding: 20px;
+    text-align: center;
+}
+
+.footerText {
+    font-size: 14px;
+}
+
+/* Pagination Buttons */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.paginationBtn {
+    padding: 10px 20px;
+    background-color: #00bfa5; 
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: background-color 0.3s;
+}
+
+.paginationBtn:hover {
+    background-color: #20786e; 
+}
+
+.paginationBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Page Number Styles */
+.pageNumbers {
+    display: flex;
+    gap: 5px;
+}
+
+.pageNumber {
+    padding: 10px;
+    background-color: #00bfa5; 
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.pageNumber:hover {
+    background-color: #20786e; 
+}
+
+.pageNumber.active {
+    background-color: #20786e; 
+}
+
+.pageNumber:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+    .articleGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .articleGrid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,344 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* Global Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.body {
+  font-family: 'Poppins', sans-serif;
+  background: #e9e6e6;
+  color: black;
+  line-height: 1.6;
+  scroll-behavior: smooth; /* Smooth scrolling */
+  -webkit-font-smoothing: antialiased; /* Improve font rendering */
+}
+
+/* Navbar */
+.navbar{
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 25px 15px;
+}
+
+/* Map Container */
+.map-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Button Container */
+.button-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Toggle Button */
+.toggle-button {
+  background: linear-gradient(135deg, #00bfa5, #20786e);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+  background: linear-gradient(135deg, #20786e, #00bfa5);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Flex Layout for Stop Selections */
+.select-container-flex {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+/* Individual Stop Containers */
+.select-stop-container {
+  background: #fff;
+  border: 1px solid #20786e;
+  padding: 1.5rem;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 280px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.select-stop-container:hover {
+  transform: translateY(-8px);
+}
+
+/* Headings Inside Stop Containers */
+.select-stop-container h2 {
+  font-size: 1.6rem;
+  color: #20786e;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Styled Select */
+.styled-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1rem;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.styled-select:focus {
+  border-color: #00bfa5;
+  box-shadow: 0 0 5px rgba(0, 191, 165, 0.4);
+}
+
+/* Search Bar */
+.search-bar {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+  border-color: #00bfa5;
+  box-shadow: 0 0 8px rgba(0, 191, 165, 0.4);
+}
+
+/* Action Button */
+.action-buttonone {
+  background: linear-gradient(135deg, #ff8a65, #ff8a65);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin: 1rem auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.action-buttonone:hover {
+  background: linear-gradient(135deg, #ff7043, #ff8a65);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+}
+
+
+
+
+.action-button {
+  background:  #00bfa5;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin: 1rem auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+.action-button:hover {
+  background: #20786e;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Map Styling */
+.map {
+  height: 500px;
+  margin: 2rem 0;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Footer */
+.Footer, footer {
+  background: linear-gradient(135deg, #00bfa5, #20786e);
+  color: #fff;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px 8px 0 0;
+}
+
+/* Form Element Enhancements */
+.body input,.body select,.body button {
+  font-family: inherit;
+}
+
+.body input:focus,.body select:focus,.body button:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 191, 165, 0.4);
+}
+
+/* Section Heading */
+.section-heading {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #20786e;
+  margin-bottom: 2rem;
+}
+
+/* Combination Container for Buttons & Location Info */
+.combinatie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+/* Style the location info block inside .combinatie */
+.location-info {
+  background: #fff;
+  border: 1px solid #20786e;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Nearest Stop Info */
+.nearest-stop-info {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 17px;
+}
+
+/* Despartitor */
+.despartitor {
+  border-top: 2px solid black;
+  margin-bottom: 20px;
+}
+
+/* New styles for the Routes & Trips layout (.excursie) */
+.excursie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 2rem;
+}
+
+/* Ensure each select container takes equal width */
+.excursie > .select-container {
+  flex: 1;
+}
+
+/* Insert an arrow between the two select containers */
+.excursie > .select-container + .select-container::before {
+  content: "→";
+  display: inline-block;
+  margin-right: 1rem;
+  font-size: 1.5rem;
+  color: #20786e;
+}
+
+.excursie {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.select-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Add an arrow between the two select containers */
+
+
+/* styles.module.css */
+.route-container {
+  background-color: #fff; /* White background */
+  color: black;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 14px;
+  border-left: 5px solid #00bfa5; /* Primary color accent */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.route-info-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+.route-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.route-buttons button {
+  background-color: #00bfa5; /* Primary color */
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  font-weight: 600;
+  width: 48%;
+}
+
+.route-buttons button:hover {
+  background-color: #20786e; /* Accent color */
+}
+
+.route-buttons button:nth-child(2) {
+  background-color: #ff8a65; /* Secondary color */
+}
+
+.route-buttons button:nth-child(2):hover {
+  background-color: #d76c4c;
+}
+
+.sub-text {
+  font-size: 1rem;
+  text-align: center;
+  margin: 10px 0 20px;
+  color: #555;
+}

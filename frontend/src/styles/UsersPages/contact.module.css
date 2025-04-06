@@ -1,0 +1,382 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e9e6e6; 
+    color: black; 
+}
+
+.contactContainer {
+    background-color: #e9e6e6; 
+    line-height: 1.6;
+    margin-top: 0;
+}
+
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.contactSection {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+.header {
+    background-color: #00bfa5; 
+    color: black; 
+    padding: 20px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.headerContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+
+.contactSection {
+    margin-top: 20px;
+}
+
+.sectionTitle {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.contactContent {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.contactFormContainer {
+    width: 60%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.contactForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.formGroup input,
+.formGroup textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    border-color: #20786e; 
+    outline: none;
+}
+
+.submitBtn {
+    background-color: #00bfa5; 
+    color: black;
+    padding: 14px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submitBtn:hover {
+    background-color: #ff8a65; 
+}
+
+.contactMap {
+    width: 35%;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+/* Form Message */
+.formMessage {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.formMessage p {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Success Message Animation */
+.successMessage {
+    background-color: #28a745;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .headerContainer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    nav ul {
+        margin-top: 10px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .contactContent {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contactFormContainer,
+    .contactMap {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .contactForm input,
+    .contactForm textarea {
+        font-size: 14px;
+    }
+
+    .submitBtn {
+        font-size: 14px;
+    }
+    .test{
+        margin-top:120px;
+    }
+}
+
+/* Extra Mobile Adjustments for very small screens */
+@media screen and (max-width: 480px) {
+    .header h1 {
+        font-size: 24px;
+    }
+
+    nav a {
+        font-size: 16px;
+    }
+
+    .sectionTitle {
+        font-size: 28px;
+    }
+
+    .formGroup label {
+        font-size: 14px;
+    }
+
+    .formGroup input,
+    .formGroup textarea {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .submitBtn {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    .test{
+        margin-top:120px;
+    }
+}
+
+
+
+
+
+
+/* Updated Rating Container with Margin and Vertical Layout */
+.rateContainer {
+    margin-top: 20px;
+    height: 95px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    background: radial-gradient(circle at top left, #ffffff, #f2f2f2);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rateContainer:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* "Rate Us" Text Styling (Positioned on top) */
+.rateContainer p {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 5px;
+    color: #333;
+}
+
+/* Stars Container */
+.stars {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Star Icon Styling */
+.star {
+    font-size: 32px; 
+    color: #e0e0e0;
+    cursor: pointer;
+    transition: color 0.25s ease, transform 0.25s ease, text-shadow 0.25s ease;
+}
+
+.filled {
+    color: #ffc107;
+    text-shadow: 0 0 8px rgba(255, 193, 7, 0.8);
+    transform: scale(1.1);
+}
+
+.star:hover {
+    transform: scale(1.2);
+}
+
+
+
+/* Add a pulsate animation when filled */
+.filled:hover {
+    animation: pulsate 0.6s ease;
+}
+
+@keyframes pulsate {
+    0% { transform: scale(1.15); }
+    50% { transform: scale(1.25); }
+    100% { transform: scale(1.15); }
+}
+
+/* Modal Overlay with Blurred Background */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeInModal 0.4s ease;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Modal Content */
+.modalContent {
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    padding: 40px 30px;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    animation: slideInModal 0.6s ease;
+}
+
+@keyframes slideInModal {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modalContent p {
+    font-size: 24px;
+    color: #20786e;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Modal Close Button */
+.modalClose {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    color: #bbb;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.modalClose:hover {
+    color: #888;
+    transform: rotate(90deg);
+}

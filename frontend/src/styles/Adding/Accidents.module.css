@@ -1,0 +1,259 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.app {
+    font-family: 'Poppins', sans-serif;
+    background: #e9e6e6;
+    min-height: 100vh;
+    overflow: hidden;
+    color: black;
+    font-size: 16px;
+}
+
+
+.header {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: black;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+}
+
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+.bodyContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row; 
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Form Container */
+.container {
+    width: 100%;
+    max-width: 700px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    animation: fadeIn 1s ease-out;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 400px; 
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    background: linear-gradient(135deg, rgba(0, 191, 165, 0.2), rgba(255, 138, 101, 0.2));
+    opacity: 0.7;
+    z-index: -1;
+    border-radius: 20px;
+}
+
+
+.datetime-container {
+    display: flex;
+    gap: 15px; 
+    justify-content: space-between;
+}
+
+
+.datetime-container .form-group {
+    flex: 1;
+}
+
+
+.heading {
+    margin-bottom: 20px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px; 
+}
+
+
+.input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #00bfa5; 
+    border-radius: 10px;
+    color: black;
+    font-size: 1rem;
+}
+
+
+.select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #00bfa5; 
+    border-radius: 10px;
+    color: black;
+    font-size: 1rem;
+}
+
+.select option {
+    background-color: #00bfa5; 
+    color: black;
+    padding: 10px;
+}
+
+/* Label styling */
+.label {
+    font-size: 1rem;
+    color: #555;
+    margin: 2px 0 5px;
+    display: block;
+}
+
+
+.input:focus {
+    border-color: #20786e; 
+    box-shadow: 0 0 10px rgba(32, 120, 110, 0.7);
+    outline: none;
+}
+
+
+.floating-label {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 1rem;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+/* Map container styling */
+.mapHeader {
+    width: 90%;
+    height: 640px;
+    margin-bottom: 20px;
+    margin-left: 90px;
+}
+
+/* Button container styling */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Styling for buttons within button container */
+.button-container .button {
+    flex: 1; 
+    text-align: center;
+}
+
+/* Button Styling */
+.button {
+    width: 100%;
+    padding: 15px;
+    background: #00bfa5; 
+    border: none;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+    background-color: #ff8a65; 
+    transform: scale(1.05);
+}
+
+.button:active {
+    background-color: #20786e; 
+}
+
+
+.form-footer {
+    text-align: right;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+
+
+@media (max-width: 768px) {
+    .bodyContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+    .container {
+        max-width: 90%;
+        padding: 20px;
+    }
+    .header {
+        font-size: 2rem;
+    }
+    .mapHeader {
+        width: 100%;
+        height: 300px;
+        margin-left: 0;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    .header {
+        font-size: 1.5rem;
+    }
+    .button {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    .mapHeader {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    input[type="date"],
+    input[type="time"] {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}

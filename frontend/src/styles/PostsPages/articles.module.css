@@ -1,0 +1,703 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+
+.bodyContainer {
+    background-color: #e9e6e6;
+    color: black;
+}
+
+
+.main-container {
+    position: relative;
+}
+
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.news-bar {
+    width: 95%;
+    background-color: white;
+    border-radius: 5px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin: 20px auto;
+    font-size: 18px;
+    padding: 0 20px;
+}
+
+/* News Update Label */
+.news-update {
+    color: #E76F51;
+    margin-right: 20px;
+    font-weight: bold;
+    flex: 0 0 auto;
+}
+
+/* Container for the scrolling text */
+.marquee-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Scroll Animation */
+@keyframes scroll {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* Marquee (scrolling text) */
+.marquee {
+    white-space: nowrap;
+    display: inline-block;
+    animation: scroll 25s linear infinite;
+}
+
+.another {
+    padding: 15px 10px;
+}
+
+.wholeContaining {
+    width: 100%;
+    height: 600px;
+    position : relative;
+}
+
+.main {
+    width: 1200px;
+    height: 600px;
+    position: absolute;
+    left: 15%;
+    display: flex;
+}
+
+.ceva {
+    width: 400px;
+    background-color: rgb(235, 235, 235);
+    position: absolute;
+    left: -10%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 5px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+}
+.test{
+    width: 80%;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.stur {
+    width: 40px;
+    height: 40px;
+}
+
+.name {
+    margin-left: 20px;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.time {
+    margin-left: 10px;
+    color: rgb(155, 155, 155);
+}
+
+.middle {
+    font-size: 34px;
+    padding: 15px 20px;
+    width: 350px;
+}
+
+.description {
+    padding: 0 20px;
+    color: rgb(155, 155, 155);
+    line-height: 25px;
+}
+
+.data {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 20px;
+}
+
+.date {
+    font-size: 14px;
+    color: rgb(107, 107, 107);
+}
+
+.nothing {
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+.citeste-ma {
+    font-weight: bold;
+    color: black;
+    margin-left: 10px;
+}
+
+.mare {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.stanga {
+    flex: 1;
+    height: 100%;
+    margin-right: 20px;
+}
+
+.dreapta {
+    width: 700px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.stire {
+    width: 100%;
+    height: 25%;
+    border-radius: 20px;
+    display: flex;
+    background-color: rgb(235, 235, 235);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ferrari {
+    width: 100%;
+    height: 132px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.smallimg {
+    height: 100%;
+    width: 30%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.content {
+    margin-left: 20px;
+}
+
+.cafea {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sus {
+    display: flex;
+    align-items: center;
+    margin: 8px 0 20px;
+}
+
+.jos {
+    display: flex;
+}
+
+.mijloc {
+    margin-bottom: 10px;
+    width: 300px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.timing {
+    margin-left: 10px;
+    color: rgb(155, 155, 155);
+}
+
+.category {
+    color: #E76F51;
+}
+
+.aia {
+    display: flex;
+}
+
+.one,
+.two,
+.three {
+    width: 33%;
+    height: 560px;
+    background-color: rgb(235, 235, 235);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+}
+
+.one,
+.two {
+    margin-right: 30px;
+    cursor:pointer;
+}
+
+.lastest-news {
+    width: 80%;
+    margin: 100px auto 50px auto;
+}
+
+.bodyContainer h1 {
+    margin-bottom: 40px;
+}
+
+.aoleu {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.sus1 {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    margin: 8px 0 20px;
+}
+
+.scris {
+    font-size: 28px;
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+
+.maimult-scris {
+    padding: 0 20px;
+    font-size: 15px;
+    width: 400px;
+    margin-bottom: 20px;
+    color: rgb(155, 155, 155);
+}
+
+.jos1 {
+    display: flex;
+    padding: 0 20px;
+}
+
+.hot-news {
+    width: 80%;
+    margin: 100px auto 50px auto;
+}
+
+/* Enhanced Footer with Modern Styling */
+.footer {
+    background: linear-gradient(135deg, #00bfa5, #ff8a65);
+    color: black;
+    text-align: center;
+    padding: 25px 15px;
+    font-size: 15px;
+    margin-top: 50px;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Star Rating with Animation */
+.rating {
+    font-size: 1.5rem;
+    color: #20786e;
+    font-weight: bold;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    animation: fadeIn 1.2s ease-in-out;
+    margin-bottom: 5px;
+}
+
+/* Star Rating Hover Effect */
+.rating svg {
+    transition: transform 0.3s ease;
+}
+
+.rating:hover svg {
+    transform: scale(1.2);
+}
+
+/* Footer Text Layout */
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Subtle Quote */
+.footer-quote {
+    font-style: italic;
+    font-size: 15px;
+    opacity: 0.8;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+/* Additional Interactive Buttons */
+.nush {
+    display: flex;
+    justify-content: center;
+}
+
+.scrie, .vezi {
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px;
+    border: none;
+    background-color: #00d4b7;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.scrie::before, .vezi::before,
+.scrie::after, .vezi::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: #008e7e;
+    transition: transform 0.3s ease;
+}
+
+.scrie::before, .vezi::before {
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+}
+
+.scrie::after, .vezi::after {
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+}
+
+.scrie:hover::before, .vezi:hover::before,
+.scrie:hover::after, .vezi:hover::after {
+    transform: translateX(0);
+}
+
+.scrie:hover, .vezi:hover {
+    color: black;
+}
+
+.profil {
+    width: 50px;
+}
+
+
+/* For screens smaller than 768px (Mobile Devices) */
+/* For mobile devices up to 768px */
+@media (max-width: 768px) {
+    .stire{
+        height: 250px;
+    }
+    .lastest-news, .hot-news {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .aia {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .one {
+        width: 100%;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sus1 {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .scris {
+        font-size: 16px;
+        font-weight: bold;
+        padding: 10px 0;
+        text-align: left;
+        margin-left:20px;
+    }
+
+    .maimult-scris {
+        font-size: 14px;
+        padding: 0 10px;
+        color: rgb(155, 155, 155);
+        line-height: 1.4;
+        margin-left:8px;
+    }
+
+    .img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .cafea {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .category {
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .timing {
+        font-size: 14px;
+        color: rgb(155, 155, 155);
+    }
+
+    .profil {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Ensure spacing is consistent between sections */
+    .scris, .maimult-scris, .category, .timing {
+        text-align: left;
+    }
+
+    .click {
+        display: block;
+    }
+    .main{
+        flex-direction: column;
+        width: 100%;
+        left: 0;
+        margin-left : 10px;
+        margin-right: 10px;
+    }
+    .news-bar {
+        font-size: 16px;
+        padding: 0 10px;
+    }
+    .middle {
+        font-size: 28px;
+        padding: 10px 15px;
+    }
+    .description, .maimult-scris {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+    .smallimg {
+        flex: 0 0 40%;
+    }
+    .sus, .sus1 {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .scris {
+        font-size: 20px;
+        padding: 10px;
+    }
+    .aia{
+        flex-direction: column;
+        align-items: center;
+    }
+    .mijloc {
+        margin-bottom: 10px;
+        width: 100%;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .ceva{
+        left:0;
+        height: 50%;
+        margin-right:15px;
+    }
+    .stanga{
+        z-index:1000;
+    }
+    .dreapta {
+        margin-bottom: 20px;
+        margin-top:30px;
+    }
+    .bodyContainer h1 {
+        margin-left: 20px;
+    }
+}
+
+/* For tablets between 768px and 1024px */
+@media (max-width: 1024px) {
+    .stire{
+        height: 250px;
+    }
+    .lastest-news, .hot-news {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .aia {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .one {
+        width: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sus1 {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .scris {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px 0;
+        margin-left:20px;
+    }
+
+    .maimult-scris {
+        padding: 0 10px;
+        color: rgb(155, 155, 155);
+        line-height: 1.5;
+        margin-left:8px;
+    }
+
+    .img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .cafea {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .category {
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .timing {
+        font-size: 14px;
+        color: rgb(155, 155, 155);
+    }
+
+    .profil {
+        width: 40px;
+        height: 40px;
+    }
+
+    .click {
+        display: block;
+    }
+    .main{
+        flex-direction: column;
+        width: 100%;
+        left: 0;
+        margin-left : 10px;
+        margin-right: 10px;
+    }
+    .main {
+        flex-direction: column;
+        align-items: center;
+        gap: 230px;
+    }
+     .aia {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    .main{
+        flex-direction: column;
+        width: 100%;
+        left: 0;
+        margin-left : 10px;
+        margin-right: 10px;
+    }
+    .test {
+        flex-direction: column;
+        align-items: center;
+    }
+    .stanga,
+    .ceva,
+    .dreapta {
+        max-width: 100%;
+    }
+    .dreapta {
+        margin-bottom: 20px;
+        margin-top:30px;
+    }
+    .lastest-news {
+        margin-top: 640px;
+    }
+    .mijloc {
+        margin-bottom: 10px;
+        width: 100%;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .bodyContainer h1 {
+        margin-left: 20px;
+    }
+}

@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Background */
+.body {
+    background: #e9e6e6;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    font-family: 'Poppins', sans-serif;
+    color: black;
+    font-size: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1; /* this makes .container fill available space */
+}
+.navbarAdjust {
+    width: 100%;
+    max-width: 1300px;
+    padding: 20px;
+}
+.mainContainer {
+    background: linear-gradient(135deg, #00bfa5, #ff8a65);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.mainContent{
+    width:900px;
+    margin:36px;
+}
+.feedbackContainer {
+    max-width: 800px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-left: 6px solid #20786e;
+    padding: 40px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.feedbackContainer:hover {
+    transform: scale(1.03);
+}
+
+.feedbackTitle {
+    font-size: 32px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.feedbackEmail {
+    font-size: 20px;
+    color: black;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.feedbackMessage {
+    font-size: 24px;
+    color: black;
+    font-style: italic;
+    background: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 1.8;
+    width: 90%;
+    max-width: 700px;
+    margin-bottom: 15px;
+}
+
+.feedbackDate {
+    font-size: 18px;
+    color: black;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.deleteButton {
+    margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 18px;
+    background: #ff8a65;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.deleteButton:hover {
+    background: #e67b58;
+}
+
+@media (max-width: 768px) {
+    .feedbackContainer {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .feedbackTitle {
+        font-size: 26px;
+    }
+
+    .feedbackMessage {
+        font-size: 22px;
+        padding: 15px;
+        width: 100%;
+    }
+}
+
+.loading,
+.errorMessage {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.errorMessage {
+    color: #ff8a65;
+    font-weight: bold;
+}

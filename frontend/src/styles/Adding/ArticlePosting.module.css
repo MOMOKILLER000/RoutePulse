@@ -1,0 +1,381 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.mainContainer {
+    font-family: 'Arial', sans-serif;
+    background: #e9e6e6;
+    color: black;
+    padding: 0;
+}
+
+.bodyContainer {
+    display: flex;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 50px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease-out;
+    position: relative;
+    min-height: 90vh;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: slideDown 1s ease-out;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ff8a65;
+    transition: 0.4s;
+    border-radius: 50px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    border-radius: 50px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #00bfa5;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+
+.stepper-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.step-button {
+    background: #ff8a65;
+    border: 1px solid #ff8a65;
+    color: black;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.step-button.active {
+    background: #00bfa5;
+}
+
+.step-button:hover {
+    background: #20786e;
+}
+
+/* Form Steps */
+.form-step {
+    display: none;
+    opacity: 0;
+    margin-top: 20px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.form-step.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Form Groups */
+.form-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+/* Labels */
+.floating-label,
+.floating-label1 {
+    position: absolute;
+    font-size: 1rem;
+    color: #aaa;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.floating-label {
+    top: -10px;
+    left: 10px;
+}
+
+.floating-label1 {
+    margin-left: 10px;
+}
+
+/* Focused Labels */
+.input:focus + .floating-label,
+.textarea:focus + .floating-label {
+    top: -20px;
+    left: 10px;
+    font-size: 0.9rem;
+    color: #00bfa5;
+}
+
+/* Input, Textarea, and File Input Fields */
+.input,
+.textarea,
+.file-input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #20786e;
+    background: #fff;
+    color: black;
+    font-size: 1rem;
+    margin-top: 10px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Increase Textarea Height for Step 2 */
+.form-step.step-2 textarea {
+    height: 500px !important;
+    resize: vertical;
+}
+
+/* Button Styles */
+.btn-next,
+.btn-prev {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    background: #00bfa5;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+.btn-next:hover,
+.btn-prev:hover {
+    background: #20786e;
+}
+
+.btn-submit {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    background: #00bfa5;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn-submit:hover {
+    background: #20786e;
+}
+
+/* Review Section */
+.review-section {
+    text-align: left;
+    margin-top: 30px;
+}
+.review-section h2{
+    margin-bottom: 10px;
+}
+
+.review-item {
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+}
+
+.review-item span {
+    color: #bbb;
+}
+
+.review-item strong {
+    color: #00bfa5;
+    font-weight: bold;
+}
+
+
+.content-preview {
+    font-size: 1.1rem;
+    color: black;
+    background: #e9e6e6;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* Photo Preview */
+#review-photo img {
+    max-width: 120px;
+    max-height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+#review-photo span {
+    color: #bbb;
+}
+
+#review-photo img:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 600px;
+}
+
+.modal-image {
+    width: 100%;
+    height: auto;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #f44336;
+    cursor: pointer;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .form-step {
+        padding: 20px;
+    }
+
+    .floating-label {
+        top: -10px;
+    }
+}
+
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-image {
+    max-width: 30%;
+    max-height: 30%;
+    object-fit: contain;
+    cursor: pointer;
+}

@@ -1,0 +1,278 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #e9e6e6;
+    color: black;
+}
+
+/* Container Styling */
+.container {
+    color: black;
+    line-height: 1.7;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Navbar Adjustment */
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Sections Container */
+.sectionsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+/* Individual Section Cards (Responsive 2 by 2 layout) */
+.sectionCard {
+    flex: 1 1 calc(50% - 20px);
+    background: linear-gradient(145deg, #ff8a65, #e9e6e6);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.sectionCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Narrower Shape Card */
+.shapeCard {
+    flex: 0 1 calc(45% - 20px);
+}
+
+/* Polyline Group Container as flex column */
+.polylineGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Headers */
+.container h1, .container h2, .container h3, .container h4 {
+    color: #20786e;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.container h1 {
+    font-size: 2.8rem;
+}
+
+.container h2 {
+    font-size: 1.4rem;
+}
+
+.container h3 {
+    font-size: 1.2rem;
+}
+
+/* Inputs, Selects, and Textareas */
+.container input, .container select, .container textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #20786e;
+    border-radius: 8px;
+    margin: 12px 0;
+    font-size: 1rem;
+    outline: none;
+    background-color: #fff;
+    color: black;
+    transition: border-color 0.3s;
+}
+
+.container input:focus, .container select:focus, .container textarea:focus {
+    border-color: #00bfa5;
+    box-shadow: 0px 0px 8px rgba(0, 191, 165, 0.3);
+}
+
+.container textarea {
+    resize: vertical;
+}
+
+/* Polyline Display */
+.container pre {
+    background-color: #e9e6e6;
+    color: black;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+/* Buttons */
+.container button {
+    background-color: #00bfa5;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.container button:hover {
+    background-color: #20786e;
+    transform: scale(1.05);
+}
+
+.container .delete {
+    background-color: #ff8a65;
+}
+
+.container .delete:hover {
+    background-color: #c53030;
+}
+
+/* Styled Select Dropdown */
+.styledSelect {
+    appearance: none;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #20786e;
+}
+
+/* Search Bar */
+.searchBar {
+    margin: 20px 0;
+    padding: 12px;
+    border: 2px solid #20786e;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fff;
+    color: black;
+    transition: border-color 0.3s;
+}
+
+.searchBar:focus {
+    border-color: #00bfa5;
+}
+
+/* Polyline Button */
+.showMoreButton {
+    color: #00bfa5;
+    font-weight: 600;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.showMoreButton:hover {
+    color: #20786e;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries for Responsiveness */
+
+/* Mobile & Small Devices */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .sectionsContainer {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .sectionCard {
+        flex: 1 1 100%;
+    }
+
+    .shapeCard {
+        flex: 1 1 100%;
+    }
+
+    .container h1 {
+        font-size: 2.2rem;
+    }
+
+    .container h2 {
+        font-size: 1.2rem;
+    }
+
+    .container h3 {
+        font-size: 1rem;
+    }
+
+    .searchBar,
+    .styledSelect,
+    .container input,
+    .container select,
+    .container textarea {
+        font-size: 0.9rem;
+    }
+
+    .container button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Tablet & Medium Devices */
+@media (max-width: 1024px) {
+    .container {
+        padding: 25px;
+    }
+
+    .sectionsContainer {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .sectionCard {
+        flex: 1 1 100%;
+    }
+
+    .shapeCard {
+        flex: 1 1 100%;
+    }
+
+    .container h1 {
+        font-size: 2.5rem;
+    }
+
+    .container h2 {
+        font-size: 1.3rem;
+    }
+
+    .container h3 {
+        font-size: 1.1rem;
+    }
+}

@@ -1,0 +1,633 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #e9e6e6;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    color: #000;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Main container */
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0px 30px;
+}
+
+/* Middle content section */
+.middle {
+    position: relative;
+    width: 55%;
+    margin: 0 20px;
+    height: 600px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    width: 20%;
+    height: 600px;
+    background-color: #fff;
+    padding: 20px;
+    margin-top:20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: top 0.2s ease-in-out;
+}
+
+.left {
+    left: 20px;
+}
+
+.right {
+    right: 20px;
+}
+
+/* Sidebar title */
+.sidebar-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00bfa5;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ff8a65;
+    padding-bottom: 5px;
+}
+
+/* Left sidebar content */
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.article {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    transition: transform 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.article:hover {
+    transform: translateX(10px);
+    cursor: pointer;
+}
+
+.article-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.article p a {
+    font-size: 18px;
+    text-decoration: none;
+    color: #00bfa5;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.article p a:hover {
+    text-decoration: underline;
+    color: #ff8a65;
+}
+
+/* Right Sidebar Content (Comment Form) */
+.sidebar-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar-content textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: none;
+    background-color: #fafafa;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-content textarea:focus {
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #00bfa5;
+}
+
+.sidebar-content button {
+    background-color: #00bfa5;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-content button:hover {
+    background-color: #ff8a65;
+}
+
+/* Image and overlay for middle content */
+.ziar {
+    width: 100%;
+    height: 600px;
+    display: block;
+    margin-bottom: 50px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 60%;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.titlu {
+    font-size: 40px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    color: #00bfa5;
+}
+
+.overlay p {
+    font-size: 16px;
+}
+
+/* Sidebar Featured Section */
+.sidebar-featured {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 50%;
+}
+
+.sidebar-featured h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.featured-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* General Styles */
+.contentWrapper {
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Description Styling */
+.description {
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Content Styling */
+.content {
+    white-space: pre-wrap;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #000;
+    margin-top: 20px;
+}
+
+.content h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #00bfa5;
+    text-align: center;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+}
+
+.content h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 30px 0 10px;
+    color: #00bfa5;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ff8a65;
+    padding-bottom: 5px;
+}
+
+.content h5 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #00bfa5;
+    text-align: center;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+}
+
+.content p {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+/* Sidebar Content - Comments Section */
+.comments-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.comments-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #00bfa5;
+    text-transform: uppercase;
+    border-bottom: 3px solid #ff8a65;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+/* Comments List */
+.comments-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Individual Comment */
+.comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.comment:hover {
+    background-color: #f3e5f5;
+    transform: scale(1.02);
+}
+
+/* Avatar */
+.comment-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #00bfa5;
+}
+
+/* Comment Content */
+.comment-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+}
+
+.comment-author {
+    font-size: 16px;
+    font-weight: bold;
+    color: #00bfa5;
+}
+
+.comment-time {
+    font-size: 13px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.comment-text {
+    font-size: 15px;
+    color: #000;
+    line-height: 1.6;
+}
+
+/* Comment Input */
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 10px;
+}
+
+.comment-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: none;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+}
+
+.comment-input:focus {
+    background-color: #fff;
+    outline: none;
+    border: 2px solid #00bfa5;
+}
+
+/* Submit Button */
+.comment-button {
+    background-color: #00bfa5;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.comment-button:hover {
+    background-color: #ff8a65;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    resize: none;
+    background: rgba(250, 250, 250, 0.95);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+}
+
+textarea:focus {
+    background: white;
+    outline: none;
+    border: 2px solid #00bfa5;
+}
+
+.button {
+    background-color: #00bfa5;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.button:hover {
+    background-color: #ff8a65;
+}
+
+/* Modal Overlay */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal */
+.modal {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.3s ease-in-out;
+}
+
+/* Title */
+.modal h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: #00bfa5;
+}
+
+/* Modal Buttons Container */
+.modalButtons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+/* Button Styling */
+.confirmBtn,
+.cancelBtn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Confirm Button */
+.confirmBtn {
+    background-color: #ff8a65;
+    color: white;
+    font-weight: bold;
+}
+
+.confirmBtn:hover {
+    background-color: #20786e;
+}
+
+/* Cancel Button */
+.cancelBtn {
+    background-color: #00bfa5;
+    color: white;
+    font-weight: bold;
+}
+
+.cancelBtn:hover {
+    background-color: #20786e;
+}
+
+/* Modal Background Fade-In Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Modal Slide-Up Animation */
+@keyframes slideUp {
+    0% {
+        transform: translateY(30px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.likeBtn, .dislikeBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 26px; /* Adjust icon size */
+    color: #e9e6e6; /* Default icon color */
+    transition: color 0.3s ease-in-out;
+    margin-top: 20px;
+}
+.likeBtn{
+    margin-right: 10px;
+}
+.dislikeBtn{
+    margin-left: 10px;
+}
+
+.likeBtn:hover {
+    color: #00bfa5; /* Green on hover */
+}
+
+.dislikeBtn:hover {
+    color: #ff8a65; /* Red on hover */
+}
+
+
+.active {
+    font-weight: bold;
+}
+
+
+.nimic{
+    margin-bottom: 10px;
+}
+
+.nume{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+    /* Change container to column layout */
+    .container {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    /* Remove fixed positioning on sidebars and set full width */
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        margin-top: 20px;
+        box-shadow: none;
+    }
+
+    /* Use order property to change stacking:
+       1. Middle (main article) first,
+       2. Left (other articles) second,
+       3. Right (comments) third.
+    */
+    .middle {
+        order: 1;
+        width: 100%;
+        margin: 0;
+        height: auto;
+    }
+    .left {
+        order: 2;
+    }
+    .right {
+        order: 3;
+    }
+
+    /* Adjust image heights and overlay for mobile */
+    .ziar {
+        height: auto;
+        margin-bottom: 150px;
+    }
+    .overlay {
+        position: absolute;
+        height: 170px;
+        top: 7%;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 15px;
+        border-radius: 0 0 15px 15px;
+    }
+
+    /* Adjust font sizes for readability */
+    .titlu {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+    .sidebar-title {
+        font-size: 20px;
+    }
+    .article-img {
+        width: 50px;
+        height: 50px;
+    }
+}
