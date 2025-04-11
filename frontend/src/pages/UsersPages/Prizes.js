@@ -119,12 +119,33 @@ const Prizes = () => {
                 .then(data => {
                     if (data.message) {
                         showModal(data.message);
-                        // Update the user state to reflect the claimed prize
+
+                        // Update the user state instantly
                         setUser(prevState => {
-                            const updatedUser = { ...prevState };
-                            if (prizeNumber === 1) updatedUser.prize1 = true;
-                            if (prizeNumber === 2) updatedUser.prize2 = true;
-                            if (prizeNumber === 3) updatedUser.prize3 = true;
+                            const newPoints = prevState.points - pointsRequired;
+                            const newTotalPoints = prevState.total_points - pointsRequired;
+                            const newTier = getTierFromPoints(newTotalPoints);
+
+                            const updatedUser = {
+                                ...prevState,
+                                points: newPoints,
+                                ...(prizeNumber === 1 && { prize1: true }),
+                                ...(prizeNumber === 2 && { prize2: true }),
+                                ...(prizeNumber === 3 && { prize3: true }),
+                            };
+
+                            // Update progress bar and XP bar immediately
+                            const progressBar = document.getElementById("progress-bar");
+                            if (progressBar) {
+                                progressBar.style.width = `${(newPoints / 10000) * 100}%`;
+                            }
+
+                            const updatedNextXP = getNextXP(newTier);
+                            const progressPercent = (newTotalPoints / updatedNextXP) * 100;
+                            document.getElementById('xpProgress').style.width = `${progressPercent}%`;
+                            document.getElementById('currentXP').textContent = newTotalPoints;
+                            document.getElementById('nextXP').textContent = updatedNextXP;
+
                             return updatedUser;
                         });
                     }

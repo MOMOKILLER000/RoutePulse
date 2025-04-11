@@ -167,6 +167,7 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     padding: 30px;
     margin-bottom: 35px;
+    cursor: pointer;
 }
 
 .lc {
@@ -260,92 +261,169 @@
     top: 10%;
 }
 
-/* Tablets & smaller screens */
-@media (max-width: 768px) {
+/* Your existing CSS stays as is ... */
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
     .main-container {
-        padding: 10px;
+      padding: 10px;
     }
+    
     .harta {
-        width: 100%;
+      width: 100%;
+      height: auto;
+      transform: none;
     }
+    
     .butoane-masini {
-        width: 220px;
-        padding: 15px;
-        left: 50%; 
-        transform: translate(-50%, -50%);
+      width: 90%;
+      padding: 15px;
+      left: 50%;
+      top: 10%;
+      transform: translate(-50%, 0);
     }
+    
     .transport {
-        font-size: 14px;
-        padding: 8px;
+      font-size: 14px;
+      padding: 8px;
     }
+    
+    .city-select {
+      font-size: 14px;
+      padding: 5px;
+    }
+    
+    .two {
+      left: 50%;
+      top: 5%;
+      width: 180px;
+      height: 40px;
+      margin-top: 5px;
+      transform: translateX(-50%);
+    }
+    
     .telefon {
-        width: 250px;
-        height: 400px;
-        margin-right: 20px;
+      width: 280px;
+      height: auto;
     }
-    .articole {
-        flex-direction: column;
-        align-items: center;
-    }
-    .articole-inner {
-        margin-left: 0;
-        width: 100%;
-        margin-top: 20px;
-    }
+    
     .combinatie {
-        width: 90%;
-        height: auto;
-        padding: 20px;
+      width: 100%;
+      padding: 20px;
     }
-    .rc {
-        width: 100%;
-        font-size: 18px;
-    }
-    .separator {
-        margin-top: 40px;
-    }
-    .buttons-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-}
-
-
-@media (max-width: 480px) {
-    .buton {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-    .buttons-container {
-        gap: 10px;
-        flex-direction: column;
-    }
-    .butoane-masini {
-        width: 180px;
-        padding: 10px;
-    }
-    .transport {
-        font-size: 13px;
-        padding: 6px;
-    }
-    .telefon {
-        width: 200px;
-        height: 300px;
-        margin-right: 0;
-    }
-    .articole-inner {
-        margin-top: 15px;
-    }
-    .combinatie {
-        padding: 15px;
-    }
-    .lc {
-        font-size: 24px;
-    }
+    
     .tc {
-        font-size: 20px;
+      font-size: 20px;
     }
+    
     .rc {
-        font-size: 16px;
+      font-size: 16px;
+      width: auto;
     }
-}
+  }
+  
+  @media (max-width: 768px) {
+    /* For tablet sized devices */
+    .main-container {
+      padding: 5px;
+    }
+    
+    .butoane-masini {
+      width: 95%;
+      padding: 10px;
+      left: 50%;
+      top: 8%;
+    }
+    
+    .buttons-container {
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .buton {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+    }
+    
+    .middle {
+      margin-top: 30px;
+    }
+    
+    .telefon {
+      width: 240px;
+      height: auto;
+      margin-right: 20px;
+    }
+    
+    .articole {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .articole-inner {
+      margin-left: 0;
+      width: 100%;
+    }
+    
+    .combinatie {
+      width: 95%;
+      margin-bottom: 20px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* For mobile devices */
+    .navbar,
+    .footer {
+      font-size: 14px;
+    }
+    
+    .butoane-masini {
+      width: 100%;
+      padding: 8px;
+      left: 50%;
+      top: 5%;
+    }
+    
+    .transport {
+      font-size: 12px;
+      padding: 6px;
+    }
+    
+    .city-select {
+      font-size: 12px;
+      padding: 4px;
+    }
+    
+    .telefon {
+      width: 200px;
+      height: auto;
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+    
+    .articole {
+      flex-direction: column;
+    }
+    
+    .combinatie {
+      width: 100%;
+      padding: 15px;
+    }
+    
+    .tc {
+      font-size: 18px;
+    }
+    
+    .rc {
+      font-size: 14px;
+    }
+    
+    .buton {
+      font-size: 14px;
+      padding: 8px;
+    }
+  }
+  

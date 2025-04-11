@@ -16,6 +16,15 @@
     font-weight: bold;
 }
 
+.right{
+    display: flex;
+}
+.logo {
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+}
+
 .left {
     display: flex;
     gap: 20px;

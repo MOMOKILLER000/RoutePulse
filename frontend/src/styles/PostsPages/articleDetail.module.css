@@ -2,10 +2,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
-body {
+.body {
     background-color: #e9e6e6;
     font-family: 'Poppins', Arial, Helvetica, sans-serif;
     color: #000;
@@ -38,6 +37,7 @@ body {
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    
 }
 
 /* Sidebar styles */
@@ -611,8 +611,8 @@ textarea:focus {
     }
     .overlay {
         position: absolute;
-        height: 170px;
-        top: 7%;
+        height: 210px;
+        top: 25%;
         background-color: rgba(0, 0, 0, 0.7);
         padding: 15px;
         border-radius: 0 0 15px 15px;

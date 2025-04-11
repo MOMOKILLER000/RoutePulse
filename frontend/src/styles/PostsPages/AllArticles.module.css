@@ -206,16 +206,136 @@ body {
     cursor: not-allowed;
 }
 
+/* Responsive adjustments for AllArticles page */
 
-/* Media Queries for Responsiveness */
-@media screen and (max-width: 768px) {
-    .articleGrid {
-        grid-template-columns: 1fr 1fr;
+/* For screens 1024px and below (small desktops/laptops) */
+@media (max-width: 1024px) {
+    .navbarAdjust,
+    .main {
+      max-width: 95%;
+      padding: 15px;
     }
-}
-
-@media screen and (max-width: 480px) {
+    
     .articleGrid {
-        grid-template-columns: 1fr;
+      gap: 20px;
     }
-}
+    
+    .articleItem {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .articleImage {
+      height: 180px;
+    }
+    
+    .articleTitle {
+      font-size: 22px;
+    }
+    
+    .articleDescription {
+      font-size: 15px;
+    }
+    
+    .paginationBtn,
+    .pageNumber {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  }
+  
+  /* For tablet screens 768px and below */
+  @media (max-width: 768px) {
+    .navbarAdjust,
+    .main {
+      max-width: 100%;
+      padding: 10px;
+    }
+    
+    .articleGrid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+    }
+    
+    .articleImage {
+      height: 160px;
+    }
+    
+    .articleContent {
+      padding: 15px;
+    }
+    
+    .articleTitle {
+      font-size: 20px;
+    }
+    
+    .articleDescription {
+      font-size: 14px;
+    }
+    
+    .readMore {
+      font-size: 14px;
+    }
+    
+    .articleAuthor .cafea {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .paginationBtn,
+    .pageNumber {
+      font-size: 13px;
+      padding: 6px 12px;
+    }
+  }
+  
+  /* For mobile devices 480px and below */
+  @media (max-width: 480px) {
+    /* Reduce overall padding and font sizes for compact display */
+    .navbarAdjust,
+    .main {
+      padding: 5px;
+    }
+    
+    .articleGrid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    
+    .articleItem {
+      margin: 0 auto;
+    }
+    
+    .articleImage {
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+    }
+    
+    .articleContent {
+      padding: 10px;
+    }
+    
+    .articleTitle {
+      font-size: 18px;
+    }
+    
+    .articleDescription {
+      font-size: 13px;
+    }
+    
+    .readMore {
+      font-size: 13px;
+    }
+    
+    .articleAuthor .cafea {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .paginationBtn,
+    .pageNumber {
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+  }
+  

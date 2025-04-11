@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/Authentification/registration.module.css';
 import { useNavigate } from 'react-router-dom';
-import {getMessagingToken, messaging} from "../../firebase";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { getMessagingToken, messaging } from "../../firebase";
 
 function getCookie(name) {
   let cookieValue = null;
@@ -34,6 +36,7 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const csrfFetched = useRef(false);
+
   useEffect(() => {
     if (csrfFetched.current) return;
     csrfFetched.current = true;
@@ -47,6 +50,7 @@ const SignUp = () => {
         throw new Error('Failed to fetch CSRF token');
       })
       .then((data) => {
+        // Handle CSRF token data if needed
       })
       .catch((error) => console.error('Error fetching CSRF token:', error));
   }, []);
@@ -67,6 +71,7 @@ const SignUp = () => {
       setShowPassword2(!showPassword2);
     }
   };
+
   const fetchToken = async () => {
     try {
       const swRegistration = await navigator.serviceWorker.ready;
@@ -233,7 +238,10 @@ const SignUp = () => {
                 className={styles["toggle-password"]}
                 onClick={() => togglePasswordVisibility('password1')}
               >
-                {showPassword1 ? '👁️' : '🙈'}
+                <FontAwesomeIcon 
+                  icon={showPassword1 ? faEye : faEyeSlash} 
+                  className={styles.customIcon} 
+                />
               </span>
             </div>
             <div className={styles["password-field"]}>
@@ -250,7 +258,10 @@ const SignUp = () => {
                 className={styles["toggle-password"]}
                 onClick={() => togglePasswordVisibility('password2')}
               >
-                {showPassword2 ? '👁️' : '🙈'}
+                <FontAwesomeIcon 
+                  icon={showPassword2 ? faEye : faEyeSlash} 
+                  className={styles.customIcon} 
+                />
               </span>
             </div>
           </div>
@@ -293,10 +304,9 @@ const SignUp = () => {
       </div>
 
       <div className={styles.text}>
-        <h1 className={styles["titlu-text"]}>New here?</h1>
+        <h1 className={styles["titlu-text"]}>Already have an account?</h1>
         <div className={styles["welcome-text"]}>
-          Welcome to our community! We're thrilled to have you here. Please fill in the fields below to
-          create your account and start your journey with us for logging in.
+          Click below to go to the login page and authenticate yourself.
         </div>
         <button onClick={() => navigate('/Login')} className={styles.ionut}>
           Login

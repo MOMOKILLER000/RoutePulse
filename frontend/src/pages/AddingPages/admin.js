@@ -173,6 +173,7 @@ const PushNotificationComponent = () => {
                                         onClick={() => handleFeedback(feedback.id)}
                                     >
                                         <p><strong>{feedback.name}</strong> ({feedback.email})</p>
+                                        <p><strong>Subject: {feedback.subject}</strong></p>
                                         <p className={styles.date}>{formatDate(feedback.date)}</p>
                                     </li>
                                 ))}

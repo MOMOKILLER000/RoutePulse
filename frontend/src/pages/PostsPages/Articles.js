@@ -209,7 +209,7 @@ const Article = () => {
                             <p>Loading latest articles...</p>
                         ) : (
                             latestArticles.map((article, index) => (
-                                <div className={styles.click} key={index} className={styles.one} onClick={() => handleArticleClick(article.id)}>
+                                <div key={index} className={styles.one} onClick={() => handleArticleClick(article.id)}>
                                     <div className={styles.img}>
                                         <img
                                             src={getImageUrl(article.image)} // Use backend URL for images

@@ -144,36 +144,39 @@ function CarRoutes() {
     }
   };
 
-  // NEW: Helper to check if user's current location is near the route's origin (within 500 meters)
   const isUserNearOrigin = async () => {
-    console.log("Fetching user location...");
-
     if (!navigator.geolocation) {
       console.log("Geolocation is not supported");
       return false;
     }
 
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const userCoords = [position.coords.latitude, position.coords.longitude];
-          console.log("User location fetched:", userCoords);
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userCoords = [position.coords.latitude, position.coords.longitude];
+            console.log("User location fetched:", userCoords);
 
-          if (!originCoords) {
-            console.log("Origin coordinates not set!");
-            return false;
-          }
+            if (!originCoords) {
+              console.log("Origin coordinates not set!");
+              resolve(false);
+              return;
+            }
 
-          const distance = haversineDistance(
-              userCoords[0], userCoords[1],
-              originCoords[0], originCoords[1]
-          );
+            const distance = haversineDistance(
+                userCoords[0], userCoords[1],
+                originCoords[0], originCoords[1]
+            );
 
-          console.log("Calculated distance:", distance);
-          return distance <= 300;
-        },
-        (error) => console.log("Error fetching location:", error),
-        { enableHighAccuracy: true }
-    );
+            console.log("Calculated distance:", distance);
+            resolve(distance <= 300);
+          },
+          (error) => {
+            console.log("Error fetching location:", error);
+            resolve(false);
+          },
+          { enableHighAccuracy: true }
+      );
+    });
   };
 
   useEffect(() => {
@@ -335,6 +338,7 @@ function CarRoutes() {
     } else {
       origin = await getCityCoordinates(originInput);
       setOriginCoords(origin);
+      setMapCenter(origin);  // Center the map on the fetched origin coordinates
     }
     const dest = await getCityCoordinates(destination);
     if (origin && dest) {
@@ -520,8 +524,9 @@ function CarRoutes() {
                               Save Route
                             </button>
                             <button
-                                onClick={() => {
-                                  if (!isUserNearOrigin()) {
+                                onClick={async () => {
+                                  const isNear = await isUserNearOrigin();
+                                  if (!isNear) {
                                     alert("You must be near the route origin to use this route.");
                                   } else {
                                     handleUseRoute(selectedRouteDetails);

@@ -74,6 +74,7 @@ const Feedback = () => {
                     <div className={styles.feedbackContainer}>
                         <h2 className={styles.feedbackTitle}>{feedback.name}</h2>
                         <p className={styles.feedbackEmail}>📧 {feedback.email}</p>
+                        <h2 className={styles.feedbackSubject}>{feedback.subject}</h2>
                         <p className={styles.feedbackMessage}>💬 "{feedback.message}"</p>
                         <p className={styles.feedbackDate}>🗓️ {formatDate(feedback.date)}</p>
                         <button className={styles.deleteButton} onClick={handleDelete}>Delete Feedback</button>

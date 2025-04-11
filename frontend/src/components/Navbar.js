@@ -159,6 +159,7 @@ function Navbar() {
     return (
         <nav className={styles.navbar}>
             <div className={styles.right}>
+                `<img src="/icon.jpg" alt="Phone" className={styles.logo} />
                 <div className={styles.name}>RoutePulse</div>
             </div>
             <div className={styles.left}>

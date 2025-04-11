@@ -386,3 +386,10 @@ input:checked + .slider:before {
     display: none;
   }
 }
+
+.customIcon {
+  color: grey;
+  font-size: 20px;
+  margin-left: 5px;
+  margin-top: 5px;
+}

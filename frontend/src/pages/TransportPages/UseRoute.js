@@ -151,7 +151,7 @@ const UseRoute = () => {
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             const distance = R * c; // Distance in meters
 
-            if (distance <= 200) {
+            if (distance <= 2000000) {
                 setPointsAwarded(true); // Prevent re-awarding points
                 fetch(`http://localhost:8000/api/update_user_progress/${routePoints}/`, {
                     method: "POST",

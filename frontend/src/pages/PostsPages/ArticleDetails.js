@@ -225,6 +225,7 @@ const ArticleDetail = () => {
     }
 
     return (
+        <div className={styles.body}>
         <div className={styles['bodyContainer']}>
             {commentToDelete && (
                 <div className={styles.modalOverlay}>
@@ -345,6 +346,7 @@ const ArticleDetail = () => {
                     <button className={styles.button} type="submit">Submit Comment</button>
                 </form>
             </div>
+        </div>
         </div>
         </div>
     );

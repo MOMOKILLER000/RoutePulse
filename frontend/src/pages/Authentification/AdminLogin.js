@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styles/Authentification/registration.module.css';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 
 function getCookie(name) {
     let cookieValue = null;
@@ -60,7 +62,6 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
 
         if (!image) {
             alert('Please upload an image.');
@@ -152,14 +153,17 @@ const Login = () => {
                                 className={styles['toggle-password']}
                                 onClick={togglePasswordVisibility}
                             >
-                                {showPassword ? '👁️' : '🙈'}
+                                <FontAwesomeIcon 
+                                    icon={showPassword ? faEye : faEyeSlash} 
+                                    className={styles.customIcon} 
+                                />
                             </span>
                         </div>
                     </div>
 
                     <div className={styles['image-upload']}>
                         <label htmlFor="image-upload" className={styles['upload-label']}>
-                            Upload Password
+                            Upload Secret Key
                         </label>
                         <input
                             type="file"

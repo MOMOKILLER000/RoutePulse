@@ -401,11 +401,14 @@
                                     <div className={styles['select-container']}>
                                         <select onChange={handleRouteSelect} value={selectedRoute} className={styles['styled-select']}>
                                             <option value="">Select Route</option>
-                                            {routes.map(route => (
-                                                <option key={route.route_id} value={route.route_id}>
-                                                    {route.route_short_name} - {route.route_long_name}
-                                                </option>
-                                            ))}
+                                            {routes
+                                                .slice() // create a shallow copy to avoid mutating state directly
+                                                .sort((a, b) => a.route_short_name.localeCompare(b.route_short_name)) // sort lexicographically
+                                                .map(route => (
+                                                    <option key={route.route_id} value={route.route_id}>
+                                                        {route.route_short_name} - {route.route_long_name}
+                                                    </option>
+                                                ))}
                                         </select>
                                     </div>
                                 )}
@@ -528,6 +531,7 @@
                                         <p className={styles['route-info']}>Route Number: {route.route.short_name}</p>
                                         <p className={styles['route-info']}>Distance: {(route.distance / 1000).toFixed(2)} km</p>
                                         <p className={styles['route-info']}>Duration: {route.duration}</p>
+                                        <p className={styles['route-info']}>Cost: 0.80$</p>
                                     </div>
 
                                     <div className={styles['route-buttons']}>

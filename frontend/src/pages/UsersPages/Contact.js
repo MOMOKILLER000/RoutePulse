@@ -1,9 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/UsersPages/contact.module.css";
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import L from 'leaflet';
+
+// Fix for Marker Icons not showing in React Leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
+
+// Define the coordinates for Liceul Teoretic de Informatica Grigore Moisil
+const schoolCoordinates = [47.185086, 27.566440]; // Adjust these coordinates if necessary
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -17,14 +29,13 @@ const Contact = () => {
     const [hoverRating, setHoverRating] = useState(0);
     const [ratingMessage, setRatingMessage] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         fetch(`http://localhost:8000/api/user/`, { credentials: 'include' })
             .then(response => response.json())
             .then(data => {
-                console.log("User Data:", data); // Debugging
-
+                console.log("User Data:", data);
                 setUser(data);
             })
             .catch(error => console.error("Error fetching user data:", error));
@@ -40,22 +51,18 @@ const Contact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const { name, email, subject, message } = formData;
         const date = new Date().toISOString().split('T')[0];
 
         if (name && email && subject && message) {
             const contactData = { name, email, subject, content: message, date };
-
             try {
                 const response = await fetch('http://localhost:8000/api/contact/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(contactData),
                 });
-
                 const result = await response.json();
-
                 if (response.ok) {
                     setFormMessage(result.message);
                 } else {
@@ -64,7 +71,6 @@ const Contact = () => {
             } catch (error) {
                 setFormMessage("An error occurred. Please try again later.");
             }
-
             setFormData({ name: '', email: '', subject: '', message: '' });
         } else {
             setFormMessage("Please fill in all the fields.");
@@ -79,9 +85,9 @@ const Contact = () => {
         } else {
             setRatingMessage("Thank you for your feedback. Please share your suggestions so we can make your experience even better.");
         }
-        const response = fetch(`http://localhost:8000/api/rate_app/${user_id}/${star}/`, {
+        fetch(`http://localhost:8000/api/rate_app/${user_id}/${star}/`, {
             method: 'POST',
-        })
+        });
         setShowModal(true);
     };
 
@@ -161,7 +167,6 @@ const Contact = () => {
                                 </div>
                                 <button type="submit" className={styles.submitBtn}>Send Message</button>
                             </form>
-
                             {formMessage && (
                                 <div className={`${styles.formMessage} ${formMessage.includes('Thank you') ? styles.successMessage : ''}`}>
                                     <p>{formMessage}</p>
@@ -172,14 +177,19 @@ const Contact = () => {
                         {/* Map Section */}
                         <div className={styles.contactMap}>
                             <h3>Our Location</h3>
-                            <MapContainer center={[47.1585, 27.6014]} zoom={13} style={{ height: "400px", width: "100%" }}>
+                            <MapContainer center={schoolCoordinates} zoom={15} style={{ height: "400px", width: "100%" }}>
                                 <TileLayer
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 />
+                                <Marker position={schoolCoordinates}>
+                                    <Popup>
+                                        Liceul Teoretic de Informatica Grigore Moisil
+                                    </Popup>
+                                </Marker>
                             </MapContainer>
-                            
-                            {/* New Rating Container */}
+
+                            {/* Rating Section */}
                             <div className={styles.rateContainer}>
                                 <p>Rate Us</p>
                                 <div className={styles.stars}>
@@ -212,7 +222,7 @@ const Contact = () => {
                 </div>
             )}
             <div className={styles.test}>
-            <Footer />
+                <Footer />
             </div>
         </div>
     );

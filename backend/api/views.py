@@ -1362,18 +1362,34 @@ class GenerateRouteView(APIView):
     def get(self, request):
         starting_stop_id = request.GET.get('starting_stop_id')
         destination_stop_id = request.GET.get('destination_stop_id')
-        route_type = request.GET.get('route_type')
+        route_type_param = request.GET.get('route_type')
         agency_id = request.GET.get('agency_id', '1')
 
         if not starting_stop_id or not destination_stop_id:
-            return self.error_response("Missing starting_stop_id or destination_stop_id", status.HTTP_400_BAD_REQUEST)
+            return self.error_response(
+                "Missing starting_stop_id or destination_stop_id",
+                status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            # Convert provided route_type to an int for consistency
+            route_type = int(route_type_param)
+        except (ValueError, TypeError):
+            return self.error_response(
+                "Invalid route type provided",
+                status.HTTP_400_BAD_REQUEST
+            )
 
         starting_stop = self.get_stop(starting_stop_id, agency_id)
         destination_stop = self.get_stop(destination_stop_id, agency_id)
 
         if not starting_stop or not destination_stop:
-            return self.error_response("Invalid stop id or agency id provided", status.HTTP_400_BAD_REQUEST)
+            return self.error_response(
+                "Invalid stop id or agency id provided",
+                status.HTTP_400_BAD_REQUEST
+            )
 
+        # Iterate through trips matching the agency filter
         for trip in Trip.objects.filter(agency_id=agency_id):
             shape = self.get_shape(trip.shape_id, agency_id)
             if not shape:
@@ -1383,8 +1399,16 @@ class GenerateRouteView(APIView):
             start_idx, dest_idx = self.get_indices(polyline, starting_stop, destination_stop)
 
             if start_idx is not None and dest_idx is not None and start_idx < dest_idx:
-                route = self.get_valid_route(trip.route_id, route_type, agency_id)
+                # Attempt to use the trip's related route if available
+                route = getattr(trip, 'route', None)
                 if not route:
+                    # Fall back to querying Route manually
+                    route = Route.objects.filter(
+                        route_id=trip.route_id,
+                        agency_id=agency_id
+                    ).first()
+                # Ensure route exists and matches the expected route_type
+                if not route or int(route.route_type) != route_type:
                     continue
 
                 segment = polyline[start_idx:dest_idx + 1]
@@ -1428,13 +1452,6 @@ class GenerateRouteView(APIView):
             if self.is_near(point, dest_stop):
                 dest_idx = i
         return start_idx, dest_idx
-
-    def get_valid_route(self, route_id: str, route_type: str, agency_id: str):
-        return Route.objects.filter(
-            route_id=route_id,
-            route_type=route_type,
-            agency_id=agency_id
-        ).first()
 
     def calculate_distance(self, points: list):
         distance = 0
@@ -1569,6 +1586,7 @@ def feedback(request):
                 'id': feedback.id,
                 'name': feedback.name,
                 'email': feedback.email,
+                'subject': feedback.subject,
                 'message': feedback.content,
                 'date': feedback.date,
             })
@@ -1585,6 +1603,7 @@ def feedback_details(request, contact_id):
                 'id': feedback.id,
                 'name': feedback.name,
                 'email': feedback.email,
+                'subject': feedback.subject,
                 'message': feedback.content,
                 'date': feedback.date,
             }
