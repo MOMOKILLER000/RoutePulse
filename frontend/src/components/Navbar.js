@@ -5,6 +5,9 @@ import styles from '../styles/Components/navbar.module.css';
 function Navbar() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [menuActive, setMenuActive] = useState(false);
+    const [polutionActive, setPolutionActive] = useState(false);
+    const [soundSubmenuActive, setSoundSubmenuActive] = useState(false);
+    const [assistentsActive, setAssistentsActive] = useState(false);
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
@@ -13,144 +16,150 @@ function Navbar() {
         const tokenExpiration = localStorage.getItem('token-expiration');
         if (token && tokenExpiration) {
             const expirationTime = new Date(tokenExpiration);
-            const currentTime = new Date();
-            if (currentTime >= expirationTime) {
+            if (new Date() < expirationTime) {
+                setIsAuthenticated(true);
+            } else {
                 localStorage.removeItem('auth-token');
                 localStorage.removeItem('token-expiration');
-                setIsAuthenticated(false);
-            } else {
-                setIsAuthenticated(true);
             }
         }
     }, []);
 
     useEffect(() => {
         fetch('http://localhost:8000/api/user/', { credentials: 'include' })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("User Data:", data);
-                setUser(data);
-            })
-            .catch((error) => console.error("Error fetching user data:", error));
+            .then((res) => res.json())
+            .then((data) => setUser(data))
+            .catch(console.error);
     }, []);
 
     const handleLogout = async () => {
-        try {
-            const response = await fetch('http://localhost:8000/api/logout/', {
-                method: 'POST',
-                credentials: 'include',
-            });
-
-            if (response.ok) {
-                localStorage.removeItem('auth-token');
-                localStorage.removeItem('token-expiration');
-                setIsAuthenticated(false);
-                navigate('/Login');
-            } else {
-                console.error('Logout failed');
-            }
-        } catch (error) {
-            console.error('Error during logout:', error);
-        }
+        await fetch('http://localhost:8000/api/logout/', { method: 'POST', credentials: 'include' });
+        localStorage.removeItem('auth-token');
+        localStorage.removeItem('token-expiration');
+        setIsAuthenticated(false);
+        navigate('/Login');
     };
 
     const navItems = isAuthenticated
         ? [
-            "Home",
-            "Articles",
-            "Reports",
-            "Profile",
-            "MyRoutes",
-            "Accidents",
-            "Prizes",
-            "Contact",
-            user && user.prize3 ? "AI Assistant" : null,
-            "Logout",
+            'Home',
+            'Articles',
+            'Reports',
+            'Profile',
+            'MyRoutes',
+            'Accidents',
+            'Polution',
+            'Prizes',
+            'Assistents',
+            'Contact',
+            'Logout',
         ]
-        : ["Home", "Login", "Articles", "Reports", "Contact"];
+        : ['Home', 'Login', 'Articles', 'Reports', 'Contact'];
 
-    const toggleMenu = () => {
-        setMenuActive(!menuActive);
-    };
+    const toggleMenu = () => setMenuActive(!menuActive);
 
     const renderNavItem = (item, index) => {
-        if (!item) return null; // Ignore null values in navItems
+        if (!item) return null;
 
-        if (item === "Logout") {
+        if (item === 'Polution') {
             return (
-                <div key={index} className={styles.sus} onClick={handleLogout}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Profile") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/Profile')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Login") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/Login')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Home") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "AI Assistant") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/ai-chat')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Car Routes") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/Cars')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Articles") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/Articles')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Reports") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/Reports')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "MyRoutes") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/UserRoutes')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Accidents") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/Accidents')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Contact") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/Contact')}>
-                    {item}
-                </div>
-            );
-        } else if (item === "Prizes") {
-            return (
-                <div key={index} className={styles.sus} onClick={() => navigate('/Prizes')}>
-                    {item}
+                <div key={index} className={styles.dropdown}>
+                    <div
+                        className={styles.sus}
+                        onClick={() => {
+                            setPolutionActive(!polutionActive);
+                            setSoundSubmenuActive(false);
+                        }}
+                    >
+                        Polution ▼
+                    </div>
+                    {polutionActive && (
+                        <div className={styles.dropdownMenu}>
+                            <div
+                                className={styles.sus}
+                                onClick={() => setSoundSubmenuActive(!soundSubmenuActive)}
+                            >
+                                Sound
+                            </div>
+                            {soundSubmenuActive && (
+                                <div className={styles.submenu}>
+                                    <div
+                                        className={styles.sus}
+                                        onClick={() => navigate('/dailytasks')}
+                                    >
+                                        Daily Tasks
+                                    </div>
+                                    <div
+                                        className={styles.sus}
+                                        onClick={() => navigate('/sound')}
+                                    >
+                                        Phonic Pollution
+                                    </div>
+                                </div>
+                            )}
+                            <div
+                                className={styles.sus}
+                                onClick={() => {
+                                    setSoundSubmenuActive(false);
+                                    navigate('/co2pollution');
+                                }}
+                            >
+                                CO2
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         }
+
+        if (item === 'Assistents') {
+            return (
+                <div key={index} className={styles.dropdown}>
+                    <div
+                        className={styles.sus}
+                        onClick={() => setAssistentsActive(!assistentsActive)}
+                    >
+                        Assistents ▼
+                    </div>
+                    {assistentsActive && (
+                        <div className={styles.dropdownMenu}>
+                            {user.prize3 && (<div
+                                className={styles.sus}
+                                onClick={() => navigate('/ai-chat')}
+                            >
+                                AI
+                            </div>)}
+                            <div
+                                className={styles.sus}
+                                onClick={() => navigate('/virtualassistant')}
+                            >
+                                WhatsApp Virtual
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const handlers = {
+            Logout: handleLogout,
+            Profile: () => navigate('/Profile'),
+            Login: () => navigate('/Login'),
+            Home: () => navigate('/'),
+            Articles: () => navigate('/Articles'),
+            Reports: () => navigate('/Reports'),
+            MyRoutes: () => navigate('/UserRoutes'),
+            Accidents: () => navigate('/Accidents'),
+            Contact: () => navigate('/Contact'),
+            Prizes: () => navigate('/Prizes'),
+        };
+
         return (
-            <div key={index} className={styles.sus}>
+            <div
+                key={index}
+                className={styles.sus}
+                onClick={handlers[item] || null}
+            >
                 {item}
             </div>
         );
@@ -159,17 +168,20 @@ function Navbar() {
     return (
         <nav className={styles.navbar}>
             <div className={styles.right}>
-                `<img src="/icon.jpg" alt="Phone" className={styles.logo} />
+                <img src="/icon.jpg" alt="Logo" className={styles.logo} />
                 <div className={styles.name}>RoutePulse</div>
             </div>
+
             <div className={styles.left}>
-                {navItems.map((item, index) => renderNavItem(item, index))}
+                {navItems.map((item, i) => renderNavItem(item, i))}
             </div>
+
             <button className={styles.hamburger} onClick={toggleMenu}>
                 &#9776;
             </button>
+
             <div className={`${styles.mobileMenu} ${menuActive ? styles.active : ''}`}>
-                {navItems.map((item, index) => renderNavItem(item, index))}
+                {navItems.map((item, i) => renderNavItem(item, i))}
             </div>
         </nav>
     );

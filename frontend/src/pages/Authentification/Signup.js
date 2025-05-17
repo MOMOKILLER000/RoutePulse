@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { getMessagingToken, messaging } from "../../firebase";
+import {GoogleLogin} from "@react-oauth/google";
 
 function getCookie(name) {
   let cookieValue = null;
@@ -25,7 +26,7 @@ const SignUp = () => {
   const [selectedTransport, setSelectedTransport] = useState('');
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -45,14 +46,14 @@ const SignUp = () => {
       method: 'GET',
       credentials: 'include',
     })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error('Failed to fetch CSRF token');
-      })
-      .then((data) => {
-        // Handle CSRF token data if needed
-      })
-      .catch((error) => console.error('Error fetching CSRF token:', error));
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error('Failed to fetch CSRF token');
+        })
+        .then((data) => {
+          // Handle CSRF token data if needed
+        })
+        .catch((error) => console.error('Error fetching CSRF token:', error));
   }, []);
 
   const toggleTransportDropdown = () => {
@@ -152,167 +153,213 @@ const SignUp = () => {
     }
   };
 
+  const handleGoogleLogin = async (response) => {
+    const googleToken = response.credential; // Tokenul Google
+
+    console.log("Google Token: ", googleToken);
+    const csrfToken = getCookie('csrftoken');
+    if (!csrfToken) {
+      alert('CSRF token is missing.');
+      return;
+    }
+
+    const resp = await fetch('http://localhost:8000/api/google_login/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+      },
+      credentials: 'include',
+      body: JSON.stringify({ google_token: googleToken })  // Trimite tokenul Google către backend
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      console.log(data);
+      navigate('/');
+      const exp = new Date();
+      exp.setHours(exp.getHours() + 6);
+      localStorage.setItem('auth-token', 'true');
+      localStorage.setItem('token-expiration', exp.toString());
+    } else {
+      const err = await resp.json();
+      alert(err.message);
+    }
+  };
+
+
   return (
-    <div>
-      <div className={styles["custom-shape-divider-bottom-1740491939"]}>
-        <svg
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z"
-            className={styles["shape-fill"]}
-          ></path>
-        </svg>
-      </div>
+      <div>
+        <div className={styles["custom-shape-divider-bottom-1740491939"]}>
+          <svg
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1200 120"
+              preserveAspectRatio="none"
+          >
+            <path
+                d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z"
+                className={styles["shape-fill"]}
+            ></path>
+          </svg>
+        </div>
 
-      <img src="nush.jpg" className={styles.harta} alt="Map" />
-      <div className={styles["main-container"]}>
-        <div className={styles.signup}>
-          <h1 className={styles["signup-titlu"]}>Sign Up for Free</h1>
+        <img src="nush.jpg" className={styles.harta} alt="Map" />
+        <div className={styles["main-container"]}>
+          <div className={styles.signup}>
+            <h1 className={styles["signup-titlu"]}>Sign Up for Free</h1>
 
-          <div className={styles.sus}>
-            <div className={`${styles.Prenume} ${styles.nume}`}>
+            <div className={styles.sus}>
+              <div className={`${styles.Prenume} ${styles.nume}`}>
+                <input
+                    type="text"
+                    className={styles.inputs}
+                    required
+                    autoComplete="off"
+                    placeholder="First Name*"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+
+              <div className={`${styles.Nume} ${styles.nume}`}>
+                <input
+                    type="text"
+                    className={styles.inputs}
+                    required
+                    autoComplete="off"
+                    placeholder="Last Name*"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className={styles.username}>
               <input
-                type="text"
-                className={styles.inputs}
-                required
-                autoComplete="off"
-                placeholder="First Name*"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                  type="text"
+                  className={styles.inputs}
+                  required
+                  autoComplete="off"
+                  placeholder="UserName*"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
-            <div className={`${styles.Nume} ${styles.nume}`}>
+            <div className={styles.email}>
               <input
-                type="text"
-                className={styles.inputs}
-                required
-                autoComplete="off"
-                placeholder="Last Name*"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                  type="email"
+                  className={styles.inputs}
+                  required
+                  autoComplete="off"
+                  placeholder="Email*"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-          </div>
 
-          <div className={styles.username}>
-            <input
-              type="text"
-              className={styles.inputs}
-              required
-              autoComplete="off"
-              placeholder="UserName*"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-
-          <div className={styles.email}>
-            <input
-              type="email"
-              className={styles.inputs}
-              required
-              autoComplete="off"
-              placeholder="Email*"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          <div className={styles.parole}>
-            <div className={styles["password-field"]}>
-              <input
-                type={showPassword1 ? 'text' : 'password'}
-                className={styles.inputs}
-                required
-                autoComplete="off"
-                placeholder="Set a Password*"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span
-                className={styles["toggle-password"]}
-                onClick={() => togglePasswordVisibility('password1')}
-              >
-                <FontAwesomeIcon 
-                  icon={showPassword1 ? faEye : faEyeSlash} 
-                  className={styles.customIcon} 
+            <div className={styles.parole}>
+              <div className={styles["password-field"]}>
+                <input
+                    type={showPassword1 ? 'text' : 'password'}
+                    className={styles.inputs}
+                    required
+                    autoComplete="off"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <span
+                    className={styles["toggle-password"]}
+                    onClick={() => togglePasswordVisibility('password1')}
+                >
+                <FontAwesomeIcon
+                    icon={showPassword1 ? faEye : faEyeSlash}
+                    className={styles.customIcon}
                 />
               </span>
-            </div>
-            <div className={styles["password-field"]}>
-              <input
-                type={showPassword2 ? 'text' : 'password'}
-                className={styles.inputs}
-                required
-                autoComplete="off"
-                placeholder="Confirm Password*"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              <span
-                className={styles["toggle-password"]}
-                onClick={() => togglePasswordVisibility('password2')}
-              >
-                <FontAwesomeIcon 
-                  icon={showPassword2 ? faEye : faEyeSlash} 
-                  className={styles.customIcon} 
+              </div>
+              <div className={styles["password-field"]}>
+                <input
+                    type={showPassword2 ? 'text' : 'password'}
+                    className={styles.inputs}
+                    required
+                    autoComplete="off"
+                    placeholder="Confirm Pwd"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <span
+                    className={styles["toggle-password"]}
+                    onClick={() => togglePasswordVisibility('password2')}
+                >
+                <FontAwesomeIcon
+                    icon={showPassword2 ? faEye : faEyeSlash}
+                    className={styles.customIcon}
                 />
               </span>
+              </div>
+            </div>
+
+            <div className={styles.notifications}>
+              <label htmlFor="notifications" className={styles.notificare}>
+                Notifications
+              </label>
+              <label className={styles.switch}>
+                <input
+                    type="checkbox"
+                    id="notifications"
+                    checked={notifications}
+                    onChange={() => setNotifications(!notifications)}
+                />
+                <span className={styles.slider}></span>
+              </label>
+            </div>
+
+            <div className={styles.transport}>
+              <div className={styles.choose}>
+                <p className={styles.preferatu} onClick={toggleTransportDropdown}>
+                  Preferred means of transport {selectedTransport ? `: ${selectedTransport}` : ''} ⬇
+                </p>
+                <ul className={`${styles.transportOptions} ${showTransport ? styles.show : ''}`}>
+                  <li onClick={() => selectTransportOption('Car')}>Car</li>
+                  <li onClick={() => selectTransportOption('Tram')}>Tram</li>
+                  <li onClick={() => selectTransportOption('Bus')}>Bus</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Submit button */}
+            <div className={styles["sign-up"]}>
+              <button className={styles["buton-signup"]} onClick={handleSubmit}>
+                SIGN UP
+              </button>
+              <div className={styles.with}>
+                <p>Or with</p>
+              </div>
+              <div className={styles.providers}>
+                <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      handleGoogleLogin(credentialResponse);
+                    }}
+                    onError={() => alert("Login failed.")}
+                >
+                </GoogleLogin>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className={styles.notifications}>
-            <label htmlFor="notifications" className={styles.notificare}>
-              Notifications
-            </label>
-            <label className={styles.switch}>
-              <input
-                type="checkbox"
-                id="notifications"
-                checked={notifications}
-                onChange={() => setNotifications(!notifications)}
-              />
-              <span className={styles.slider}></span>
-            </label>
+        <div className={styles.text}>
+          <h1 className={styles["titlu-text"]}>Already have an account?</h1>
+          <div className={styles["welcome-text"]}>
+            Click below to go to the login page and authenticate yourself.
           </div>
-
-          <div className={styles.transport}>
-            <div className={styles.choose}>
-              <p className={styles.preferatu} onClick={toggleTransportDropdown}>
-                Preferred means of transport {selectedTransport ? `: ${selectedTransport}` : ''} ⬇
-              </p>
-              <ul className={`${styles.transportOptions} ${showTransport ? styles.show : ''}`}>
-                <li onClick={() => selectTransportOption('Car')}>Car</li>
-                <li onClick={() => selectTransportOption('Tram')}>Tram</li>
-                <li onClick={() => selectTransportOption('Bus')}>Bus</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Submit button */}
-          <div className={styles["sign-up"]}>
-            <button className={styles["buton-signup"]} onClick={handleSubmit}>
-              SIGN UP
-            </button>
-          </div>
+          <button onClick={() => navigate('/Login')} className={styles.ionut}>
+            Login
+          </button>
         </div>
       </div>
-
-      <div className={styles.text}>
-        <h1 className={styles["titlu-text"]}>Already have an account?</h1>
-        <div className={styles["welcome-text"]}>
-          Click below to go to the login page and authenticate yourself.
-        </div>
-        <button onClick={() => navigate('/Login')} className={styles.ionut}>
-          Login
-        </button>
-      </div>
-    </div>
   );
 };
 

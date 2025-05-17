@@ -139,7 +139,7 @@ const Login = () => {
                     </div>
 
                     <div className={styles.parole}>
-                        <div className={styles['password-field']}>
+                        <div className={styles['password-fields']}>
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 className={styles.inputs}
@@ -150,12 +150,12 @@ const Login = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <span
-                                className={styles['toggle-password']}
+                                className={styles['toggle-passworde']}
                                 onClick={togglePasswordVisibility}
                             >
-                                <FontAwesomeIcon 
-                                    icon={showPassword ? faEye : faEyeSlash} 
-                                    className={styles.customIcon} 
+                                <FontAwesomeIcon
+                                    icon={showPassword ? faEye : faEyeSlash}
+                                    className={styles.customIcon}
                                 />
                             </span>
                         </div>
@@ -175,7 +175,7 @@ const Login = () => {
                     </div>
 
                     <div className="sign-up">
-                        <button className={styles['buton-signup']} onClick={handleSubmit}>
+                        <button className={styles['e']} onClick={handleSubmit}>
                             LOGIN
                         </button>
                     </div>

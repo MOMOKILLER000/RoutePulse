@@ -1,155 +1,289 @@
 import React, { useState, useEffect } from 'react';
-import { messaging, getMessagingToken } from '../../firebase';
-import styles from "../../styles/Adding/admin.module.css";
-import {useNavigate} from 'react-router-dom';
-const PushNotificationComponent = () => {
-    const [isPermissionGranted, setIsPermissionGranted] = useState(false);
-    const [token, setToken] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [broadcastTitle, setBroadcastTitle] = useState('');
-    const [broadcastBody, setBroadcastBody] = useState('');
-    const [broadcastStatus, setBroadcastStatus] = useState('');
-    const [feedbacks, setFeedbacks] = useState([]);
-    const navigate = useNavigate();
+import {
+    MapContainer,
+    TileLayer,
+    Polyline,
+    Marker,
+    Popup,
+    useMap
+} from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import Navbar from '../../components/Navbar';
+import styles from '../../styles/TransportPages/personalized.module.css';
+import Footer from "../../components/Footer";
+
+// Price per kilometer in EUR
+const PRICE_PER_KM = 0.5;
+
+// Distance helper (not strictly needed for ORS summary but kept)
+const getDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371000;
+    const toRad = deg => (deg * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+};
+
+// Center map to given position
+function SetMapCenter({ center }) {
+    const map = useMap();
     useEffect(() => {
-        fetch("http://localhost:8000/api/feedback/")
-            .then((response) => response.json()) // Return the parsed JSON
-            .then((data) => {
-                setFeedbacks(data);
-                console.log(data);
+        if (center) map.setView(center, map.getZoom());
+    }, [center, map]);
+    return null;
+}
+
+// Fit map bounds to route
+function FitBounds({ positions }) {
+    const map = useMap();
+    useEffect(() => {
+        if (positions.length > 0) {
+            map.fitBounds(L.latLngBounds(positions), { padding: [20, 20] });
+        }
+    }, [positions, map]);
+    return null;
+}
+
+// Geocode an address via Nominatim
+async function geocodeAddress(address) {
+    const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+            address
+        )}`
+    );
+    const data = await res.json();
+    if (!data.length) throw new Error('Locație negăsită');
+    return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+}
+
+// Fetch route and summary from OpenRouteService
+async function fetchRouteFromORS(coordsList) {
+    const apiKey = '5b3ce3597851110001cf624846162079195844a0a165ab7634c2d7dd';
+    const res = await fetch(
+        'https://api.openrouteservice.org/v2/directions/driving-car/geojson',
+        {
+            method: 'POST',
+            headers: {
+                Authorization: apiKey,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                coordinates: coordsList.map(c => [c[1], c[0]])
             })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
+        }
+    );
+    if (!res.ok) throw new Error('Eroare la generarea traseului');
+    const data = await res.json();
+    const feat = data.features[0];
+    const geom = feat.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+    const { distance, duration } = feat.properties.summary;
+    return { geom, distance, duration };
+}
+
+// Custom map icons
+const redIcon = new L.Icon({
+    iconUrl:
+        'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers/img/marker-icon-red.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+const blueIcon = new L.Icon({
+    iconUrl:
+        'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers/img/marker-icon-blue.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
+// Format seconds to "Hh Mm"
+const formatDuration = sec => {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    return `${h}h ${m}m`;
+};
+
+export default function UserRoutes() {
+    const [locationInput, setLocationInput] = useState('');
+    const [destinations, setDestinations] = useState([]);
+    const [currentPosition, setCurrentPosition] = useState(null);
+    const [error, setError] = useState(null);
+
+    // Route state
+    const [routedPath, setRoutedPath] = useState([]);
+    const [routeDistance, setRouteDistance] = useState(0); // meters
+    const [routeDuration, setRouteDuration] = useState(0); // seconds
+    const [routePrice, setRoutePrice] = useState(0); // EUR
+
+    // Get user location
     useEffect(() => {
-        if (Notification.permission === 'granted') {
-            setIsPermissionGranted(true);
-            fetchToken();
-        }
+        navigator.geolocation.getCurrentPosition(
+            pos =>
+                setCurrentPosition([
+                    pos.coords.latitude,
+                    pos.coords.longitude
+                ]),
+            () => setError('Nu s-a putut obține locația curentă')
+        );
     }, []);
 
-    const requestPermission = async () => {
-        setLoading(true);
-        try {
-            const permission = await Notification.requestPermission();
-            if (permission === 'granted') {
-                setIsPermissionGranted(true);
-                await fetchToken();
-            } else {
-                setError('Permission denied');
+    // Recompute route when inputs change
+    useEffect(() => {
+        async function computeRoute() {
+            if (!currentPosition || destinations.length === 0) {
+                setRoutedPath([]);
+                return;
             }
-        } catch (err) {
-            setError('Error requesting permission');
-        } finally {
-            setLoading(false);
+            try {
+                const coordsList = [
+                    currentPosition,
+                    ...destinations.map(d => d.coords)
+                ];
+                const { geom, distance, duration } =
+                    await fetchRouteFromORS(coordsList);
+                setRoutedPath(geom);
+                setRouteDistance(distance);
+                setRouteDuration(duration);
+                setRoutePrice((distance / 1000) * PRICE_PER_KM);
+            } catch (e) {
+                console.error(e);
+                alert('Nu s-a putut genera traseul.');
+            }
+        }
+        computeRoute();
+    }, [currentPosition, destinations]);
+
+    const handleAddLocation = async () => {
+        if (!locationInput.trim()) return;
+        try {
+            const coords = await geocodeAddress(locationInput);
+            setDestinations(prev => [
+                ...prev,
+                { name: locationInput, coords }
+            ]);
+            setLocationInput('');
+        } catch (e) {
+            alert(e.message);
         }
     };
 
-    const fetchToken = async () => {
-        try {
-            const swRegistration = await navigator.serviceWorker.ready;
-            const currentToken = await getMessagingToken(messaging, {
-                vapidKey: 'BM3006r6JiFC4ey0qrIBno0iubQHEeUmmRzW4P2udg7rC93PY_lDVT2UqSBqf5SZHJkmMtoI6DALZdd1utUjsSE',
-                serviceWorkerRegistration: swRegistration,
-            });
-
-            if (currentToken) {
-                setToken(currentToken);
-                console.log('Firebase Token:', currentToken);
-            } else {
-                setError('No registration token available.');
-            }
-        } catch (err) {
-            setError('Error retrieving token');
-        }
-    };
-
-    const handleFeedback = async (id) => {
-        navigate(`/feedback/${id}`);
-    }
-    const handleBroadcast = async (e) => {
-        e.preventDefault();
-        setBroadcastStatus('');
-
-        try {
-            const response = await fetch('http://localhost:8000/api/broadcast-notification/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title: broadcastTitle,
-                    body: broadcastBody,
-                }),
-            });
-
-            if (response.ok) {
-                setBroadcastStatus('Broadcast sent successfully.');
-            } else {
-                setBroadcastStatus('Error sending broadcast.');
-            }
-        } catch (err) {
-            setBroadcastStatus('Error sending broadcast.');
-        }
+    const handleDeleteLocation = idx => {
+        setDestinations(prev => prev.filter((_, i) => i !== idx));
     };
 
     return (
-        <div className={styles.container}>
-            {}
-            <div className={styles.leftSection}>
-                {}
-                <div className={styles.notificationSection}>
-                    <h1>Push Notifications</h1>
-                    {loading && <p>Loading...</p>}
-                    {error && <p className={styles.error}>{error}</p>}
-                    {isPermissionGranted ? (
-                        <p>Notifications are enabled.</p>
-                    ) : (
-                        <div>
-                            <p>You need to enable push notifications to receive updates.</p>
-                            <button onClick={requestPermission} disabled={loading} className={styles.button}>
-                                {loading ? 'Requesting Permission...' : 'Enable Notifications'}
-                            </button>
-                        </div>
-                    )}
-                </div>
+        <>
+            <Navbar />
+            <div className={styles.container}>
+                <div className={styles.content}>
+                    <div className={styles.routeList}>
+                        <h2>Adaugă locații</h2>
+                        <input
+                            type="text"
+                            placeholder="Ex: Ateneul Român"
+                            value={locationInput}
+                            onChange={e => setLocationInput(e.target.value)}
+                        />
+                        <button onClick={handleAddLocation}>
+                            Adaugă locație
+                        </button>
+                        <ul>
+                            {destinations.map((d, i) => (
+                                <li key={i} className={styles.routeItem}>
+                                    {d.name}
+                                    <button
+                                        className={styles.deleteButton}
+                                        onClick={() => handleDeleteLocation(i)}
+                                    >
+                                        &times;
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
 
-                {}
-                <div className={styles.broadcastForm}>
-                    <h2>Broadcast Notification</h2>
-                    <form onSubmit={handleBroadcast}>
-                        <div>
-                            <label>Title:</label>
-                            <input type="text" placeholder="Enter title..." value={broadcastTitle} onChange={(e) => setBroadcastTitle(e.target.value)} required />
-                        </div>
-                        <div>
-                            <label>Body:</label>
-                            <input type="text" placeholder="Enter message..." value={broadcastBody} onChange={(e) => setBroadcastBody(e.target.value)} required />
-                        </div>
-                        <button type="submit" className={styles.button}>Send Broadcast</button>
-                    </form>
-                    {broadcastStatus && <p className={styles.success}>{broadcastStatus}</p>}
+                        {routedPath.length > 1 && (
+                            <div className={styles.summary}>
+                                <p>
+                                    Distanță:{' '}
+                                    <strong>
+                                        {(routeDistance / 1000).toFixed(2)} km
+                                    </strong>
+                                </p>
+                                <p>
+                                    Timp estimat:{' '}
+                                    <strong>
+                                        {formatDuration(routeDuration)}
+                                    </strong>
+                                </p>
+                                <p>
+                                    Cost:{' '}
+                                    <strong>
+                                        {routePrice.toFixed(2)} EUR
+                                    </strong>
+                                </p>
+                            </div>
+                        )}
+
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                    </div>
+
+                    <div className={styles.mapContainer}>
+                        <MapContainer
+                            center={
+                                currentPosition || [44.4268, 26.1025]
+                            }
+                            zoom={13}
+                            scrollWheelZoom
+                            className={styles.leafletContainer}
+                        >
+                            <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                attribution="&copy; OpenStreetMap contributors"
+                            />
+                            {currentPosition && (
+                                <SetMapCenter center={currentPosition} />
+                            )}
+                            {currentPosition && (
+                                <Marker
+                                    position={currentPosition}
+                                    icon={redIcon}
+                                >
+                                    <Popup>Locația curentă</Popup>
+                                </Marker>
+                            )}
+                            {destinations.map((d, i) => (
+                                <Marker
+                                    key={i}
+                                    position={d.coords}
+                                    icon={blueIcon}
+                                >
+                                    <Popup>{d.name}</Popup>
+                                </Marker>
+                            ))}
+                            {routedPath.length > 1 && (
+                                <Polyline
+                                    positions={routedPath}
+                                    color="#007bff"
+                                    weight={6}
+                                    opacity={0.8}
+                                    lineJoin="round"
+                                />
+                            )}
+                            <FitBounds positions={routedPath} />
+                        </MapContainer>
+                    </div>
                 </div>
             </div>
-
-            {}
-            <div className={styles.rightSection}>
-                <h1>Feedbacks</h1>
-                {feedbacks.length === 0 ? (
-                    <p>No feedback available.</p>
-                ) : (
-                    <ul className={styles.feedbackList}>
-                        {feedbacks.map((feedback) => (
-                            <li key={feedback.id} className={styles.feedbackItem} onClick={()=> handleFeedback(feedback.id)}>
-                                <p><strong>{feedback.name}</strong> ({feedback.email})</p>
-                                <p className={styles.date}>{new Date(feedback.date).toLocaleString()}</p>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-        </div>
+            <Footer />
+        </>
     );
-};
-
-export default PushNotificationComponent;
+}

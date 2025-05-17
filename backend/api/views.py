@@ -15,13 +15,19 @@ import base64
 import json
 from deepface import DeepFace
 from django.contrib.auth import get_user_model, login as django_login
-from .models import SavedRoute, Article, Accident, Comment, Contact, Report, Rating, PublicTransportRoute
+from .models import SavedRoute, Article, Accident, Comment, Contact, Report, Rating, PublicTransportRoute, \
+    Polution_Point, Daily_Tasks, CO2_Points
 from .models import Route, Trip, Stop, Shape
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from .firebase import send_push_notification, subscribe_token_to_topic
+from google.oauth2 import id_token
 from firebase_admin import messaging
+from google.auth.transport.requests import Request
+from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client
+
 
 logger = logging.getLogger(__name__)
 from django.core.exceptions import PermissionDenied
@@ -255,7 +261,7 @@ def sign_up(request):
         except ValidationError as e:
             return JsonResponse({'message': str(e)}, status=400)
 
-        django_login(request, user)
+        django_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         request.session.set_expiry(3600 * 6)
         if notifications and firebase_token:
             send_push_notification(firebase_token, "Congratulations!", "You have notifications turned on.")
@@ -292,7 +298,7 @@ def user_login_view(request):
             user = authenticate(request, username=email, password=password)
 
             if user is not None and not user.is_superuser:
-                django_login(request, user)
+                django_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 request.session.set_expiry(3600 * 6)
 
                 user_data = {
@@ -434,7 +440,7 @@ def face_login_view(request):
                     detector_backend='opencv'
                 )
                 if result.get("verified"):
-                    django_login(request, user)
+                    django_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     user_data = {
                         'id': user.id,
                         'email': user.email,
@@ -1006,6 +1012,8 @@ def article_comments(request, article_id):
                 'pub_date': comment.pub_date.strftime('%Y-%m-%d %H:%M:%S'),
             })
         return JsonResponse({'comments': comments_data}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
 @login_required
@@ -1372,7 +1380,6 @@ class GenerateRouteView(APIView):
             )
 
         try:
-            # Convert provided route_type to an int for consistency
             route_type = int(route_type_param)
         except (ValueError, TypeError):
             return self.error_response(
@@ -1389,7 +1396,6 @@ class GenerateRouteView(APIView):
                 status.HTTP_400_BAD_REQUEST
             )
 
-        # Iterate through trips matching the agency filter
         for trip in Trip.objects.filter(agency_id=agency_id):
             shape = self.get_shape(trip.shape_id, agency_id)
             if not shape:
@@ -1398,8 +1404,7 @@ class GenerateRouteView(APIView):
             polyline = shape.polyline
             start_idx, dest_idx = self.get_indices(polyline, starting_stop, destination_stop)
 
-            if start_idx is not None and dest_idx is not None and start_idx < dest_idx:
-                # Attempt to use the trip's related route if available
+            if start_idx is not None and dest_idx is not None:
                 route = getattr(trip, 'route', None)
                 if not route:
                     # Fall back to querying Route manually
@@ -2048,17 +2053,20 @@ def claim_reward(request, user_id, prize_number):
 
 
 API_URL = "https://router.huggingface.co/nebius/v1/chat/completions"
-HEADERS = {"Authorization": "Bearer hf_yourtoken"}
+HEADERS = {"Authorization": "Bearer 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"}
 
 
 def is_route_or_traffic_related(message):
     route_keywords = [
+        # Route and transport-related keywords
         "route", "traffic", "bus", "tram", "train", "public transport", "schedule", "directions",
         "metro", "stop", "station", "map", "how to get to", "how to get from", "how to get", "location", "time table",
-        "commute", "carpool",
-        "ridesharing", "transportation", "traffic jams", "congestion", "road", "toll", "bus stop",
+        "commute", "carpool", "ridesharing", "transportation", "traffic jams", "congestion", "road", "toll", "bus stop",
         "train station", "public transport routes", "vehicle", "trip", "travel", "journey", "commuter", "get from",
-        "get to", "far" , "far away", "routes"
+        "get to", "far", "far away", "routes", "pollution", "air pollution", "air quality", "noise pollution", "carbon footprint", "co2", "pm2.5", "pm10",
+        "emissions", "environment", "eco", "climate", "green", "eco-friendly", "environmental impact",
+        "noise", "sound level", "sound pollution", "polluted", "toxic air", "air levels", "clean air",
+        "air monitoring", "air sensor", "smog", "hazardous air", "carbon emissions"
     ]
 
     return any(keyword in message.lower() for keyword in route_keywords)
@@ -2129,3 +2137,398 @@ def delete_report(request, report_id):
             return JsonResponse({"success": True})
         else:
             return JsonResponse({"success": False})
+    else:
+        return JsonResponse({"error": "Only DELETE requests allowed"}, status=405)
+
+
+
+from django.utils.timezone import localdate, now
+import random
+from django.views.decorators.http import require_GET, require_POST
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseNotFound
+from django.db import transaction
+
+@csrf_exempt
+@require_GET
+@login_required
+def get_user_daily_task(request):
+    """
+    GET /api/my-daily-task/?lat=<>&lng=<>
+    Returns—or atomically creates—today's Daily_Tasks.
+    """
+    user = request.user
+    today = localdate()
+
+    # parse coords or fallback
+    try:
+        user_lat = float(request.GET.get("lat",  47.1585))
+        user_lng = float(request.GET.get("lng",  27.6014))
+    except (TypeError, ValueError):
+        user_lat, user_lng = 47.1585, 27.6014
+
+    # build five new points
+    def gen_point():
+        return Polution_Point.objects.create(
+            latitude  = user_lat + random.uniform(-0.01, 0.01),
+            longitude = user_lng + random.uniform(-0.01, 0.01),
+            completed = False,
+            decibels  = None,
+        )
+
+    # Generate the points now, but don’t yet attach them to a task
+    p1, p2, p3, p4, p5 = (gen_point() for _ in range(5))
+
+    # Atomically get or create the Daily_Tasks record
+    with transaction.atomic():
+        task, created = Daily_Tasks.objects.get_or_create(
+            user=user,
+            date_created=today,
+            defaults={
+                'point1': p1,
+                'point2': p2,
+                'point3': p3,
+                'point4': p4,
+                'point5': p5,
+                'completed': False,
+            }
+        )
+        # If another thread created it first, ours won’t be used: delete our extras.
+        if not created:
+            # somebody else beat us; delete the unused points
+            for extra in (p1, p2, p3, p4, p5):
+                if extra.pk not in {
+                    task.point1_id,
+                    task.point2_id,
+                    task.point3_id,
+                    task.point4_id,
+                    task.point5_id
+                }:
+                    extra.delete()
+
+    # serialize points
+    pts = []
+    for p in (task.point1, task.point2, task.point3, task.point4, task.point5):
+        pts.append({
+            "id":        p.id,
+            "latitude":  p.latitude,
+            "longitude": p.longitude,
+            "completed": p.completed,
+            "decibels":  p.decibels,
+        })
+
+    return JsonResponse({
+        "task_id":   task.id,
+        "completed": task.completed,
+        "points":    pts
+    })
+
+@csrf_exempt
+@require_POST
+@login_required
+def complete_polution_point(request, point_id):
+    """
+    POST /api/complete-point/<point_id>/
+    Body JSON: { "decibels": <float> }
+    Marks that Polution_Point completed and saves decibels.
+    """
+    # ensure point exists
+    try:
+        point = Polution_Point.objects.get(id=point_id)
+    except Polution_Point.DoesNotExist:
+        return HttpResponseNotFound(
+            json.dumps({"error": "Point not found"}),
+            content_type="application/json"
+        )
+
+    # parse JSON body
+    try:
+        data = json.loads(request.body)
+        decibels = float(data.get("decibels"))
+    except (ValueError, TypeError, json.JSONDecodeError):
+        return HttpResponseBadRequest(
+            json.dumps({"error": "Invalid decibels"}),
+            content_type="application/json"
+        )
+
+    # update point
+    point.decibels = decibels
+    point.completed = True
+    point.save()
+
+    user = request.user
+    user.points = user.points + 40
+    user.total_points = user.total_points + 40
+    user.save()
+    # if all five are done, mark daily task completed
+    task = Daily_Tasks.objects.filter(
+        user=request.user,
+        date_created=localdate()
+    ).first()
+    if task and all([
+        task.point1.completed,
+        task.point2.completed,
+        task.point3.completed,
+        task.point4.completed,
+        task.point5.completed
+    ]):
+        task.completed = True
+        task.save()
+
+    return JsonResponse({
+        "success": True,
+        "point": {
+            "id":        point.id,
+            "decibels":  point.decibels,
+            "completed": point.completed
+        }
+    })
+
+def all_polution_points(request):
+    points = Polution_Point.objects.filter(decibels__isnull=False)
+    data = [
+        {
+            "id": p.id,
+            "latitude": p.latitude,
+            "longitude": p.longitude,
+            "completed": p.completed,
+            "decibels": p.decibels
+        }
+        for p in points
+    ]
+    return JsonResponse(data, safe=False)
+
+
+def air_quality_points(request):
+    points = CO2_Points.objects.all()
+    data = []
+
+    for p in points:
+        data.append({
+            'latitude': p.latitude,
+            'longitude': p.longitude,
+            'aqi': p.aqi,
+        })
+
+    return JsonResponse({'data': data})
+
+
+@csrf_protect
+def google_login(request):
+    GOOGLE_CLIENT_ID = os.environ.get('client_id_Google')
+
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+        except json.decoder.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON'}, status=400)
+
+        google_token = data.get('google_token')
+        if google_token:
+            try:
+                # Verify the Google token
+                id_info = id_token.verify_oauth2_token(google_token, Request(), GOOGLE_CLIENT_ID)
+                google_email = id_info.get('email')
+                full_given = id_info.get('given_name', '').strip()
+                parts = full_given.split()
+                User = get_user_model()
+                if parts:
+                    # first word → last_name
+                    last_name = parts[0]
+                    # the rest → first_name
+                    first_name = ' '.join(parts[1:]) if len(parts) > 1 else ''
+                else:
+                    # fallback if nothing in given_name
+                    last_name = ''
+                    first_name = ''
+
+                if google_email:
+                    # Find or create a user
+                    user = User.objects.filter(email=google_email).first()
+                    if not user:
+                        # Create a new user if not found
+                        user = User.objects.create_user(
+                            username=google_email,
+                            email=google_email,
+                            first_name=first_name,
+                            last_name=last_name,
+                            password=User.objects.make_random_password()  # Random password
+                        )
+
+                    # Use the dotted path to the backend
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'  # Corrected line
+                    if user.is_superuser == False:
+
+                        django_login(request, user)
+                        request.session.set_expiry(6 * 3600)
+
+                        user_data = {
+                            'email': user.email,
+                            'first_name': user.first_name,
+                            'last_name': user.last_name,
+                            'is_superuser': user.is_superuser,
+                        }
+                        return JsonResponse({'message': 'User logged in with Google successfully', 'user': user_data}, status=200)
+                    else:
+                        return JsonResponse({'message': 'User is a superuser, cannot login with Google'}, status=400)
+            except ValueError as e:
+                return JsonResponse({'message': f'Invalid Google token: {str(e)}'}, status=400)
+
+        else:
+            return JsonResponse({'message': 'Invalid Google token'}, status=400)
+    else:
+        return JsonResponse({'message': 'Method not allowed'}, status=405)
+
+
+from dotenv import load_dotenv
+load_dotenv()
+TWILIO_SID = os.getenv("TWILIO_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+
+
+def is_route_or_traffic_related(message: str) -> bool:
+    keywords = [
+        "route", "traffic", "bus", "tram", "train", "public transport", "schedule", "directions",
+    "metro", "stop", "station", "map", "how to get to", "how to get from", "how to get", "location", "time table",
+    "commute", "carpool", "ridesharing", "transportation", "traffic jams", "congestion", "road", "toll", "bus stop",
+    "train station", "public transport routes", "vehicle", "trip", "travel", "journey", "commuter", "get from",
+    "get to", "far", "far away", "routes", "pollution", "air pollution", "air quality", "noise pollution", "carbon footprint", "co2", "pm2.5", "pm10",
+    "emissions", "environment", "eco", "climate", "green", "eco-friendly", "environmental impact",
+    "noise", "sound level", "sound pollution", "polluted", "toxic air", "air levels", "clean air",
+    "air monitoring", "air sensor", "smog", "hazardous air", "carbon emissions"
+    ]
+    msg = message.lower()
+    return any(kw in msg for kw in keywords)
+
+def is_ai_uncertain(response: str) -> bool:
+    phrases = [
+        "not sure", "i don't know", "can't help with", "i'm not sure",
+        "unable to answer", "no answer", "i don’t have the answer"
+    ]
+    r = response.lower()
+    return any(p in r for p in phrases)
+
+##### Core HF query (returns plain string) #####
+def query_huggingface(prompt: str) -> str:
+    # Validate topic before sending
+    if not prompt.strip():
+        raise ValueError("No message provided")
+    if not is_route_or_traffic_related(prompt):
+        raise ValueError("Only route and traffic related questions are allowed.")
+
+    payload = {
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": 500,
+        "model": "deepseek-ai/DeepSeek-V3-0324-fast"
+    }
+    resp = requests.post(API_URL, headers=HEADERS, json=payload, timeout=15)
+    if resp.status_code != 200:
+        raise RuntimeError(f"AI API error: {resp.status_code}")
+
+    choice = resp.json().get("choices", [])
+    if not choice:
+        raise RuntimeError("No choices returned from AI API")
+
+    ai_text = choice[0].get("message", {}).get("content", "").strip()
+    if not ai_text:
+        raise RuntimeError("Empty response from AI API")
+
+    if is_ai_uncertain(ai_text):
+        raise RuntimeError("The AI can't help you with that")
+
+    return ai_text
+
+##### View: send_whatsapp_message #####
+@csrf_exempt
+def send_whatsapp_message(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+    try:
+        data      = json.loads(request.body)
+        user_text = data.get("message") or data.get("body")
+        to_number = data.get("to")
+        print(user_text)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+    if not user_text or not to_number:
+        return JsonResponse({"error": "Missing 'message' or 'to'"}, status=400)
+
+    try:
+        # Ask the AI
+        ai_reply = query_huggingface(user_text)
+        print(ai_reply)
+        # Send via Twilio
+        client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
+        client.messages.create(
+            from_='whatsapp:+14155238886',  # your Twilio sandbox number
+            to=to_number,                   # eg "whatsapp:+40770464753"
+            body=ai_reply
+        )
+        return JsonResponse({"status": "sent"})
+    except ValueError as ve:
+        # our input/topic validation errors
+        return JsonResponse({"error": str(ve)}, status=400)
+    except RuntimeError as re:
+        # AI API errors or uncertainty
+        return JsonResponse({"error": str(re)}, status=500)
+    except Exception as e:
+        # Twilio or unexpected errors
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+
+
+@api_view(['GET'])
+def get_multistop_route(request):
+    """
+    Expects: ?points=lat1,long1&points=lat2,long2&...
+    For each consecutive pair, fetch up to 3 alternatives
+    Returns JSON:
+    {
+      "segments": [
+         {"from": "lat1,long1", "to": "lat2,long2", "routes": [ ... ]},
+         {"from": "lat2,long2", "to": "lat3,long3", "routes": [ ... ]},
+         ...
+      ]
+    }
+    """
+    points = request.GET.getlist('points')
+    if len(points) < 2:
+        return Response({"error": "At least two points are required."}, status=400)
+
+    segments = []
+    url = "https://router.hereapi.com/v8/routes"
+
+    for i in range(len(points) - 1):
+        origin = points[i]
+        destination = points[i+1]
+        # build params list to allow repeated 'via'
+        params = [
+            ('transportMode', 'car'),
+            ('origin', origin),
+            ('destination', destination),
+            ('alternatives', '0'),
+            ('return', 'travelSummary,polyline'),
+            ('apikey', HERE_API_KEY),
+        ]
+        # call HERE API
+        resp = requests.get(url, params=params)
+        if resp.status_code != 200:
+            return Response({"error": "HERE API error", "details": resp.text}, status=resp.status_code)
+        data = resp.json().get('routes', [])
+        # annotate cost
+        for r in data:
+            summ = r['sections'][0]['travelSummary']
+            dist = summ['length']
+            r['cost'] = round((dist / 1000) * 0.5, 2)
+        # sort by duration
+        data.sort(key=lambda r: r['sections'][0]['travelSummary']['duration'])
+
+        segments.append({
+            'from': origin,
+            'to': destination,
+            'routes': data
+        })
+
+    return Response({'segments': segments})

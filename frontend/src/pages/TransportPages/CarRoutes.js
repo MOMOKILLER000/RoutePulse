@@ -2,14 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap, useMapEvent } from 'react-leaflet';
+import {MapContainer, TileLayer, Polyline, Marker, Popup, useMap, useMapEvent, Circle} from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import Navbar from '../../components/Navbar';
 import styles from '../../styles/TransportPages/car.module.css';
 import Footer from "../../components/Footer";
 
-// Helper: Get cookie value
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -33,6 +33,15 @@ const reportIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
+const stationIcon = new L.Icon({
+  iconUrl: 'https://cdn.jsdelivr.net/gh/pointhi/leaflet-color-markers/img/marker-icon-yellow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+})
+
+
 function ChangeView({ center, zoom }) {
   const map = useMap();
   useEffect(() => {
@@ -43,7 +52,6 @@ function ChangeView({ center, zoom }) {
   return null;
 }
 
-// Helper: Calculate Haversine distance (in meters)
 const haversineDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371e3; // Earth radius in meters
   const toRad = (x) => (x * Math.PI) / 180;
@@ -59,7 +67,23 @@ const haversineDistance = (lat1, lon1, lat2, lon2) => {
   return R * c;
 };
 
-// Helper: Check if any report is near the route polyline
+
+function findNearbyStations(polylinePoints, stations) {
+  const nearby = [];
+
+  for (const station of stations) {
+    for (const [lat, lon] of polylinePoints) {
+      const dist = haversineDistance(lat, lon, station.latitude, station.longitude);
+      if (dist <= 200) { // within 100 meters
+        nearby.push(station);
+        break;
+      }
+    }
+  }
+  return nearby.filter(nearby=>nearby.aqi>70);
+}
+
+
 const findNearbyReport = (polylinePoints, reports, threshold = 150) => {
   if (!polylinePoints || !reports) return null;
   for (let report of reports) {
@@ -95,8 +119,21 @@ function CarRoutes() {
   const [reports, setReports] = useState([]);
   const [nearbyReport, setNearbyReport] = useState(null);
 
-  // NEW: State to store the user's actual current location
   const [userLocation, setUserLocation] = useState(null);
+  const [stations, setStations] = useState([]);
+  const [nearbyStations, setNearbyStations] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/air_quality_points/")
+        .then((res) => res.json())
+        .then((data) => {
+          setStations(data.data);
+        })
+        .catch((err) => {
+          setError("Failed to load data: " + err.message);
+        });
+  }, []);
+
 
   useEffect(() => {
     fetch("http://localhost:8000/api/reports/recent/")
@@ -121,7 +158,6 @@ function CarRoutes() {
         .catch(error => console.error("Error fetching user data:", error));
   }, []);
 
-  // Update geolocation handler to store user's actual location
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -338,7 +374,7 @@ function CarRoutes() {
     } else {
       origin = await getCityCoordinates(originInput);
       setOriginCoords(origin);
-      setMapCenter(origin);  // Center the map on the fetched origin coordinates
+      setMapCenter(origin);
     }
     const dest = await getCityCoordinates(destination);
     if (origin && dest) {
@@ -398,15 +434,24 @@ function CarRoutes() {
       setRouteDuration(convertDuration(selectedRouteDetails.sections[0].travelSummary.duration));
       setRouteCost(selectedRouteDetails.cost);
 
-      // Decode polyline and find any nearby report
+      // Decode polyline points
       const polylinePoints = getDecodedPolyline(selectedRouteDetails.sections[0].polyline);
+
+      // Find nearby report
       const report = findNearbyReport(polylinePoints, reports);
       setNearbyReport(report);
+
+      // Find nearby stations (CO2 points)
+      const nearbyStations = findNearbyStations(polylinePoints, stations);
+      setNearbyStations(nearbyStations);
     }
-  }, [selectedRouteDetails, reports]);
+  }, [selectedRouteDetails, reports, stations]);
 
   const handleUseRoute = (route) => {
     console.log(routeDistance);
+    let bonusPoints = 0;
+    if (nearbyStations)
+      bonusPoints = 20;
     navigate('/use-route', {
       state: {
         route,
@@ -416,6 +461,7 @@ function CarRoutes() {
         routeDistance,
         routeDuration,
         routeCost,
+        bonusPoints,
       },
     });
   };
@@ -445,6 +491,7 @@ function CarRoutes() {
             {error && <p className={styles.error}>{error}</p>}
             <div className={styles.contentContainer}>
               <div className={styles.leftColumn}>
+                <button onClick={()=> navigate('/personalized')}  className={styles.NavigateButton}>Use the multi task page</button>
                 <form onSubmit={handleSubmit} className={styles.formContainer}>
                   <div className={styles.formGroup}>
                     <label><strong>Origin:</strong></label>
@@ -516,6 +563,15 @@ function CarRoutes() {
                                   </strong> {nearbyReport.city}, {nearbyReport.street}
                                 </p>
                             )}
+                            {nearbyStations.filter(station => station.aqi > 70).length > 0 && (
+                                <p className={styles.reportRed}>
+                                  <strong>
+                                    High air pollution near route
+                                    <br />
+                                    We recommend you to use the public transport or the train.
+                                  </strong>
+                                </p>
+                            )}
                           </div>
                       )}
                       {selectedRouteDetails && user && (
@@ -579,10 +635,24 @@ function CarRoutes() {
                         </Popup>
                       </Marker>
                   )}
+                  {nearbyStations && nearbyStations.map((station, index) => (
+                      <Circle
+                          key={index}
+                          center={[
+                            parseFloat(station.latitude),
+                            parseFloat(station.longitude),
+                          ]}
+                          radius={500}
+                          pathOptions={{ color: 'red', fillColor: 'red', fillOpacity: 0.3 }}
+                      >
+                        <Popup>
+                          CO2 point: {station.aqi}
+                        </Popup>
+                      </Circle>
+                  ))}
                   <DestinationSelector onSelect={async (coords) => {
                     setDestinationCoords(coords);
                     setMapCenter(coords);
-                    // Optionally, update the destination input with reverse geocoded address:
                     const address = await getAddressFromCoordinates(coords);
                     setDestination(address);
                   }} />

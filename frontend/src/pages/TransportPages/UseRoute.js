@@ -151,9 +151,9 @@ const UseRoute = () => {
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             const distance = R * c; // Distance in meters
 
-            if (distance <= 2000000) {
+            if (distance <= 200) {
                 setPointsAwarded(true); // Prevent re-awarding points
-                fetch(`http://localhost:8000/api/update_user_progress/${routePoints}/`, {
+                fetch(`http://localhost:8000/api/update_user_progress/${routePoints+state.bonusPoints}/`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -168,13 +168,14 @@ const UseRoute = () => {
                     .then((response) => response.json())
                     .then((data) => {
                         if (data.message === "Points added") {
-                            let alertMessage = `Congrats! You've earned ${routePoints} points. Total Routes: ${data.total_routes}`;
+                            let alertMessage = `Congrats! You've earned ${routePoints+state.bonusPoints} points. Total Routes: ${data.total_routes}`;
 
                             // Notify user about the boost
                             if (transportType === "Tram" || transportType === "Bus") {
                                 alertMessage += "\n(3x points boost applied for public transport!)";
                             }
-
+                            if ( state.bonusPoints > 0)
+                                alertMessage += `\n(Bonus points for not going through a high pollution zone: ${state.bonusPoints})`;
                             alert(alertMessage);
                             navigate("/end-route", {
                                 state: {

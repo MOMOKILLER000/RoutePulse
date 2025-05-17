@@ -20,7 +20,6 @@ body {
   height: 100vh;
   position: absolute;
   left: 62%;
-  bottom: 1%;
 }
 
 /* SIGNUP BOX */
@@ -43,7 +42,7 @@ body {
   width: 100%;
   height: 45px;
   padding: 10px;
-  font-size: 18px;
+  font-size: 17px;
   text-align: center;
   border: 2px solid #ccc;
   border-radius: 8px;
@@ -58,18 +57,72 @@ input:focus {
 }
 
 /* PASSWORD & NAME FIELDS */
-.parole {
-  display: flex;
-  flex-direction: column;
-}
-
 .sus {
   display: flex;
   justify-content: space-between;
 }
 
+.parole {
+  /* changed from column to row */
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
 .nume {
   width: 48%;
+}
+
+.with{
+  color: #868686;
+  margin: 10px 0;
+}
+
+/* each password-field half the width */
+.password-field {
+  position: relative;
+  width: 48%;
+}
+
+.password-fields{
+  width: 100%;
+  margin-bottom: 0;
+}
+
+/* make room for eye icon */
+.password-field .inputs {
+  padding-right: 2.5rem;
+}
+
+/* EYE ICON */
+.toggle-password {
+  position: absolute;
+  right: 5%;
+  top: 35%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+}
+
+.toggle-passwords{
+  position: absolute;
+  right: 13%;
+  top: 48.7%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+}
+
+.toggle-passworde{
+  position: absolute;
+  right: 13%;
+  top: 52%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
 }
 
 /* TRANSPORT DROPDOWN */
@@ -157,7 +210,7 @@ input:focus {
   border: 1px solid #00bfa5;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 5px;
   transition: 0.3s;
 }
 .buton-signup:hover {
@@ -168,21 +221,48 @@ input:focus {
   background-color: #20786e;
 }
 
-/* PASSWORD FIELD */
-.password-field {
-  position: relative;
+.buton-signups{
   width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background: white;
+  color: #00bfa5;
+  border: 1px solid #00bfa5;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: 0.3s;
+}
+.buton-signups:hover {
+  background: #00bfa5;
+  color: white;
+}
+.buton-signups:active {
+  background-color: #20786e;
 }
 
-.toggle-password {
-  position: absolute;
-  right: 15px;
-  top: 20px;
-  transform: translateY(-50%);
+.e{
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background: white;
+  color: #00bfa5;
+  border: 1px solid #00bfa5;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 20px;
-  user-select: none;
+  margin-top: 15px;
+  transition: 0.3s;
 }
+.e:hover {
+  background: #00bfa5;
+  color: white;
+}
+.e:active {
+  background-color: #20786e;
+}
+
+
+
 
 /* CUSTOM SHAPE DIVIDER */
 .custom-shape-divider-bottom-1740491939 {
@@ -214,6 +294,13 @@ input:focus {
   top: 0px;
   object-fit: contain;
   border-radius: 10px;
+}
+
+.customIcons{
+  color: grey;
+  font-size: 20px;
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
 .text {
@@ -250,16 +337,13 @@ input:focus {
   opacity: 0.6;
 }
 
-.ionut1{
-  width: 120px;
-  height: 35px;
-  border-radius: 30px;
-  border: 2px solid white;
-  background: none;
-  color: #c8c7c7;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
+.providers {
+  margin-bottom: 20px;
+}
+
+.with {
+  margin: 10px 0;
+  color: #adadad;
 }
 
 /* EMAIL FIELD & NOTIFICATIONS */
@@ -322,7 +406,6 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-
 /* === Mobile-First Overrides for Devices up to 768px === */
 @media (max-width: 768px) {
   .welcome-text {
@@ -331,6 +414,7 @@ input:checked + .slider:before {
     line-height: 28px;
     margin-bottom: 20px;
   }
+
   /* Force containers to become static and full-width */
   .main-container,
   .harta,
@@ -362,9 +446,8 @@ input:checked + .slider:before {
     text-align: center;
     font-size: 1rem;
     padding: 10px;
-    margin-top: 20px;
-    color: black !important;
     margin-top: 50px;
+    color: black !important;
   }
 
   /* Adjust signup container to be fluid and centered */

@@ -2,38 +2,42 @@
    Global Variables and Resets
 ==================================================== */
 :root {
-    --text-color: black;
+    --text-color: #000;
     --background-color: #e9e6e6;
     --primary-color: #00bfa5;
-    --secondary-color: #20786e;
+    --secondary-color: #ff8a65;
     --accent-color: #20786e;
     --card-background: #ffffff;
-    --input-bg: #fff;
+    --input-bg: #ffffff;
     --input-border: #ccc;
     --button-hover: #00a38f;
     --link-color: var(--primary-color);
     --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
+    height: 100%;
     font-family: var(--font-family);
     background-color: var(--background-color);
     color: var(--text-color);
-    height: 100%;
 }
 
 /* ====================================================
-   Basic Element Styling
+   Typography & Links
 ==================================================== */
 a {
-    text-decoration: none;
     color: var(--link-color);
+    text-decoration: none;
+    transition: text-decoration 0.2s;
 }
 
 a:hover {
@@ -50,7 +54,7 @@ img {
 }
 
 /* ====================================================
-   Layout Containers
+   Layout
 ==================================================== */
 .container {
     max-width: 900px;
@@ -61,9 +65,14 @@ img {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
 /* ====================================================
-   Header and Title
+   Header
 ==================================================== */
 .header {
     text-align: center;
@@ -73,27 +82,19 @@ img {
     margin-bottom: 2rem;
 }
 
-.navbarAdjust {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 20px;
-}
 /* ====================================================
-   Chat Box Container
+   Chat Components
 ==================================================== */
 .chatBox {
     display: flex;
     flex-direction: column;
     height: 500px;
     background-color: var(--card-background);
+    border: 1px solid var(--input-border);
     border-radius: 10px;
     overflow: hidden;
-    border: 1px solid var(--input-border);
 }
 
-/* ====================================================
-   Messages Area
-==================================================== */
 .messages {
     flex: 1;
     padding: 1.5rem;
@@ -101,7 +102,7 @@ img {
     background: linear-gradient(135deg, #f5f5f5, #ffffff);
 }
 
-/* Custom scrollbar for messages */
+/* Scrollbar */
 .messages::-webkit-scrollbar {
     width: 8px;
 }
@@ -116,11 +117,10 @@ img {
 }
 
 /* ====================================================
-   Message Styling
+   Messages
 ==================================================== */
-.aiMessage {
-    background-color: var(--secondary-color);
-    color: var(--card-background);
+.aiMessage,
+.userMessage {
     padding: 0.8rem 1.2rem;
     border-radius: 20px;
     margin-bottom: 1rem;
@@ -128,52 +128,37 @@ img {
     word-wrap: break-word;
     font-size: 1rem;
     animation: slideIn 0.4s ease-out;
+}
+
+.aiMessage {
+    background-color: var(--secondary-color);
+    color: var(--card-background);
 }
 
 .userMessage {
     background-color: var(--primary-color);
     color: var(--card-background);
-    padding: 0.8rem 1.2rem;
-    border-radius: 20px;
-    margin-bottom: 1rem;
-    max-width: 75%;
     align-self: flex-end;
-    word-wrap: break-word;
-    font-size: 1rem;
-    animation: slideIn 0.4s ease-out;
 }
 
 /* ====================================================
-   Message Animations
-==================================================== */
-@keyframes slideIn {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* ====================================================
-   Input Container and Field
+   Input Section
 ==================================================== */
 .inputContainer {
     display: flex;
     border-top: 1px solid var(--input-border);
     background-color: var(--card-background);
     padding: 1rem;
+    gap: 1rem;
 }
 
 .input {
     flex: 1;
     padding: 0.8rem 1rem;
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
     font-size: 1rem;
     background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
     transition: border-color 0.3s ease;
 }
 
@@ -183,21 +168,26 @@ img {
 }
 
 /* ====================================================
-   Send Button Styling
+   Buttons
 ==================================================== */
-.sendButton {
-    margin-left: 1rem;
-    padding: 0 1.5rem;
-    background-color: var(--primary-color);
-    color: var(--card-background);
+.sendButton,
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.sendButton:hover:not(:disabled) {
+.sendButton {
+    background-color: var(--primary-color);
+    color: var(--card-background);
+}
+
+.sendButton:hover:not(:disabled),
+.btn-primary:hover:not(:disabled),
+.btn-secondary:hover:not(:disabled) {
     background-color: var(--button-hover);
     transform: translateY(-2px);
 }
@@ -211,166 +201,34 @@ img {
     cursor: not-allowed;
 }
 
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--card-background);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--card-background);
+}
+
 /* ====================================================
-   Error Message Styling
+   Error
 ==================================================== */
 .error {
     color: var(--secondary-color);
-    padding: 0.75rem;
-    text-align: center;
-    font-weight: bold;
     background-color: #ffece6;
     border: 1px solid var(--secondary-color);
+    padding: 0.75rem;
     border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
     margin-top: 1rem;
 }
 
 /* ====================================================
-   Footer Styling
+   Animations
 ==================================================== */
-footer {
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--input-border);
-    text-align: center;
-    color: var(--text-color);
-    font-size: 0.9rem;
-}
-
-/* ====================================================
-   Utility Classes
-==================================================== */
-.textCenter {
-    text-align: center;
-}
-
-.mt-1 {
-    margin-top: 1rem;
-}
-
-.mt-2 {
-    margin-top: 2rem;
-}
-
-.mt-3 {
-    margin-top: 3rem;
-}
-
-.mb-1 {
-    margin-bottom: 1rem;
-}
-
-.mb-2 {
-    margin-bottom: 2rem;
-}
-
-.mb-3 {
-    margin-bottom: 3rem;
-}
-
-.p-1 {
-    padding: 1rem;
-}
-
-.p-2 {
-    padding: 2rem;
-}
-
-.rounded {
-    border-radius: 8px;
-}
-
-.shadow {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.border {
-    border: 1px solid var(--input-border);
-}
-
-/* ====================================================
-   Link Styling
-==================================================== */
-a:hover {
-    text-decoration: underline;
-}
-
-/* ====================================================
-   Additional Components: Loader
-==================================================== */
-.loader {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid var(--primary-color);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    animation: spin 1s linear infinite;
-    margin: 1rem auto;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* ====================================================
-   Responsive Design
-==================================================== */
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
-    .header {
-        font-size: 2rem;
-    }
-    .chatBox {
-        height: 500px;
-    }
-    .inputContainer {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .sendButton {
-        margin-left: 0;
-        margin-top: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .navbar {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .header {
-        font-size: 1.8rem;
-    }
-    .aiMessage, .userMessage {
-        max-width: 90%;
-        font-size: 0.95rem;
-    }
-}
-
-/* ====================================================
-   Extended Animations and Transitions
-==================================================== */
-.fadeIn {
-    animation: fadeInAnimation 0.5s ease-in-out;
-}
-
-@keyframes fadeInAnimation {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.slideUp {
-    animation: slideUpAnimation 0.5s ease-out;
-}
-
-@keyframes slideUpAnimation {
+@keyframes slideIn {
     from {
         transform: translateY(20px);
         opacity: 0;
@@ -381,8 +239,44 @@ a:hover {
     }
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.slideUp {
+    animation: slideIn 0.5s ease-out;
+}
+
 /* ====================================================
-   Card Component Styling
+   Loader
+==================================================== */
+.loader {
+    width: 36px;
+    height: 36px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 1rem auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ====================================================
+   Cards
 ==================================================== */
 .card {
     background-color: var(--card-background);
@@ -395,18 +289,16 @@ a:hover {
 .card-header {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--text-color);
     margin-bottom: 0.5rem;
 }
 
 .card-body {
     font-size: 1rem;
-    color: var(--text-color);
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 /* ====================================================
-   Form Elements Styling
+   Forms
 ==================================================== */
 .form-group {
     margin-bottom: 1rem;
@@ -416,115 +308,76 @@ a:hover {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: var(--text-color);
-}
-
-.input,
-textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
 }
 
 textarea {
-    resize: vertical;
     min-height: 100px;
-}
-
-.input:focus,
-textarea:focus {
-    border-color: var(--primary-color);
-    outline: none;
+    resize: vertical;
 }
 
 /* ====================================================
-   Button Variants
+   Utility Classes
 ==================================================== */
-.btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
+.textCenter { text-align: center; }
+.textBold { font-weight: bold; }
+.textItalic { font-style: italic; }
+.textUnderline { text-decoration: underline; }
+.marginAuto { margin: auto; }
+.fullWidth { width: 100%; }
 
-.btn-primary {
-    background-color: var(--primary-color);
-    color: var(--card-background);
-}
+.flex { display: flex; }
+.flexColumn { flex-direction: column; }
+.flexCenter { justify-content: center; align-items: center; }
 
-.btn-primary:hover:not(:disabled) {
-    background-color: var(--button-hover);
-    transform: translateY(-2px);
-}
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.mt-3 { margin-top: 3rem; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+.mb-3 { margin-bottom: 3rem; }
+.p-1 { padding: 1rem; }
+.p-2 { padding: 2rem; }
+.rounded { border-radius: 8px; }
+.shadow { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); }
+.border { border: 1px solid var(--input-border); }
 
-.btn-secondary {
-    background-color: var(--secondary-color);
-    color: var(--card-background);
-}
-
-.btn-secondary:hover:not(:disabled) {
-    background-color: darken(var(--secondary-color), 10%);
-    transform: translateY(-2px);
+/* ====================================================
+   Footer
+==================================================== */
+footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--input-border);
+    text-align: center;
+    font-size: 0.9rem;
 }
 
 /* ====================================================
-   Additional Utility Classes
+   Responsive Design
 ==================================================== */
-.textBold {
-    font-weight: bold;
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    .header {
+        font-size: 2rem;
+    }
+    .inputContainer {
+        flex-direction: column;
+    }
+    .sendButton {
+        margin-top: 1rem;
+        width: 100%;
+    }
 }
 
-.textItalic {
-    font-style: italic;
-}
-
-.textUnderline {
-    text-decoration: underline;
-}
-
-.marginAuto {
-    margin: auto;
-}
-
-.fullWidth {
-    width: 100%;
-}
-
-.flex {
-    display: flex;
-}
-
-.flexColumn {
-    display: flex;
-    flex-direction: column;
-}
-
-.flexCenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* ====================================================
-   Spacing Utilities
-==================================================== */
-.padding-5 {
-    padding: 5px;
-}
-
-.padding-10 {
-    padding: 10px;
-}
-
-.margin-5 {
-    margin: 5px;
-}
-
-.margin-10 {
-    margin: 10px;
+@media (max-width: 480px) {
+    .header {
+        font-size: 1.8rem;
+    }
+    .aiMessage,
+    .userMessage {
+        max-width: 90%;
+        font-size: 0.95rem;
+    }
 }

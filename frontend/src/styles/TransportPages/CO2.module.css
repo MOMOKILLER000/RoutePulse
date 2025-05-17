@@ -1,0 +1,172 @@
+:root {
+    --text-color: #000;
+    --bg-color: #e9e6e6;
+    --primary: #00bfa5;
+    --secondary: #ff8a65;
+    --accent: #20786e;
+    --card-bg: #fff;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* body wrapper */
+.body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font);
+    min-height: 100vh;
+}
+
+/* navbar spacing */
+.navbarAdjust {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+/* page content */
+.pageWrapper {
+    max-width: 900px;
+    margin: 2rem auto 4rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* heading */
+.title {
+    font-size: 2.7rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    animation: slideDown 0.5s ease-out both;
+}
+
+/* optional description */
+.subtitle {
+    font-size: 1.15rem;
+    color: #333;
+    margin-bottom: 2rem;
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 0.3s forwards;
+}
+
+/* map wrapper */
+.mapContainer {
+    position: relative;
+    width: 100%;
+    height: 70vh;                     /* give the container a height */
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px var(--shadow);
+    transition: box-shadow 0.3s ease;
+    animation: fadeIn 0.6s ease-out 0.2s both;
+}
+.mapContainer:hover {
+    box-shadow: 0 12px 32px var(--shadow);
+}
+
+/* force the MapContainer to fill its parent */
+.leafletContainer {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* popup styling */
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    background: var(--card-bg);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+.leaflet-popup-content {
+    margin: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+.leaflet-popup-tip {
+    background: var(--card-bg);
+}
+
+/* loading & error */
+.status {
+    text-align: center;
+    margin: 2rem 0;
+}
+.loader {
+    display: inline-block;
+}
+.error {
+    text-align: center;
+    color: #c00;
+    font-weight: bold;
+    margin: 2rem 0;
+}
+
+/* footer spacing */
+.footerWrap {
+    width: 100%;
+}
+
+/* AQI Legend (bottom‑right) */
+.legend {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow);
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #333;
+    z-index: 1000;
+}
+
+.legend h4 {
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0.25rem 0;
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    border: 1px solid var(--shadow);
+}
+
+
+/* animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to   { transform: translateY(0);     opacity: 1; }
+}
+
+/* responsive tweaks */
+@media (max-width: 768px) {
+    .title { font-size: 2.25rem; }
+    .mapContainer { height: 60vh; }
+}
+@media (max-width: 480px) {
+    .title { font-size: 1.75rem; }
+    .mapContainer { height: 50vh; }
+}

@@ -41,7 +41,7 @@ const Footer = () => {
                 )}
                 { user && user.prize2 && (<p>Thank you, {user.username}, for being a valued part of our community! Your support and engagement mean the world to us.
                     Keep exploring and enjoy your rewards!</p>)}
-                <p>&copy; 2025 Traffic Routes. Designed & Developed by Luchian Adrian, Buzdugan Mihnea & Sănduleasa Daria.</p>
+                <p>&copy; 2025 Traffic Routes. Designed & Developed by Luchian Adrian,  Buzdugan Mihnea & Sănduleasa Daria.</p>
             </div>
             <p className={styles["footer-quote"]}>"Syncing You with the City's Flow!"</p>
         </footer>

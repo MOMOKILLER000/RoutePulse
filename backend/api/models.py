@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager, Group, Permission
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 from django.utils.timezone import now
 class CustomUserManager(UserManager):
     def create_user(self, email=None, password=None, **extra_fields):
@@ -12,13 +13,18 @@ class CustomUserManager(UserManager):
     def create_superuser(self, email=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        return self._create_user(email, password, **extra_fields)  
+        return self._create_user(email, password, **extra_fields)
 
     def _create_user(self, email, password=None, **extra_fields):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
+
+    def make_random_password(self, length=8, allowed_chars='abcdefghjkmnpqrstuvwxyz'
+                                                           'ABCDEFGHJKLMNPQRSTUVWXYZ'
+                                                           '23456789'):
+        return get_random_string(length, allowed_chars)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -224,3 +230,45 @@ class Shape(models.Model):
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     stars = models.PositiveIntegerField(default=5)
+
+
+
+class Polution_Point(models.Model):
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    completed = models.BooleanField(default=False)
+    decibels = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.latitude}, {self.longitude}"
+
+
+class Daily_Tasks(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    point1 = models.ForeignKey(Polution_Point, on_delete=models.CASCADE, related_name="point1")
+    point2 = models.ForeignKey(Polution_Point, on_delete=models.CASCADE, related_name="point2")
+    point3 = models.ForeignKey(Polution_Point, on_delete=models.CASCADE, related_name="point3")
+    point4 = models.ForeignKey(Polution_Point, on_delete=models.CASCADE, related_name="point4")
+    point5 = models.ForeignKey(Polution_Point, on_delete=models.CASCADE, related_name="point5")
+    completed = models.BooleanField(default=False)
+    date_created = models.DateField(default=now)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.completed}"
+
+
+class CO2_Points(models.Model):
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    aqi = models.PositiveIntegerField(null=True, blank=True)
+
+
+
+class User_Location(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    def __str__(self):
+        return f"{self.user.username} - {self.name}"

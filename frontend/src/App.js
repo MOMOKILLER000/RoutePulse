@@ -27,6 +27,13 @@ const PleaseLogin = React.lazy(() => import('./components/PleaseLogin'));
 const EditData = React.lazy(() => import('./pages/AddingPages/EditData'));
 const EndRoute =  React.lazy(() => import('./pages/TransportPages/EndRoute'));
 const AIChat = React.lazy(() => import('./pages/UsersPages/AIChat'));
+const DailyTasks = React.lazy(() => import('./pages/TransportPages/DailyTasks'));
+const Sound = React.lazy(() => import('./pages/TransportPages/Sound'));
+const CO2 = React.lazy(() => import('./pages/TransportPages/CO2'));
+const VirtualAssistant = React.lazy(() => import('./pages/UsersPages/VirtualAssistant'));
+const Personalized = React.lazy(() => import('./pages/TransportPages/Personalized'));
+
+
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -87,12 +94,16 @@ function App() {
             <Route path="/use-route" element={<UseRoute />} />
             <Route path="/please-login" element={<PleaseLogin />} />
             <Route path="/end-route" element={<EndRoute />} />
+            <Route path="/sound" element={<Sound />}/>
+            <Route path="/co2pollution" element={<CO2 />}/>
+            <Route path="/personalized" element={<Personalized />}/>
             {}
             <Route path="/Profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/UserRoutes" element={<ProtectedRoute><UserRoutes /></ProtectedRoute>} />
             <Route path="/Accidents" element={<ProtectedRoute><Accidents /></ProtectedRoute>} />
             <Route path="/Prizes" element={<ProtectedRoute><Prizes /></ProtectedRoute>} />
-
+            <Route path="/dailytasks" element={<ProtectedRoute><DailyTasks /></ProtectedRoute>}/>
+            <Route path="/virtualassistant" element= {<ProtectedRoute><VirtualAssistant /></ProtectedRoute>}/>
             {}
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
             <Route path="/ArticlePosting" element={<AdminRoute><ArticlePosting /></AdminRoute>} />
