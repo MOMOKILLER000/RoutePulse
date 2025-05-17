@@ -2053,7 +2053,7 @@ def claim_reward(request, user_id, prize_number):
 
 
 API_URL = "https://router.huggingface.co/nebius/v1/chat/completions"
-HEADERS = {"Authorization": "Bearer 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"}
+HEADERS = {"Authorization": "Bearer YOUR_BEARER"}
 
 
 def is_route_or_traffic_related(message):
