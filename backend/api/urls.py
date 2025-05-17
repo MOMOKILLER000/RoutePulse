@@ -71,7 +71,6 @@ urlpatterns = [
     path('my-daily-task/', views.get_user_daily_task, name='my_daily_task'),
     path('complete-point/<int:point_id>/', views.complete_polution_point, name='complete_point'),
     path("sound_polution/", views.all_polution_points, name="all_polution_points"),
-    path('fetch/', views.fetch_and_save_air_quality, name='fetch_air_quality'),
     path('air_quality_points/', views.air_quality_points, name='air_quality_points'),
     path('google_login/', views.google_login, name='google_login'),
     path('send-whatsapp/', views.send_whatsapp_message, name='send_whatsapp_message'),
