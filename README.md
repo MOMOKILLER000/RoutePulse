@@ -1,1 +1,1 @@
-Link către prezentare: https://www.youtube.com/watch?v=69SBluPDMgA&ab_channel=MihneaBuzdugan
+Link către prezentare: https://youtu.be/sFR1MrPeVD8?si=L7CDu9XkQJsMAxalhttps://youtu.be/sFR1MrPeVD8?si=L7CDu9XkQJsMAxal
